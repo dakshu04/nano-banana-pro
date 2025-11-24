@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // Remove the previewFeatures line if you are just running locally/standard
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @unique // Matches Clerk User ID
+  email     String   @unique
+  credits   Int      @default(3)
+  isPro     Boolean  @default(false)
+  createdAt DateTime @default(now())
+  
+  creations Creation[]
+  faces     FaceReference[]
+}
+
+model FaceReference {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  imageUrl  String   // URL in Supabase Storage
+  name      String   // e.g., "Shocked Face", "Happy Face"
+}
+
+model Creation {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  prompt         String
+  enhancedPrompt String?
+  imageUrl       String   // URL in Supabase Storage
+  style          String
+  createdAt      DateTime @default(now())
+}
