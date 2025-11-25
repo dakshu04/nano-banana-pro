@@ -6,39 +6,31 @@
 
 generator client {
   provider = "prisma-client-js"
-  // Remove the previewFeatures line if you are just running locally/standard
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String   @id @unique // Matches Clerk User ID
-  email     String   @unique
-  credits   Int      @default(3)
-  isPro     Boolean  @default(false)
-  createdAt DateTime @default(now())
-  
-  creations Creation[]
-  faces     FaceReference[]
+  id        String         @id @unique        // Clerk User ID
+  email     String         @unique
+  credits   Int            @default(3)
+  isPro     Boolean        @default(false)
+  createdAt DateTime       @default(now())
+
+  // RELATION: One User has Many ImageHistory records
+  images    ImageHistory[]
 }
 
-model FaceReference {
+model ImageHistory {
   id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  imageUrl  String   // URL in Supabase Storage
-  name      String   // e.g., "Shocked Face", "Happy Face"
-}
+  prompt    String
+  imageUrl  String
+  createdAt DateTime @default(now())
 
-model Creation {
-  id             String   @id @default(cuid())
-  userId         String
-  user           User     @relation(fields: [userId], references: [id])
-  prompt         String
-  enhancedPrompt String?
-  imageUrl       String   // URL in Supabase Storage
-  style          String
-  createdAt      DateTime @default(now())
+  // RELATION: MANY records belong to a single User
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -25,10 +25,6 @@ export async function GET() {
     // 3. Check/Create User in Database
     let user = await prisma.user.findUnique({
       where: { id: userId },
-      include: {
-        creations: true, // Join creations
-        faces: true      // Join faces
-      }
     });
 
     if (!user) {
@@ -37,10 +33,6 @@ export async function GET() {
         data: {
           id: userId,
           email: email,
-        },
-        include: {
-            creations: true,
-            faces: true
         }
       });
       console.log("✅ User created successfully!");
@@ -53,8 +45,6 @@ export async function GET() {
       credits: user.credits,
       isPro: user.isPro,
       createdAt: user.createdAt,
-      creations: user.creations || [],
-      faces: user.faces || []
     });
 
   } catch (error) {
