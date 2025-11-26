@@ -1,34 +1,25 @@
 import { GoogleGenAI } from "@google/genai";
+import * as fs from "node:fs";
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY! // Add '!' to ensure TS knows it exists
-});
+async function textToImage({ text}: {text: string}) {
 
-// 1. Define the return type as Promise<string>
-export async function textToImage(prompt: string): Promise<string> {
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash-image", // or "gemini-3-pro-image-preview"
-      contents: prompt,
-      config: {
-        responseModalities: ["IMAGE"],
-      }
-    });
+  const ai = new GoogleGenAI({});
 
-    const candidate = response.candidates?.[0];
+  const prompt = text
 
-    // 2. Check specifically for inlineData (the image)
-    if (candidate?.content?.parts?.[0]?.inlineData) {
-      const base64String = candidate.content.parts[0].inlineData.data;
-      
-      // 3. THIS IS THE MISSING PART: Return the data!
-      return base64String; 
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash-image",
+    contents: prompt,
+  });
+  for (const part of response.candidates[0].content.parts) {
+    if (part.text) {
+      console.log(part.text);
+    } else if (part.inlineData) {
+      const imageData = part.inlineData.data;
+      const buffer = Buffer.from(imageData, "base64");
+      fs.writeFileSync("gemini-native-image.png", buffer);
+      console.log("Image saved as gemini-native-image.png");
     }
-
-    throw new Error("No image data found in Gemini response");
-
-  } catch (error) {
-    console.error("Gemini API Error:", error);
-    throw new Error("Failed to generate image");
   }
 }
+

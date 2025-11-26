@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { textToImage } from "../../../lib/gemini";
 import { uploadToSupabase } from "../../../lib/uploadToSupabase";
 import { prisma } from "../../../lib/prisma";
+import TextToImage from "../../components/text-to-image/page";
 
 
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     // 1️⃣ Generate image using Gemini
-    const base64 = await textToImage(prompt);
+    const base64 = await TextToImage(prompt);
 
     // 2️⃣ Upload to Supabase and get URL
     const imageUrl = await uploadToSupabase(base64);
