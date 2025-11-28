@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { uploadToSupabase } from "../../../lib/uploadToSupabase";
 import { prisma } from "../../../lib/prisma";
-import TextToImage from "../../components/text-to-image/page";
+import { textToImage } from "../../../lib/gemini";
 
 
 
@@ -17,9 +17,23 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing prompt" }, { status: 400 });
     }
 
-    // 1️⃣ Generate image using Gemini
-    const base64 = await TextToImage(prompt);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId
+      }
+    })
 
+    if(user.credits < 0) {
+      return NextResponse.json({
+        error: "Not enough credits. Please upgrade your plan."
+      }, {
+        status: 403
+      })
+    }
+
+    // 1️⃣ Generate image using Gemini
+    const base64 = await textToImage(prompt);
+    console.log(base64)
     // 2️⃣ Upload to Supabase and get URL
     const imageUrl = await uploadToSupabase(base64);
 
@@ -30,6 +44,18 @@ export async function POST(req: Request) {
             prompt,
             imageUrl
         }
+    })
+
+    // Deduct credits (-1)
+    await prisma.user.update({
+      where: {
+        id: userId
+      }, 
+      data: {
+        credits: {
+          decrement: -1
+        }
+      }
     })
 
     // 4️⃣ Send to frontend

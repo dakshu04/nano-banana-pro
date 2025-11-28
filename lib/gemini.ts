@@ -1,25 +1,60 @@
 import { GoogleGenAI } from "@google/genai";
-import * as fs from "node:fs";
 
-async function textToImage({ text}: {text: string}) {
 
-  const ai = new GoogleGenAI({});
+const ai = new GoogleGenAI({})
 
-  const prompt = text
-
+export async function textToImage(
+  prompt: string
+) {
+  const text = prompt;
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-image",
-    contents: prompt,
-  });
-  for (const part of response.candidates[0].content.parts) {
-    if (part.text) {
-      console.log(part.text);
-    } else if (part.inlineData) {
-      const imageData = part.inlineData.data;
-      const buffer = Buffer.from(imageData, "base64");
-      fs.writeFileSync("gemini-native-image.png", buffer);
-      console.log("Image saved as gemini-native-image.png");
+    model: "gemini-3-pro-image-preview",
+    contents: text
+  }) 
+  console.log(response)
+   for (const part of response.candidates[0].content.parts) {
+    if (part.inlineData) {
+      return part.inlineData.data;   // <-- BASE64 STRING
     }
   }
+
+  throw new Error("No image returned from model");
 }
+
+// export async function removeBg(prompt: string, imageBase64: string) {
+//   const response  = await ai.models.generateContent({
+//     model: "gemini-2.0-flash",
+//     contents: [
+//       { text: prompt},
+//       {
+//         inlineData: {
+//           data: imageBase64,
+//           mimeType: "image/png"
+//         }
+//       }
+//     ]
+//   })
+
+//    let resultText = "";
+//   let resultImageBase64 = "";
+
+//   for (const part of response.candidates[0].content.parts) {
+//     // Extract text response
+//     if (part.text) {
+//       resultText += part.text;
+//     }
+
+//     // Extract image response
+//     if (part.inlineData) {
+//       resultImageBase64 = part.inlineData.data;
+//     }
+//   }
+
+//   return {
+//     text: resultText,
+//     image: resultImageBase64
+//   };
+// }
+
+
 

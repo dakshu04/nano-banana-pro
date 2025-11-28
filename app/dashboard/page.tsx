@@ -1,11 +1,13 @@
 "use client";
 
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 
 import TextToImage from "../components/text-to-image/page";
 import FaceSwap from "../components/face-swap/page";
 import HeadShotGenerator from "../components/head-shot-generator/page";
+
+import History from "../components/history/page";
 import BackgroundRemover from "../components/background-remover/page";
 
 export default function Dashboard() {
@@ -17,6 +19,7 @@ export default function Dashboard() {
     { id: "image-to-image", label: "🌀 Face Swap" },
     { id: "headshot", label: "📸 Headshot Generator" },
     { id: "background", label: "🎨 Background Removal" },
+    { id: "history", label: "🌄 Image History"}
   ];
 
   const [activePage, setActivePage] = useState("text-to-image");
@@ -88,7 +91,7 @@ export default function Dashboard() {
 
           {/* User Box */}
           <div className="flex items-center gap-3 p-4 bg-gray-100 border border-gray-400 rounded-xl">
-            <div className="w-10 h-10 rounded-full bg-gray-300" />
+            <UserButton />
             <div>
               <p className="font-semibold">{user?.fullName}</p>
               <p className="text-sm text-gray-500">{user?.primaryEmailAddress?.emailAddress}</p>
@@ -123,6 +126,7 @@ export default function Dashboard() {
           {activePage === "image-to-image" && <FaceSwap />}
           {activePage === "headshot" && <HeadShotGenerator />}
           {activePage === "background" && <BackgroundRemover />}
+          {activePage === "history" && <History />}
         </div>
       </main>
     </div>
