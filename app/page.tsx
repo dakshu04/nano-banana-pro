@@ -1,298 +1,286 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/dist/types/server";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion"; // Ideally install framer-motion
 
-/* ICONS */
-const MagicIcon = () => (
-  <svg width="24" height="24" className="text-indigo-600">
-    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" stroke="currentColor" strokeWidth="2" fill="none"/>
-  </svg>
+/* --- PREMIUM ICONS (Thin Stroke, Elegant) --- */
+const SparkleIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-amber-500"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
 );
-const FaceIcon = () => (
-  <svg width="24" height="24" className="text-indigo-600" stroke="currentColor">
-    <path d="M12 7a5 5 0 1 1-4.995 5.217 4.999 4.999 0 0 1 9.99 0"/>
-    <path d="M12 2a10 10 0 1 0 10 10"/>
-  </svg>
+const SwapIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-900"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>
 );
 const CameraIcon = () => (
-  <svg width="24" height="24" className="text-indigo-600" stroke="currentColor">
-    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
-    <circle cx="12" cy="13" r="3"/>
-  </svg>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-900"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
 );
-const CheckIcon = () => (
-  <svg width="18" height="18" stroke="currentColor" className="text-green-500">
-    <path d="M20 6 9 17l-5-5" strokeWidth="3" fill="none"/>
-  </svg>
+const ScanIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-900"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+);
+const CheckIcon = ({ className }: { className?: string }) => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12"/></svg>
 );
 
 export default function LandingPage() {
   const router = useRouter();
-  const [isAnnual, setIsAnnual] = useState(false);
-   // 🔥 Clerk client-side auth
+  const [isAnnual, setIsAnnual] = useState(true);
   const { isSignedIn, isLoaded } = useUser();
 
-  // 🚀 Redirect instantly if logged in
   useEffect(() => {
     if (isLoaded && isSignedIn) {
       router.push("/dashboard");
     }
-  }, [isLoaded, isSignedIn]);
+  }, [isLoaded, isSignedIn, router]);
+
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#faf8f4] to-[#f4f1e8] text-slate-900 font-sans flex flex-col overflow-x-hidden">
-
+    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 font-sans selection:bg-amber-100 selection:text-amber-900">
+      
       {/* -------------------------------------------------- */}
-      {/* NAVBAR PREMIUM */}
+      {/* NAVBAR: Glassmorphism & Minimal */}
       {/* -------------------------------------------------- */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/60 border-b border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.05)]">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-
-          {/* Brand */}
-          <div
-            onClick={() => router.push("/")}
-            className="flex items-center gap-3 cursor-pointer group"
-          >
-            <div className="w-10 h-10 bg-gradient-to-tr from-yellow-400 via-amber-400 to-yellow-600 rounded-xl flex items-center justify-center text-black font-black shadow-lg shadow-yellow-500/30 group-hover:scale-110 transition">
+      <nav className="fixed top-0 inset-x-0 z-50 h-16 border-b border-zinc-200/50 bg-white/70 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+          
+          {/* Logo */}
+          <div onClick={() => router.push("/")} className="flex items-center gap-2 cursor-pointer group">
+            <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center text-lg shadow-sm group-hover:scale-105 transition-transform duration-300">
               🍌
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900 group-hover:text-yellow-600 transition">
-              NanoBanana <span className="text-yellow-500">AI</span>
+            <span className="text-sm font-bold tracking-tight text-zinc-900">
+              NanoBanana
             </span>
           </div>
 
-          {/* Nav */}
-          <nav className="hidden md:flex gap-10 text-sm font-medium text-slate-600">
-            <a href="#features" className="hover:text-yellow-600 transition">Features</a>
-            <a href="#pricing" className="hover:text-yellow-600 transition">Pricing</a>
-            <a href="#faq" className="hover:text-yellow-600 transition">FAQ</a>
-          </nav>
-
-          <button
-            onClick={() => router.push("/sign-in")}
-            className="px-6 py-2.5 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold shadow-md shadow-yellow-300/40 transition hover:-translate-y-0.5"
-          >
-            Try Free →
-          </button>
+          {/* Actions */}
+          <div className="flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-500">
+              <a href="#features" className="hover:text-zinc-900 transition-colors">Features</a>
+              <a href="#pricing" className="hover:text-zinc-900 transition-colors">Pricing</a>
+            </div>
+            <button
+              onClick={() => router.push("/sign-in")}
+              className="text-xs font-semibold bg-zinc-900 text-white px-5 py-2 rounded-full hover:bg-zinc-800 hover:scale-105 transition-all duration-300 shadow-lg shadow-zinc-500/20"
+            >
+              Get Started
+            </button>
+          </div>
         </div>
-      </header>
+      </nav>
 
       {/* -------------------------------------------------- */}
-      {/* HERO */}
+      {/* HERO: Clean Typography & Negative Space */}
       {/* -------------------------------------------------- */}
-      <section className="relative pt-40 pb-32 px-6 text-center">
+      <section className="relative pt-40 pb-32 px-6 flex flex-col items-center justify-center text-center overflow-hidden">
+        
+        {/* Subtle Background Mesh */}
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/50 via-white to-white"></div>
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinc-200 to-transparent"></div>
 
-        {/* Aura Background */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[1400px] h-[700px] bg-yellow-200/25 blur-[160px] rounded-full"></div>
+        <motion.div 
+          initial="hidden" 
+          animate="visible" 
+          variants={fadeIn}
+          className="max-w-4xl mx-auto"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-zinc-200 shadow-sm mb-8">
+            <SparkleIcon />
+            <span className="text-xs font-medium text-zinc-600">v1.0 is now live</span>
+          </div>
 
-        <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight leading-tight">
-          The Fastest Way to  
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-amber-500">
-            Create Stunning AI Visuals
-          </span>
-        </h1>
+          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-zinc-900 mb-6">
+            Visuals, <span className="text-zinc-400">Perfected.</span>
+          </h1>
 
-        <p className="text-lg md:text-xl text-slate-600 mt-6 max-w-2xl mx-auto">
-          Generate headshots, swap faces, remove backgrounds, and turn text into images —
-          all inside a beautifully simple creative studio.
-        </p>
+          <p className="text-lg md:text-xl text-zinc-500 max-w-xl mx-auto mb-10 leading-relaxed font-light">
+            The all-in-one AI studio. Swap faces, generate headshots, and edit imagery with 
+            <span className="text-zinc-900 font-medium"> cinematic precision</span>.
+          </p>
 
-        <div className="flex flex-col md:flex-row gap-4 justify-center mt-10">
-          <button
-            onClick={() => router.push("/sign-in")}
-            className="px-6 py-2.5 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold shadow-md shadow-yellow-300/40 transition hover:-translate-y-0.5"
-          >
-            Start Creating →
-          </button>
-          <button className="px-10 py-4 rounded-xl bg-white border border-slate-200 text-slate-700 text-lg hover:bg-slate-50 transition">
-            View Showcase
-          </button>
-        </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button 
+              onClick={() => router.push("/sign-in")}
+              className="h-12 px-8 rounded-full bg-amber-400 hover:bg-amber-500 text-zinc-900 font-semibold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-amber-200/50"
+            >
+              Start Creating Free
+            </button>
+            <button className="h-12 px-8 rounded-full bg-white border border-zinc-200 text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition-all font-medium text-sm">
+              View Gallery
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Abstract UI Preview (Optional Aesthetic Element) */}
+        <motion.div 
+           initial={{ opacity: 0, y: 50 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ delay: 0.3, duration: 0.8 }}
+           className="mt-20 w-full max-w-5xl rounded-t-3xl border border-zinc-200 bg-white/50 backdrop-blur-sm shadow-2xl shadow-zinc-200/50 aspect-[16/9] flex items-center justify-center overflow-hidden"
+        >
+          <div className="text-zinc-300 text-sm tracking-widest uppercase font-medium">Studio Dashboard Preview</div>
+        </motion.div>
       </section>
 
       {/* -------------------------------------------------- */}
-      {/* FEATURES (NEW CLEAN BENTO) */}
+      {/* FEATURES: Bento Grid */}
       {/* -------------------------------------------------- */}
-      <section id="features" className="py-24 px-6">
+      <section id="features" className="py-32 px-6 bg-white border-t border-zinc-100">
         <div className="max-w-7xl mx-auto">
+          <div className="mb-20">
+            <h2 className="text-3xl font-bold tracking-tight mb-4">Everything you need.</h2>
+            <p className="text-zinc-500">Professional tools simplified for everyone.</p>
+          </div>
 
-          <h2 className="text-4xl font-extrabold text-center mb-12">
-            One Studio. Endless Possibilities.
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-
-            {/* Card 1 */}
-            <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-xl hover:shadow-2xl transition">
-              <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-4">
-                <MagicIcon />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Text → Image</h3>
-              <p className="text-slate-600 text-sm">
-                Describe anything and watch it come alive instantly.
-              </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+            
+            {/* Large Card */}
+            <div className="md:col-span-2 group relative overflow-hidden rounded-3xl bg-zinc-50 border border-zinc-100 p-8 hover:border-zinc-200 transition-colors">
+               <div className="absolute top-8 right-8 p-3 bg-white rounded-2xl shadow-sm border border-zinc-100 group-hover:scale-110 transition-transform duration-500">
+                 <SwapIcon />
+               </div>
+               <div className="mt-auto h-full flex flex-col justify-end relative z-10">
+                 <h3 className="text-2xl font-bold mb-2">Cinema Face Swap</h3>
+                 <p className="text-zinc-500 max-w-sm">Seamlessly transfer identities while preserving skin texture, lighting, and cinematic grain. No blurry AI artifacts.</p>
+               </div>
+               {/* Decorative Gradient */}
+               <div className="absolute inset-0 bg-gradient-to-tr from-zinc-100/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
 
-            {/* Card 2 */}
-            <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-xl hover:shadow-2xl transition">
-              <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-4">
-                <FaceIcon />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Face Swap</h3>
-              <p className="text-slate-600 text-sm">
-                Upload 2 photos and swap faces with perfect lighting match.
-              </p>
+            {/* Tall Card */}
+            <div className="md:row-span-2 group relative overflow-hidden rounded-3xl bg-zinc-900 text-white p-8">
+               <div className="absolute top-8 right-8 p-3 bg-white/10 backdrop-blur-md rounded-2xl border border-white/10">
+                 <CameraIcon className="text-white" />
+               </div>
+               <div className="mt-auto h-full flex flex-col justify-end">
+                 <h3 className="text-2xl font-bold mb-2">Pro Headshots</h3>
+                 <p className="text-zinc-400">Turn a single casual selfie into a portfolio of LinkedIn-ready professional studio shots.</p>
+               </div>
             </div>
 
-            {/* Card 3 */}
-            <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-xl hover:shadow-2xl transition">
-              <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-4">
-                <CameraIcon />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Headshot Generator</h3>
-              <p className="text-slate-600 text-sm">
-                Get studio-quality LinkedIn photos from casual selfies.
-              </p>
+            {/* Small Card 1 */}
+            <div className="group relative overflow-hidden rounded-3xl bg-white border border-zinc-200 p-8 hover:shadow-xl hover:shadow-zinc-200/30 transition-all">
+               <div className="mb-4 w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
+                 <SparkleIcon />
+               </div>
+               <h3 className="text-lg font-bold mb-1">Text to Image</h3>
+               <p className="text-sm text-zinc-500">Generate assets from pure imagination.</p>
             </div>
 
-            {/* Card 4 */}
-            <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-xl hover:shadow-2xl transition">
-              <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-4">
-                <svg width="24" height="24" stroke="currentColor" className="text-indigo-600">
-                  <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-2">Background Removal</h3>
-              <p className="text-slate-600 text-sm">
-                Clean, precise cutouts perfect for ecommerce & editing.
-              </p>
+            {/* Small Card 2 */}
+             <div className="group relative overflow-hidden rounded-3xl bg-white border border-zinc-200 p-8 hover:shadow-xl hover:shadow-zinc-200/30 transition-all">
+               <div className="mb-4 w-10 h-10 bg-zinc-100 rounded-xl flex items-center justify-center">
+                 <ScanIcon />
+               </div>
+               <h3 className="text-lg font-bold mb-1">Smart Remove</h3>
+               <p className="text-sm text-zinc-500">Isolate subjects with 1-click precision.</p>
             </div>
+
           </div>
         </div>
       </section>
 
       {/* -------------------------------------------------- */}
-      {/* PRICING (POLISHED) */}
+      {/* PRICING: High Contrast & Minimal */}
       {/* -------------------------------------------------- */}
-      <section id="pricing" className="py-24 bg-white px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-extrabold text-center mb-16">
-            Simple, Fair & Transparent
-          </h2>
+      <section id="pricing" className="py-32 px-6 bg-[#FAFAFA]">
+        <div className="max-w-5xl mx-auto">
+          
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold tracking-tight mb-6">Simple Pricing</h2>
+            {/* Toggle (Visual Only) */}
+            <div className="inline-flex items-center p-1 bg-zinc-200 rounded-full">
+              <button 
+                onClick={() => setIsAnnual(false)}
+                className={`px-6 py-2 rounded-full text-xs font-semibold transition-all ${!isAnnual ? 'bg-white shadow-sm text-zinc-900' : 'text-zinc-500'}`}
+              >
+                Monthly
+              </button>
+              <button 
+                onClick={() => setIsAnnual(true)}
+                className={`px-6 py-2 rounded-full text-xs font-semibold transition-all ${isAnnual ? 'bg-white shadow-sm text-zinc-900' : 'text-zinc-500'}`}
+              >
+                Yearly <span className="text-amber-600 ml-1">-20%</span>
+              </button>
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-
-            {/* Starter */}
-            <div className="p-8 rounded-3xl border border-slate-200 shadow-lg hover:shadow-2xl transition bg-[#fafafa]">
-              <h3 className="text-xl font-bold mb-1">Starter</h3>
-              <p className="text-slate-500 mb-6 text-sm">For casual creators</p>
-              <p className="text-5xl font-extrabold mb-6">₹0</p>
-
-              <button className="w-full px-5 py-3 rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black font-semibold mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+            
+            {/* Free */}
+            <div className="p-8 rounded-3xl bg-white border border-zinc-200/60 shadow-sm">
+              <h3 className="font-bold text-lg mb-2">Starter</h3>
+              <div className="text-4xl font-bold tracking-tight mb-6">₹0</div>
+              <ul className="space-y-4 text-sm text-zinc-600 mb-8">
+                <li className="flex gap-3"><CheckIcon className="text-zinc-300" /> 3 Credits / Month</li>
+                <li className="flex gap-3"><CheckIcon className="text-zinc-300" /> Standard Speed</li>
+              </ul>
+              <button className="w-full py-3 rounded-xl border border-zinc-200 text-sm font-semibold hover:bg-zinc-50 transition">
                 Start Free
               </button>
-
-              <ul className="space-y-4 text-sm text-slate-600">
-                <li className="flex items-center gap-2"><CheckIcon /> 3 Free Credits</li>
-                <li className="flex items-center gap-2"><CheckIcon /> Standard Speed</li>
-                <li className="flex items-center gap-2"><CheckIcon /> Access All Tools</li>
-              </ul>
             </div>
 
-            {/* Pro */}
-            <div className="p-8 rounded-3xl bg-gradient-to-br from-yellow-500 to-amber-600 shadow-2xl text-white relative">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/80 text-white text-xs px-3 py-1 rounded-full">
-                MOST POPULAR
+            {/* PRO - Dark Mode Pop */}
+            <div className="p-8 rounded-3xl bg-zinc-900 text-white shadow-2xl shadow-zinc-900/20 relative transform md:-translate-y-4">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-amber-400 text-zinc-900 text-[10px] font-bold uppercase tracking-wider rounded-full">
+                Best Value
               </div>
-
-              <h3 className="text-xl font-bold mb-1">Pro Creator</h3>
-              <p className="text-yellow-100 mb-6 text-sm">For professionals</p>
-
-              <p className="text-5xl font-extrabold mb-6">₹{isAnnual ? "249" : "299"}</p>
-
-              <button className="w-full px-5 py-3 rounded-xl bg-black text-white hover:bg-neutral-900 font-semibold mb-8">
+              <h3 className="font-bold text-lg mb-2 text-zinc-100">Pro Creator</h3>
+              <div className="text-4xl font-bold tracking-tight mb-1">
+                ₹{isAnnual ? "249" : "299"}
+              </div>
+              <div className="text-zinc-500 text-xs mb-6">per month, billed annually</div>
+              
+              <ul className="space-y-4 text-sm text-zinc-300 mb-8">
+                <li className="flex gap-3"><CheckIcon className="text-amber-400" /> Unlimited Generations</li>
+                <li className="flex gap-3"><CheckIcon className="text-amber-400" /> Private Mode</li>
+                <li className="flex gap-3"><CheckIcon className="text-amber-400" /> Commercial License</li>
+                <li className="flex gap-3"><CheckIcon className="text-amber-400" /> Priority Support</li>
+              </ul>
+              <button className="w-full py-3 rounded-xl bg-white text-zinc-900 text-sm font-bold hover:bg-zinc-100 transition shadow-lg shadow-white/10">
                 Get Pro
               </button>
-
-              <ul className="space-y-4 text-sm">
-                <li className="flex items-center gap-2"><CheckIcon /> Unlimited Generations</li>
-                <li className="flex items-center gap-2"><CheckIcon /> Private Mode</li>
-                <li className="flex items-center gap-2"><CheckIcon /> Commercial License</li>
-              </ul>
             </div>
 
             {/* Pay as you go */}
-            <div className="p-8 rounded-3xl border border-slate-200 shadow-lg hover:shadow-2xl transition bg-[#fafafa]">
-              <h3 className="text-xl font-bold mb-1">Pay-As-You-Go</h3>
-              <p className="text-slate-500 mb-6 text-sm">No commitments</p>
-              <p className="text-5xl font-extrabold mb-6">₹15</p>
-
-              <button className="w-full px-5 py-3 rounded-xl border-2 border-slate-200 hover:border-yellow-400 font-semibold mb-8">
+             <div className="p-8 rounded-3xl bg-white border border-zinc-200/60 shadow-sm">
+              <h3 className="font-bold text-lg mb-2">On Demand</h3>
+              <div className="text-4xl font-bold tracking-tight mb-6">₹15</div>
+              <ul className="space-y-4 text-sm text-zinc-600 mb-8">
+                <li className="flex gap-3"><CheckIcon className="text-zinc-300" /> Pay per credit</li>
+                <li className="flex gap-3"><CheckIcon className="text-zinc-300" /> Never expires</li>
+              </ul>
+              <button className="w-full py-3 rounded-xl border border-zinc-200 text-sm font-semibold hover:bg-zinc-50 transition">
                 Buy Credits
               </button>
-
-              <ul className="space-y-4 text-sm text-slate-600">
-                <li className="flex items-center gap-2"><CheckIcon /> Never Expires</li>
-                <li className="flex items-center gap-2"><CheckIcon /> All Tools Included</li>
-                <li className="flex items-center gap-2"><CheckIcon /> Support Priority</li>
-              </ul>
             </div>
+
           </div>
         </div>
       </section>
 
       {/* -------------------------------------------------- */}
-      {/* FOOTER PREMIUM */}
+      {/* FOOTER */}
       {/* -------------------------------------------------- */}
-      <footer className="py-16 bg-gradient-to-b from-white to-[#faf8f4] border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-6">
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-
-            {/* Brand */}
-            <div className="col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center text-black font-black">🍌</div>
-                <span className="font-bold text-xl text-slate-900">NanoBanana AI</span>
-              </div>
-              <p className="text-slate-500 text-sm max-w-sm">
-                Bringing fun, creativity, and premium-quality AI tools to millions of creators worldwide.
-              </p>
-            </div>
-
-            {/* Links */}
-            <div>
-              <h4 className="font-bold text-slate-900 mb-4">Tools</h4>
-              <ul className="space-y-2 text-sm text-slate-500">
-                <li>Text to Image</li>
-                <li>Face Swap</li>
-                <li>Headshots</li>
-                <li>Background Remover</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-bold text-slate-900 mb-4">Company</h4>
-              <ul className="space-y-2 text-sm text-slate-500">
-                <li>About</li>
-                <li>Blog</li>
-                <li>Support</li>
-              </ul>
-            </div>
+      <footer className="py-12 px-6 border-t border-zinc-200 bg-white text-zinc-500 text-sm">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded bg-zinc-100 flex items-center justify-center grayscale text-xs">🍌</div>
+            <span className="font-semibold text-zinc-900">NanoBanana AI</span>
           </div>
-
-          <div className="border-t border-slate-200 pt-8 text-xs text-slate-400 flex justify-between">
-            <p>© 2025 NanoBanana AI. All rights reserved.</p>
-            <div className="flex gap-4">
-              <a href="#">Privacy</a>
-              <a href="#">Terms</a>
-            </div>
+          <div className="flex gap-8">
+            <a href="#" className="hover:text-zinc-900 transition">Twitter</a>
+            <a href="#" className="hover:text-zinc-900 transition">Instagram</a>
+            <a href="#" className="hover:text-zinc-900 transition">Email</a>
           </div>
-
+          <div className="text-xs">
+            © 2025 Inc.
+          </div>
         </div>
       </footer>
     </div>
