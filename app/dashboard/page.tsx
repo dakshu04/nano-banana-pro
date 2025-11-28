@@ -2,184 +2,180 @@
 
 import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import TextToImage from "./components/text-to-image/page";
+import FaceSwap from "./components/face-swap/page";
+import HeadShotGenerator from "./components/head-shot-generator/page";
+import BackgroundRemover from "./components/background-remover/page";
+import History from "./components/history/page";
 
 // Components
-import TextToImage from "../components/text-to-image/page";
-import FaceSwap from "../components/face-swap/page";
-import HeadShotGenerator from "../components/head-shot-generator/page";
-import History from "../components/history/page";
-import BackgroundRemover from "../components/background-remover/page";
+
+
+/* Minimal Line Icons */
+const RefreshIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+);
+const BoltIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-amber-500"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+);
 
 export default function Dashboard() {
   const { user, isLoaded } = useUser();
   const [credits, setCredits] = useState<number | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [activePage, setActivePage] = useState("text-to-image");
 
   const menuItems = [
     { id: "text-to-image", label: "Text to Image", icon: "✨" },
     { id: "image-to-image", label: "Face Swap", icon: "🌀" },
     { id: "headshot", label: "Headshot Gen", icon: "📸" },
-    { 
-      id: "background", 
-      label: "Remove Background", 
-      icon: "🎨",
-      badge: "FREE" 
-    },
+    { id: "background", label: "Remove BG", icon: "🎨", badge: "FREE" },
     { id: "history", label: "History", icon: "clock" }
   ];
 
-  const [activePage, setActivePage] = useState("text-to-image");
+  const loadCredits = async () => {
+    if (!user) return;
+    try {
+      setIsRefreshing(true);
+      const res = await fetch("/api/user");
+      if (!res.ok) return;
+      const data = await res.json();
+      setCredits(data.credits);
+    } catch (error) {
+      console.error("Failed to load credits:", error);
+    } finally {
+      setTimeout(() => setIsRefreshing(false), 500);
+    }
+  };
 
   useEffect(() => {
-    if (!isLoaded || !user) return;
-    async function loadCredits() {
-      try {
-        const res = await fetch("/api/user");
-        if (!res.ok) return;
-        const data = await res.json();
-        setCredits(data.credits);
-      } catch (error) {
-        console.error("Failed to load credits:", error);
-      }
-    }
-    loadCredits();
+    if (isLoaded && user) loadCredits();
   }, [isLoaded, user]);
 
   return (
-    // Changed selection color to match banana theme
-    <div className="flex h-screen overflow-hidden bg-[#FFFDF7] font-sans selection:bg-yellow-200 selection:text-yellow-900">
+    // h-screen locks the height to the viewport (No Body Scroll)
+    <div className="flex h-screen w-full bg-[#FAFAFA] text-zinc-900 font-sans overflow-hidden selection:bg-amber-100">
       
       {/* ---------------------------------------------------------- */}
-      {/* BACKGROUND DECORATION (The "Banana" Glow) */}
+      {/* COMPACT SIDEBAR */}
       {/* ---------------------------------------------------------- */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Changed blobs to Yellow/Orange */}
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-yellow-200/40 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-orange-200/40 rounded-full blur-[100px]" />
-      </div>
-
-      {/* ---------------------------------------------------------- */}
-      {/* SIDEBAR - FLOATING GLASS STYLE */}
-      {/* ---------------------------------------------------------- */}
-      <aside className="relative z-10 w-80 p-6 flex flex-col justify-between hidden md:flex">
-        {/* Glass Container */}
-        <div className="w-full h-full bg-white/60 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-3xl flex flex-col p-6 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
-          
-          {/* LOGO */}
-          <div className="mb-10 pl-2">
-            {/* Changed Gradient to Yellow -> Orange */}
-            <h1 className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-600 flex items-center gap-3">
-              <span className="text-3xl drop-shadow-sm text-white">🍌</span> Nano Banana Pro
-            </h1>
-            <p className="text-xs text-stone-400 font-medium tracking-widest uppercase mt-2 ml-1">AI Creative Studio</p>
+      <aside className="w-64 border-r border-zinc-200 bg-white flex flex-col justify-between shrink-0 hidden md:flex">
+        
+        {/* Top Section */}
+        <div className="p-6">
+          {/* Logo */}
+          <div className="flex items-center gap-2 mb-8 cursor-pointer group">
+            <div className="w-8 h-8 bg-zinc-900 text-white rounded-lg flex items-center justify-center text-lg font-bold group-hover:scale-105 transition">🍌</div>
+            <div>
+                <h1 className="text-sm font-bold tracking-tight">NanoBanana</h1>
+                <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-wider">Pro Studio</p>
+            </div>
           </div>
 
-          {/* MENU */}
-          <nav className="space-y-2 flex-1">
+          {/* Navigation */}
+          <nav className="space-y-1">
             {menuItems.map((item) => {
               const isActive = activePage === item.id;
               return (
-                <div
+                <button
                   key={item.id}
                   onClick={() => setActivePage(item.id)}
                   className={`
-                    group relative cursor-pointer px-4 py-3.5 rounded-2xl text-sm font-bold transition-all duration-300 ease-out flex items-center justify-between
+                    w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all
                     ${isActive 
-                      // Active State: Yellow Gradient + Dark Text (Banana Style)
-                      ? "bg-gradient-to-r from-yellow-300 to-orange-300 text-stone-900 shadow-lg shadow-yellow-200/50 translate-x-1" 
-                      : "text-stone-500 hover:bg-white hover:text-stone-800 hover:shadow-md"
+                      ? "bg-zinc-100 text-zinc-900" 
+                      : "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900"
                     }
                   `}
                 >
                   <div className="flex items-center gap-3">
-                    <span className={`text-lg transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
+                    <span className={isActive ? "text-amber-500" : "text-zinc-400"}>
                         {item.icon === 'clock' ? 
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> 
+                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                         : item.icon}
                     </span>
-                    <span>{item.label}</span>
+                    {item.label}
                   </div>
-
-                  {/* BADGE */}
                   {item.badge && (
-                    <span className={`
-                      text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow-sm tracking-wide
-                      ${isActive 
-                        ? "bg-white/40 text-stone-800 backdrop-blur-md" 
-                        : "bg-green-100 text-green-700 border border-green-200"
-                      }
-                    `}>
+                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded border border-emerald-200 bg-emerald-50 text-emerald-600 uppercase">
                       {item.badge}
                     </span>
                   )}
-                </div>
+                </button>
               );
             })}
           </nav>
+        </div>
 
-          {/* USER FOOTER */}
-          <div className="mt-8 space-y-4 pt-6 border-t border-stone-100">
-            
-            {/* Credits Pill */}
-            <div className="flex items-center justify-between bg-[#FFFBEB] border border-yellow-100 rounded-2xl px-4 py-3">
-                <div className="flex items-center gap-2 text-stone-600 text-xs font-bold uppercase tracking-wider">
-                    <div className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
-                    Credits
+        {/* Bottom Section: User & Credits */}
+        <div className="p-4 border-t border-zinc-100 bg-zinc-50/50">
+          
+          {/* Credit Pill */}
+          <div className="flex items-center justify-between bg-white border border-zinc-200 rounded-lg p-3 shadow-sm mb-4">
+             <div className="flex items-center gap-2">
+                <BoltIcon />
+                <div className="flex flex-col">
+                    <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">Credits</span>
+                    <span className="text-sm font-bold leading-none">{credits ?? "-"}</span>
                 </div>
-                <span className="text-stone-900 font-bold">{credits ?? "-"}</span>
-            </div>
+             </div>
+             <button 
+               onClick={loadCredits}
+               disabled={isRefreshing}
+               className="p-1.5 hover:bg-zinc-100 rounded-md text-zinc-400 hover:text-amber-500 transition-colors"
+             >
+                <RefreshIcon className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+             </button>
+          </div>
 
-            {/* Profile */}
-            <div className="flex items-center gap-3 pl-1">
-               <div className="ring-2 ring-yellow-100 rounded-full p-0.5">
-                   <UserButton afterSignOutUrl="/"/>
-               </div>
-               <div className="overflow-hidden">
-                   <p className="text-sm font-bold text-stone-700 truncate">{user?.fullName}</p>
-                   <p className="text-xs text-stone-400 truncate">{user?.primaryEmailAddress?.emailAddress}</p>
-               </div>
-            </div>
-
-             <SignOutButton>
-                <button className="w-full text-xs font-semibold text-stone-400 hover:text-red-500 transition-colors py-2 text-left pl-1">
-                    Sign Out
-                </button>
-            </SignOutButton>
+          {/* User Row */}
+          <div className="flex items-center gap-3 pl-1">
+             <div className="scale-90"><UserButton afterSignOutUrl="/"/></div>
+             <div className="flex-1 overflow-hidden">
+                <p className="text-xs font-bold text-zinc-700 truncate">{user?.fullName}</p>
+                <SignOutButton>
+                   <button className="text-[10px] font-medium text-zinc-400 hover:text-red-500 transition-colors text-left truncate w-full">Sign out</button>
+                </SignOutButton>
+             </div>
           </div>
         </div>
       </aside>
 
       {/* ---------------------------------------------------------- */}
-      {/* MAIN CONTENT */}
+      {/* MAIN CONTENT AREA */}
       {/* ---------------------------------------------------------- */}
-      <main className="flex-1 relative z-10 p-4 md:p-8 overflow-y-auto">
+      <main className="flex-1 p-4 md:p-6 h-full flex flex-col min-w-0">
         
-        {/* Header Section */}
-        <header className="mb-8 flex items-end justify-between">
+        {/* The Workspace Card - Fills remaining space */}
+        <div className="flex-1 bg-white rounded-2xl border border-zinc-200 shadow-sm flex flex-col overflow-hidden relative">
+          
+          {/* Internal Header (Title + Badge) */}
+          <div className="h-14 border-b border-zinc-100 flex items-center justify-between px-6 shrink-0 bg-white z-10">
+            <h2 className="text-lg font-bold text-zinc-800 flex items-center gap-2">
+                {menuItems.find(i => i.id === activePage)?.label}
+            </h2>
             
-
-            {/* Contextual Badge for Header */}
-            {menuItems.find((i) => i.id === activePage)?.badge && (
-                <div className="hidden md:flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 px-4 py-2 rounded-full font-bold text-sm shadow-sm">
-                    <span className="relative flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                    </span>
-                    Free for everyone
+            {/* Contextual Badge (Moved here to save space) */}
+            {menuItems.find(i => i.id === activePage)?.badge === "FREE" && (
+                <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 text-[10px] font-bold uppercase tracking-wide">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Unlimited Access
                 </div>
             )}
-        </header>
+          </div>
 
-        {/* Dynamic Content Card */}
-        {/* Warm shadow to match theme */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-[2rem] shadow-xl shadow-orange-100/50 border border-white p-8 min-h-[600px] transition-all duration-500">
-          {activePage === "text-to-image" && <TextToImage />}
-          {activePage === "image-to-image" && <FaceSwap />}
-          {activePage === "headshot" && <HeadShotGenerator />}
-          {activePage === "background" && <BackgroundRemover />}
-          {activePage === "history" && <History />}
+          {/* Tool Content Area - Scrollable internally if needed */}
+          <div className="flex-1 overflow-y-auto p-6 bg-zinc-50/30 scrollbar-hide">
+            {activePage === "text-to-image" && <TextToImage />}
+            {activePage === "image-to-image" && <FaceSwap />}
+            {activePage === "headshot" && <HeadShotGenerator />}
+            {activePage === "background" && <BackgroundRemover />}
+            {activePage === "history" && <History />}
+          </div>
+
         </div>
-        
       </main>
+
     </div>
   );
 }
