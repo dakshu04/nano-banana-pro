@@ -58,7 +58,7 @@ export default function FaceSwap() {
         target: targetImage.split(",")[1],
       });
       setGeneratedImage(`data:image/png;base64,${res.data.image}`);
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
       alert(err?.response?.data?.error || "Face Swap failed");
     }
