@@ -1,9 +1,17 @@
 "use client";
 
+
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+
+const PRODUCT_IDS = {
+  CREATOR: "pdt_752oz5Op5JEBfUQe2fuyT",
+  PREMIUM: "pdt_h6r6QLWZaVzev0EikIoLL",
+  PRO: "pdt_AGQB4J3kSPQQiNOlD7oRD",
+};
+
 
 /* --- ICONS --- */
 const Icons = {
@@ -31,17 +39,56 @@ const Icons = {
   Clock: ({ className }: { className?: string }) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
   ),
+  Loader: ({ className }: { className?: string }) => (
+    <svg className={`animate-spin ${className}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+  ),
 };
 
 export const LandingPage = () => {
   const router = useRouter();
   const { isSignedIn, isLoaded } = useUser();
+  const [loadingProduct, setLoadingProduct] = useState<string | null>(null);
 
   useEffect(() => {
     if (isLoaded && isSignedIn) {
-      router.push("/dashboard");
+      // Optional: Don't auto-redirect if they are trying to buy something
+      // router.push("/dashboard"); 
     }
   }, [isLoaded, isSignedIn, router]);
+
+  // --- DODO PAYMENTS CHECKOUT LOGIC ---
+  const handleCheckout = async (productId: string) => {
+    if (!isSignedIn) {
+      router.push("/sign-in");
+      return;
+    }
+
+    setLoadingProduct(productId);
+
+    try {
+      const response = await fetch("/api/payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId }),
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url; // Redirect to Dodo Checkout
+      } else {
+        alert("Payment error: " + (data.error || "Unknown error"));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong initializing checkout.");
+    } finally {
+      setLoadingProduct(null);
+    }
+  };
 
   // Framer Motion Variants
   const fadeInUp = {
@@ -71,7 +118,7 @@ export const LandingPage = () => {
               <a href="#features" className="hover:text-zinc-900 transition-colors">Features</a>
               <a href="#pricing" className="hover:text-zinc-900 transition-colors">Pricing</a>
             </div>
-            <button onClick={() => router.push("/sign-in")} className="text-xs font-semibold bg-zinc-900 text-white px-5 py-2 rounded-full hover:bg-zinc-800 transition-all shadow-sm">
+            <button onClick={() => router.push("/dashboard")} className="text-xs font-semibold bg-zinc-900 text-white px-5 py-2 rounded-full hover:bg-zinc-800 transition-all shadow-sm">
               Dashboard
             </button>
           </div>
@@ -271,12 +318,13 @@ export const LandingPage = () => {
                 <p className="text-amber-600 font-bold text-xs mt-1">Get Started!</p>
               </div>
               <div className="mb-6 flex items-baseline gap-1">
-                 <span className="text-3xl font-bold tracking-tight text-zinc-900">$3.49</span>
-                 <span className="text-zinc-400 text-xs font-medium">/ pack</span>
+                 <span className="text-3xl font-bold tracking-tight text-zinc-900">$4</span>
+                 <span className="text-zinc-400 text-xs font-medium">/ month</span>
               </div>
               <div className="space-y-3 mb-8 flex-1">
                 <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Check className="w-4 h-4 text-amber-500 shrink-0"/> Unlimited BG Removal</li>
-                <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Sparkles className="w-4 h-4 text-amber-500 shrink-0"/> 10 Credits Included</li>
+                <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Sparkles className="w-4 h-4 text-amber-500 shrink-0"/> 20 Credits Included</li>
+                <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Sparkles className="w-4 h-4 text-amber-500 shrink-0"/> 10 Images</li>
                 <div className="h-px bg-zinc-100 my-3"/>
                 <div className="bg-amber-50 p-3 rounded-lg border border-amber-100">
                     <p className="text-[10px] font-bold text-amber-600 uppercase tracking-wide mb-1 flex items-center gap-1"><Icons.Clock className="w-3 h-3"/> Coming Soon</p>
@@ -285,8 +333,12 @@ export const LandingPage = () => {
                     </p>
                 </div>
               </div>
-              <button className="w-full py-2.5 rounded-lg border-2 border-zinc-900 text-zinc-900 font-bold text-sm hover:bg-zinc-900 hover:text-white transition-colors">
-                Get Creator
+              <button 
+                onClick={() => handleCheckout(PRODUCT_IDS.CREATOR)} 
+                disabled={loadingProduct === PRODUCT_IDS.CREATOR}
+                className="w-full py-2.5 rounded-lg border-2 border-zinc-900 text-zinc-900 font-bold text-sm hover:bg-zinc-900 hover:text-white transition-colors flex justify-center items-center"
+              >
+                {loadingProduct === PRODUCT_IDS.CREATOR ? <Icons.Loader className="w-5 h-5" /> : "Subscribe for $4/mo"}
               </button>
             </div>
 
@@ -300,18 +352,23 @@ export const LandingPage = () => {
                 <p className="text-amber-400 font-bold text-xs mt-1">Serious Creators</p>
               </div>
               <div className="mb-6 flex items-baseline gap-1">
-                 <span className="text-4xl font-bold tracking-tight text-white">$14.49</span>
-                 <span className="text-zinc-500 text-xs font-medium">/ pack</span>
+                 <span className="text-4xl font-bold tracking-tight text-white">$10</span>
+                 <span className="text-zinc-500 text-xs font-medium">/ month</span>
               </div>
               <div className="space-y-3 mb-8 flex-1">
                 <li className="flex gap-3 text-sm font-bold text-white"><Icons.Check className="w-4 h-4 text-amber-500 shrink-0"/> Unlimited BG Removal</li>
                 <li className="flex gap-3 text-sm font-bold text-white"><Icons.Sparkles className="w-4 h-4 text-amber-500 shrink-0"/> 60 Credits</li>
+                <li className="flex gap-3 text-sm font-bold text-white"><Icons.Sparkles className="w-4 h-4 text-amber-500 shrink-0"/> 30 Images</li>
                 <li className="flex gap-3 text-sm text-zinc-300"><Icons.Check className="w-4 h-4 text-amber-500 shrink-0"/> Priority Processing</li>
                 <li className="flex gap-3 text-sm text-zinc-300"><Icons.Check className="w-4 h-4 text-amber-500 shrink-0"/> All Upcoming Features</li>
-                <p className="text-xs text-amber-400 font-medium mt-2 pl-7">$0.05 per credit (Best Rate)</p>
+                <p className="text-xs text-amber-400 font-medium mt-2 pl-7">$0.33 per image (Best Rate)</p>
               </div>
-              <button className="w-full py-3 rounded-lg bg-white text-zinc-900 font-bold text-sm hover:bg-zinc-100 transition-colors shadow-lg shadow-white/10">
-                Go Premium
+              <button 
+                onClick={() => handleCheckout(PRODUCT_IDS.PREMIUM)}
+                disabled={loadingProduct === PRODUCT_IDS.PREMIUM}
+                className="w-full py-3 rounded-lg bg-white text-zinc-900 font-bold text-sm hover:bg-zinc-100 transition-colors shadow-lg shadow-white/10 flex justify-center items-center"
+              >
+                {loadingProduct === PRODUCT_IDS.PREMIUM ? <Icons.Loader className="w-5 h-5 text-zinc-900" /> : "Subscribe for $10/mo"}
               </button>
             </div>
 
@@ -322,17 +379,21 @@ export const LandingPage = () => {
                 <p className="text-zinc-500 font-bold text-xs mt-1">Agency / Power User</p>
               </div>
               <div className="mb-6 flex items-baseline gap-1">
-                 <span className="text-3xl font-bold tracking-tight text-zinc-900">$29.99</span>
-                 <span className="text-zinc-400 text-xs font-medium">/ pack</span>
+                 <span className="text-3xl font-bold tracking-tight text-zinc-900">$20</span>
+                 <span className="text-zinc-400 text-xs font-medium">/ month</span>
               </div>
               <div className="space-y-3 mb-8 flex-1">
                 <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Check className="w-4 h-4 text-zinc-900 shrink-0"/> Unlimited BG Removal</li>
-                <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Sparkles className="w-4 h-4 text-zinc-900 shrink-0"/> 600 Credits</li>
-                <li className="flex gap-3 text-sm text-zinc-600"><Icons.Check className="w-4 h-4 text-zinc-900 shrink-0"/> Commercial License</li>
-                <li className="flex gap-3 text-sm text-zinc-600"><Icons.Check className="w-4 h-4 text-zinc-900 shrink-0"/> 24/7 Priority Support</li>
+                <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Sparkles className="w-4 h-4 text-zinc-900 shrink-0"/> 100 Credits</li>
+                <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Sparkles className="w-4 h-4 text-zinc-900 shrink-0"/> 50 Images</li>
+                <li className="flex gap-3 text-sm text-amber-600"><Icons.Check className="w-4 h-4 shrink-0"/> All Upcoming Features</li>
               </div>
-              <button className="w-full py-2.5 rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-900 font-bold text-sm hover:bg-zinc-900 hover:text-white transition-colors">
-                Get Pro
+              <button 
+                onClick={() => handleCheckout(PRODUCT_IDS.PRO)}
+                disabled={loadingProduct === PRODUCT_IDS.PRO}
+                className="w-full py-2.5 rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-900 font-bold text-sm hover:bg-zinc-900 hover:text-white transition-colors flex justify-center items-center"
+              >
+                {loadingProduct === PRODUCT_IDS.PRO ? <Icons.Loader className="w-5 h-5" /> : "Subscribe for $20/mo"}
               </button>
             </div>
 

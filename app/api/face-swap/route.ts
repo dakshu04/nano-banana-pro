@@ -20,6 +20,13 @@ export async function POST(req: Request) {
       );
     }
 
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user || user.credits < 2) {
+      return NextResponse.json(
+        { error: "Not enough credits" },
+        { status: 403 }
+      );
+    }
     const outputBase64 = await faceSwap(source, target);
     if (!outputBase64) {
       return NextResponse.json(
@@ -28,19 +35,12 @@ export async function POST(req: Request) {
       );
     }
 
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user || user.credits <= 0) {
-      return NextResponse.json(
-        { error: "Not enough credits" },
-        { status: 403 }
-      );
-    }
 
 
-    // Deduct 1 credit
+    // Deduct 2 credit
     await prisma.user.update({
       where: { id: userId },
-      data: { credits: { decrement: 1 } }
+      data: { credits: { decrement: 2 } }
     });
 
     const imageUrl = await uploadToSupabase(outputBase64);

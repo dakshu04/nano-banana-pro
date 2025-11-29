@@ -29,7 +29,7 @@ export async function faceSwap(sourceBase64: string, targetBase64: string) {
         {
           text:
             "Swap the face from the first image onto the person in the second image. " +
-            "Return a realistic, clean PNG. Do not distort body or background.",
+            "Return a realistic, clean PNG. Do not distort body or background. And also maintain the targetBase64 aspect ratio. I want my final image in the same aspect ratio that targetBase64 has. And also maintain the facial structure and make it very clear and real.",
         },
         {
           inlineData: {

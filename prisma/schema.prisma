@@ -16,7 +16,7 @@ datasource db {
 model User {
   id        String         @id @unique        // Clerk User ID
   email     String         @unique
-  credits   Int            @default(3)
+  credits   Int            @default(0)
   isPro     Boolean        @default(false)
   createdAt DateTime       @default(now())
 

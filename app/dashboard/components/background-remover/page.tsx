@@ -18,6 +18,8 @@ const XIcon = () => (
 );
 
 export default function BackgroundRemover() {
+  // FIXED: Added state to store the actual file object
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [outputImage, setOutputImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -28,41 +30,45 @@ export default function BackgroundRemover() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // FIXED: Store the file in state immediately
+    setImageFile(file);
     setPreview(URL.createObjectURL(file));
-    setOutputImage(null); // Reset output when new file is chosen
+    setOutputImage(null); 
     setStatusText("");
     setProgress(0);
   };
 
   const handleRemoveBackground = async () => {
-    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-    const file = fileInput?.files?.[0];
-    if (!file) return;
+    // FIXED: Use the state variable instead of document.querySelector
+    if (!imageFile) return;
 
     setLoading(true);
-    setStatusText("Loading model...");
-    setProgress(10);
+    setStatusText("Loading AI Model...");
 
     try {
       const config = {
         progress: (key: string, current: number, total: number) => {
-           const percent = Math.round((current / total) * 100);
+           // FIXED: Ensure we don't divide by zero
+           const percent = total > 0 ? Math.round((current / total) * 100) : 0;
+           setStatusText(`Processing: ${percent}%`);
            setProgress(percent);
-           setStatusText(percent === 100 ? "Finalizing..." : `Processing... ${percent}%`);
         },
         debug: true 
       };
 
-      const blob = await removeBackground(file, config);
+      // RUNS LOCALLY IN BROWSER
+      const blob = await removeBackground(imageFile, config);
+
       const url = URL.createObjectURL(blob);
       setOutputImage(url);
-      setStatusText("Complete");
+      setStatusText("Done!");
       setProgress(100);
 
     } catch (err) {
       console.error(err);
-      setStatusText("Error processing image");
+      setStatusText("Error removing background.");
     }
+
     setLoading(false);
   };
 
@@ -78,6 +84,7 @@ export default function BackgroundRemover() {
 
   const handleReset = () => {
     setPreview(null);
+    setImageFile(null); // Clear file state
     setOutputImage(null);
     setProgress(0);
     setStatusText("");
@@ -160,7 +167,7 @@ export default function BackgroundRemover() {
                     <span className="text-xs text-zinc-400 font-medium">Waiting for upload...</span>
                 )}
 
-                 {/* Just a disabled state to keep height consistent if finished */}
+                {/* Just a disabled state to keep height consistent if finished */}
                 {outputImage && (
                     <div className="flex items-center gap-2 text-zinc-400 text-xs font-bold uppercase tracking-wider">
                          <span className="w-2 h-2 bg-zinc-300 rounded-full" /> Input Locked
@@ -225,3 +232,4 @@ export default function BackgroundRemover() {
     </div>
   );
 }
+
