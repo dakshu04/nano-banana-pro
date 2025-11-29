@@ -5,7 +5,7 @@ import { removeBackground } from "@imgly/background-removal";
 
 /* Minimal Icons */
 const UploadIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /></svg>
 );
 const DownloadIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M12 12v7.5m0 0 3-3m-3 3-3-3m6-6h.008v.008H12V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" /></svg>
@@ -18,7 +18,6 @@ const XIcon = () => (
 );
 
 export default function BackgroundRemover() {
-  // FIXED: Added state to store the actual file object
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [outputImage, setOutputImage] = useState<string | null>(null);
@@ -30,7 +29,6 @@ export default function BackgroundRemover() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // FIXED: Store the file in state immediately
     setImageFile(file);
     setPreview(URL.createObjectURL(file));
     setOutputImage(null); 
@@ -39,7 +37,6 @@ export default function BackgroundRemover() {
   };
 
   const handleRemoveBackground = async () => {
-    // FIXED: Use the state variable instead of document.querySelector
     if (!imageFile) return;
 
     setLoading(true);
@@ -48,7 +45,6 @@ export default function BackgroundRemover() {
     try {
       const config = {
         progress: (key: string, current: number, total: number) => {
-           // FIXED: Ensure we don't divide by zero
            const percent = total > 0 ? Math.round((current / total) * 100) : 0;
            setStatusText(`Processing: ${percent}%`);
            setProgress(percent);
@@ -56,9 +52,7 @@ export default function BackgroundRemover() {
         debug: true 
       };
 
-      // RUNS LOCALLY IN BROWSER
       const blob = await removeBackground(imageFile, config);
-
       const url = URL.createObjectURL(blob);
       setOutputImage(url);
       setStatusText("Done!");
@@ -84,14 +78,14 @@ export default function BackgroundRemover() {
 
   const handleReset = () => {
     setPreview(null);
-    setImageFile(null); // Clear file state
+    setImageFile(null); 
     setOutputImage(null);
     setProgress(0);
     setStatusText("");
   }
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="flex flex-col h-full min-h-[calc(100vh-8rem)] md:min-h-0">
       
       {/* Header */}
       <div className="mb-6 flex items-center justify-between shrink-0">
@@ -102,50 +96,50 @@ export default function BackgroundRemover() {
         {(preview || outputImage) && (
             <button 
                 onClick={handleReset}
-                className="text-zinc-400 hover:text-red-500 transition-colors flex items-center gap-1 text-xs font-bold uppercase tracking-wider"
+                className="text-zinc-400 hover:text-red-500 transition-colors flex items-center gap-1 text-xs font-bold uppercase tracking-wider px-3 py-2 rounded-lg hover:bg-zinc-100"
             >
-                <XIcon /> Reset
+                <XIcon /> <span className="hidden sm:inline">Reset</span>
             </button>
         )}
       </div>
 
-      {/* Main Grid - Symmetrical & Stretched */}
+      {/* Main Grid - Responsive: Stacked on mobile, side-by-side on desktop */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
         
         {/* LEFT COLUMN: Input */}
-        <div className="flex flex-col h-full bg-zinc-50 rounded-2xl border border-zinc-200 overflow-hidden relative">
+        <div className="flex flex-col bg-zinc-50 rounded-2xl border border-zinc-200 overflow-hidden relative shadow-sm min-h-[400px] lg:min-h-0 lg:h-full transition-all">
             
             {/* Header Badge */}
-            <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/80 backdrop-blur-sm border border-zinc-200 rounded-full text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
+            <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/80 backdrop-blur-sm border border-zinc-200 rounded-full text-[10px] font-bold text-zinc-500 uppercase tracking-wider shadow-sm">
                 Original
             </div>
 
-            {/* Content Area (Flexible Height) */}
-            <div className="flex-1 relative min-h-0">
+            {/* Content Area */}
+            <div className="flex-1 relative w-full h-full">
                 {!preview ? (
                     // Upload State
-                    <label className="absolute inset-0 cursor-pointer flex flex-col items-center justify-center p-6 text-center hover:bg-zinc-100 transition-colors">
+                    <label className="absolute inset-0 cursor-pointer flex flex-col items-center justify-center p-6 text-center hover:bg-zinc-100 transition-colors group">
                         <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
-                        <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-zinc-200 flex items-center justify-center text-zinc-400 mb-4">
+                        <div className="w-16 h-16 bg-white rounded-2xl shadow-sm border border-zinc-200 flex items-center justify-center text-zinc-400 mb-4 group-hover:scale-110 group-hover:border-zinc-300 transition-all">
                             <UploadIcon />
                         </div>
-                        <span className="text-sm font-bold text-zinc-700">Upload Image</span>
+                        <span className="text-sm font-bold text-zinc-700 group-hover:text-zinc-900">Upload Image</span>
                         <span className="text-xs text-zinc-400 mt-1">JPG, PNG, WEBP</span>
                     </label>
                 ) : (
                     // Image Preview State
-                    <div className="absolute inset-0 p-8 flex items-center justify-center">
-                        <img src={preview} alt="Original" className="max-w-full max-h-full object-contain drop-shadow-sm" />
+                    <div className="absolute inset-0 p-4 md:p-8 flex items-center justify-center bg-zinc-100/50">
+                        <img src={preview} alt="Original" className="max-w-full max-h-full object-contain drop-shadow-md rounded-lg" />
                     </div>
                 )}
             </div>
 
-            {/* Bottom Action Bar (Fixed Height) */}
-            <div className="h-20 border-t border-zinc-200 bg-white p-4 flex items-center justify-center shrink-0">
+            {/* Bottom Action Bar */}
+            <div className="h-auto min-h-[5rem] border-t border-zinc-200 bg-white p-4 flex items-center justify-center shrink-0 z-10">
                 {preview && !loading && !outputImage && (
                     <button
                         onClick={handleRemoveBackground}
-                        className="w-full py-3 rounded-xl bg-zinc-900 text-white font-bold text-sm hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-200 flex items-center justify-center gap-2"
+                        className="w-full py-3.5 rounded-xl bg-zinc-900 text-white font-bold text-sm hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-200 flex items-center justify-center gap-2 active:scale-[0.98]"
                     >
                         <MagicIcon /> Remove Background
                     </button>
@@ -158,18 +152,18 @@ export default function BackgroundRemover() {
                             <span>{progress}%</span>
                         </div>
                         <div className="h-2 w-full bg-zinc-100 rounded-full overflow-hidden">
-                            <div className="h-full bg-amber-500 transition-all duration-300" style={{ width: `${progress}%` }} />
+                            <div className="h-full bg-amber-500 transition-all duration-300 ease-out" style={{ width: `${progress}%` }} />
                         </div>
                     </div>
                 )}
 
                 {!preview && (
-                    <span className="text-xs text-zinc-400 font-medium">Waiting for upload...</span>
+                    <span className="text-xs text-zinc-400 font-medium animate-pulse">Waiting for upload...</span>
                 )}
 
-                {/* Just a disabled state to keep height consistent if finished */}
+                {/* Lock indicator */}
                 {outputImage && (
-                    <div className="flex items-center gap-2 text-zinc-400 text-xs font-bold uppercase tracking-wider">
+                    <div className="flex items-center gap-2 text-zinc-400 text-xs font-bold uppercase tracking-wider bg-zinc-50 px-3 py-1.5 rounded-lg border border-zinc-100">
                          <span className="w-2 h-2 bg-zinc-300 rounded-full" /> Input Locked
                     </div>
                 )}
@@ -177,17 +171,17 @@ export default function BackgroundRemover() {
         </div>
 
         {/* RIGHT COLUMN: Output */}
-        <div className="flex flex-col h-full bg-white rounded-2xl border border-zinc-200 overflow-hidden relative shadow-sm">
+        <div className="flex flex-col bg-white rounded-2xl border border-zinc-200 overflow-hidden relative shadow-sm min-h-[400px] lg:min-h-0 lg:h-full transition-all">
              
              {/* Header Badge */}
-             <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/90 backdrop-blur-sm border border-zinc-200 rounded-full text-[10px] font-bold text-emerald-600 uppercase tracking-wider flex items-center gap-2">
+             <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/90 backdrop-blur-sm border border-zinc-200 rounded-full text-[10px] font-bold text-emerald-600 uppercase tracking-wider flex items-center gap-2 shadow-sm">
                 Result
                 {outputImage && <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />}
             </div>
 
             {/* Content Area (Checkerboard Background) */}
             <div 
-                className="flex-1 relative min-h-0"
+                className="flex-1 relative w-full h-full"
                 style={{
                     backgroundImage: `
                         linear-gradient(45deg, #f9fafb 25%, transparent 25%), 
@@ -200,30 +194,33 @@ export default function BackgroundRemover() {
                 }}
             >
                 {outputImage ? (
-                     <div className="absolute inset-0 p-8 flex items-center justify-center">
-                        <img src={outputImage} alt="Result" className="max-w-full max-h-full object-contain" />
+                     <div className="absolute inset-0 p-4 md:p-8 flex items-center justify-center animate-in fade-in zoom-in duration-300">
+                        <img src={outputImage} alt="Result" className="max-w-full max-h-full object-contain drop-shadow-xl" />
                      </div>
                 ) : (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-300 gap-3">
-                         <div className="w-12 h-12 rounded-xl border-2 border-dashed border-zinc-200 flex items-center justify-center">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-300 gap-4 p-6 text-center">
+                         <div className="w-16 h-16 rounded-2xl border-2 border-dashed border-zinc-200 flex items-center justify-center bg-zinc-50/50">
                             <MagicIcon />
                          </div>
-                         <span className="text-sm font-medium">Processed image will appear here</span>
+                         <div className="space-y-1">
+                            <span className="text-sm font-bold text-zinc-400 block">No Result Yet</span>
+                            <span className="text-xs text-zinc-300 block">Processed image will appear here</span>
+                         </div>
                     </div>
                 )}
             </div>
 
-             {/* Bottom Action Bar (Fixed Height) */}
-             <div className="h-20 border-t border-zinc-100 bg-white p-4 flex items-center justify-center shrink-0 z-20">
+             {/* Bottom Action Bar */}
+             <div className="h-auto min-h-[5rem] border-t border-zinc-100 bg-white p-4 flex items-center justify-center shrink-0 z-20">
                 {outputImage ? (
                     <button
                         onClick={handleDownload}
-                        className="w-full py-3 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-100 flex items-center justify-center gap-2"
+                        className="w-full py-3.5 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-100 flex items-center justify-center gap-2 active:scale-[0.98]"
                     >
                         <DownloadIcon /> Download PNG
                     </button>
                 ) : (
-                    <span className="text-xs text-zinc-300 font-medium">No result yet</span>
+                    <span className="text-xs text-zinc-300 font-medium">Ready to process</span>
                 )}
             </div>
         </div>
@@ -232,4 +229,3 @@ export default function BackgroundRemover() {
     </div>
   );
 }
-

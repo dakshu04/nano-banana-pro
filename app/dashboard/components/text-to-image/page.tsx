@@ -62,7 +62,7 @@ export default function TextToImage() {
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="flex flex-col h-full min-h-[calc(100vh-8rem)] md:min-h-0">
       
       {/* Header */}
       <div className="mb-6 flex items-center justify-between shrink-0">
@@ -72,11 +72,11 @@ export default function TextToImage() {
         </div>
       </div>
 
-      {/* Main Grid */}
+      {/* Main Grid - Stacked on Mobile, Side-by-Side on Desktop */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
         
         {/* LEFT COLUMN: Controls */}
-        <div className="flex flex-col h-full bg-zinc-50 rounded-2xl border border-zinc-200 overflow-hidden relative">
+        <div className="flex flex-col bg-zinc-50 rounded-2xl border border-zinc-200 overflow-hidden relative min-h-[400px] lg:min-h-0 lg:h-full">
             
             {/* Input Area */}
             <div className="flex-1 p-6 flex flex-col">
@@ -89,7 +89,7 @@ export default function TextToImage() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     placeholder="Describe your imagination here..."
-                    className="flex-1 w-full bg-transparent border-none resize-none outline-none text-lg text-zinc-800 placeholder-zinc-300 leading-relaxed font-medium"
+                    className="flex-1 w-full bg-transparent border-none resize-none outline-none text-lg text-zinc-800 placeholder-zinc-300 leading-relaxed font-medium min-h-[150px] lg:min-h-0"
                 />
 
                 {/* Chips */}
@@ -100,7 +100,7 @@ export default function TextToImage() {
                             <button
                                 key={p}
                                 onClick={() => setPrompt(p)}
-                                className="px-3 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs text-zinc-600 hover:border-amber-400 hover:text-amber-600 transition-colors shadow-sm text-left"
+                                className="px-3 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs text-zinc-600 hover:border-amber-400 hover:text-amber-600 transition-colors shadow-sm text-left active:scale-95"
                             >
                                 {p}
                             </button>
@@ -110,11 +110,11 @@ export default function TextToImage() {
             </div>
 
             {/* Bottom Action Bar */}
-            <div className="h-20 border-t border-zinc-200 bg-white p-4 flex items-center gap-3 shrink-0">
+            <div className="h-auto min-h-[5rem] border-t border-zinc-200 bg-white p-4 flex items-center gap-3 shrink-0">
                 {prompt && (
                     <button 
                         onClick={() => setPrompt("")}
-                        className="h-12 w-12 flex items-center justify-center rounded-xl border border-zinc-200 text-zinc-400 hover:text-red-500 hover:bg-red-50 transition-all"
+                        className="h-12 w-12 flex items-center justify-center rounded-xl border border-zinc-200 text-zinc-400 hover:text-red-500 hover:bg-red-50 transition-all active:scale-95"
                     >
                         <TrashIcon />
                     </button>
@@ -123,10 +123,10 @@ export default function TextToImage() {
                     onClick={handleGenerate}
                     disabled={loading || !prompt.trim()}
                     className={`
-                        flex-1 h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md
+                        flex-1 h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.98]
                         ${loading || !prompt.trim()
                             ? "bg-zinc-200 text-zinc-400 cursor-not-allowed shadow-none"
-                            : "bg-gradient-to-r from-amber-400 to-orange-500 text-white hover:shadow-orange-200 hover:scale-[1.01]"
+                            : "bg-gradient-to-r from-amber-400 to-orange-500 text-white hover:shadow-orange-200"
                         }
                     `}
                 >
@@ -143,17 +143,17 @@ export default function TextToImage() {
         </div>
 
         {/* RIGHT COLUMN: Preview */}
-        <div className="flex flex-col h-full bg-white rounded-2xl border border-zinc-200 overflow-hidden relative shadow-sm">
+        <div className="flex flex-col bg-white rounded-2xl border border-zinc-200 overflow-hidden relative shadow-sm min-h-[400px] lg:min-h-0 lg:h-full">
              
              {/* Badge */}
-             <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/90 backdrop-blur-sm border border-zinc-200 rounded-full text-[10px] font-bold text-zinc-500 uppercase tracking-wider flex items-center gap-2">
+             <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/90 backdrop-blur-sm border border-zinc-200 rounded-full text-[10px] font-bold text-zinc-500 uppercase tracking-wider flex items-center gap-2 shadow-sm">
                 Preview
                 {preview && <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />}
             </div>
 
-            <div className="flex-1 relative min-h-0 bg-zinc-50/50 flex items-center justify-center">
+            <div className="flex-1 relative w-full h-full min-h-[300px] bg-zinc-50/50 flex items-center justify-center p-4">
                 {preview ? (
-                     <img src={preview} alt="Generated" className="w-full h-full object-contain" />
+                     <img src={preview} alt="Generated" className="w-full h-full object-contain rounded-lg drop-shadow-md" />
                 ) : loading ? (
                     <div className="flex flex-col items-center gap-4">
                         <div className="relative">
@@ -163,8 +163,8 @@ export default function TextToImage() {
                         <p className="text-zinc-400 text-xs font-bold animate-pulse">Dreaming pixels...</p>
                     </div>
                 ) : (
-                    <div className="flex flex-col items-center justify-center text-zinc-300 gap-3">
-                        <div className="w-16 h-16 rounded-2xl border-2 border-dashed border-zinc-200 flex items-center justify-center">
+                    <div className="flex flex-col items-center justify-center text-zinc-300 gap-3 text-center p-6">
+                        <div className="w-16 h-16 rounded-2xl border-2 border-dashed border-zinc-200 flex items-center justify-center bg-zinc-50/50">
                             <ImageIcon />
                         </div>
                         <span className="text-sm font-medium">Your masterpiece will appear here</span>
@@ -173,11 +173,11 @@ export default function TextToImage() {
             </div>
 
             {/* Action Bar (Only shows when image exists) */}
-            <div className="h-20 border-t border-zinc-100 bg-white p-4 flex items-center justify-center shrink-0">
+            <div className="h-auto min-h-[5rem] border-t border-zinc-100 bg-white p-4 flex items-center justify-center shrink-0 z-10">
                 {preview ? (
                     <button
                         onClick={handleDownload}
-                        className="w-full h-12 rounded-xl bg-zinc-900 text-white font-bold text-sm hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-200 flex items-center justify-center gap-2"
+                        className="w-full h-12 rounded-xl bg-zinc-900 text-white font-bold text-sm hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-200 flex items-center justify-center gap-2 active:scale-[0.98]"
                     >
                         <DownloadIcon /> Download High-Res
                     </button>

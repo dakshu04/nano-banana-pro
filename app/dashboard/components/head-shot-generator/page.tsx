@@ -7,58 +7,60 @@ const ConstructionIcon = () => (
 
 export default function HeadShotGenerator() {
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center relative overflow-hidden bg-white/50">
+    // Added p-4 for safe spacing on mobile
+    <div className="h-full w-full flex flex-col items-center justify-center relative overflow-hidden bg-white/50 p-4">
       
       {/* ---------------------------------------------------------- */}
       {/* BACKGROUND EFFECTS */}
       {/* ---------------------------------------------------------- */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Subtle Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-amber-100/40 blur-[100px] rounded-full mix-blend-multiply" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-yellow-100/40 blur-[100px] rounded-full mix-blend-multiply" />
+        {/* Subtle Orbs - Resized for mobile */}
+        <div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-amber-100/40 blur-[80px] md:blur-[100px] rounded-full mix-blend-multiply" />
+        <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-yellow-100/40 blur-[80px] md:blur-[100px] rounded-full mix-blend-multiply" />
       </div>
 
       {/* ---------------------------------------------------------- */}
-      {/* FLOATING BANANAS (Subtle & Pro) */}
+      {/* FLOATING BANANAS (Responsive Sizes) */}
       {/* ---------------------------------------------------------- */}
-      {/* We use opacity-10 to keep it very subtle and professional */}
-      <div className="absolute top-10 left-10 animate-float-slow opacity-10 text-6xl select-none pointer-events-none grayscale">
+      {/* Responsive text sizes (text-4xl on mobile -> text-6xl on desktop) */}
+      <div className="absolute top-5 left-5 md:top-10 md:left-10 animate-float-slow opacity-10 text-4xl md:text-6xl select-none pointer-events-none grayscale">
         🍌
       </div>
-      <div className="absolute bottom-20 right-20 animate-float-medium opacity-10 text-8xl select-none pointer-events-none grayscale">
+      <div className="absolute bottom-10 right-5 md:bottom-20 md:right-20 animate-float-medium opacity-10 text-6xl md:text-8xl select-none pointer-events-none grayscale">
         🍌
       </div>
-      <div className="absolute top-1/3 right-10 animate-float-fast opacity-5 text-4xl select-none pointer-events-none grayscale">
+      <div className="absolute top-1/4 right-5 md:top-1/3 md:right-10 animate-float-fast opacity-5 text-3xl md:text-4xl select-none pointer-events-none grayscale">
         🍌
       </div>
 
       {/* ---------------------------------------------------------- */}
       {/* MAIN CARD */}
       {/* ---------------------------------------------------------- */}
-      <div className="relative z-10 max-w-lg w-full px-6">
-        <div className="bg-white border border-zinc-200 shadow-2xl shadow-zinc-200/50 rounded-3xl p-10 text-center relative overflow-hidden group">
+      <div className="relative z-10 max-w-lg w-full">
+        {/* Adjusted padding: p-6 on mobile, p-10 on desktop */}
+        <div className="bg-white border border-zinc-200 shadow-2xl shadow-zinc-200/50 rounded-3xl p-6 md:p-10 text-center relative overflow-hidden group">
             
             {/* Top Shine Effect */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 to-yellow-500 opacity-80" />
 
             {/* Icon */}
-            <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500">
+            <div className="w-14 h-14 md:w-16 md:h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-5 md:mb-6 group-hover:scale-110 transition-transform duration-500">
                 <ConstructionIcon />
             </div>
 
             {/* Title */}
-            <h2 className="text-3xl font-black text-zinc-900 tracking-tight mb-2">
+            <h2 className="text-2xl md:text-3xl font-black text-zinc-900 tracking-tight mb-2">
                 Under Construction
             </h2>
             
             {/* Tagline */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-100 rounded-full text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-zinc-100 rounded-full text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-5 md:mb-6">
                 <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
                 Coming Soon
             </div>
 
             {/* Description */}
-            <p className="text-zinc-500 text-sm leading-relaxed mb-8">
+            <p className="text-zinc-500 text-xs md:text-sm leading-relaxed mb-6 md:mb-8">
                 We are currently training our AI models to generate studio-quality professional headshots. This feature will be available in the next update.
             </p>
 
@@ -76,7 +78,7 @@ export default function HeadShotGenerator() {
         </div>
         
         {/* Footer Note */}
-        <p className="text-center text-xs text-zinc-400 mt-6 font-medium">
+        <p className="text-center text-[10px] md:text-xs text-zinc-400 mt-6 font-medium">
             NanoBanana AI • Version 2.0-alpha
         </p>
       </div>
@@ -108,14 +110,6 @@ export default function HeadShotGenerator() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
 
 
 
