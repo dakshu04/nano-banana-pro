@@ -1,22 +1,21 @@
 "use client";
 
-
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+// Dodo Product IDs (Kept for future use)
 const PRODUCT_IDS = {
   CREATOR: "pdt_752oz5Op5JEBfUQe2fuyT",
   PREMIUM: "pdt_h6r6QLWZaVzev0EikIoLL",
   PRO: "pdt_AGQB4J3kSPQQiNOlD7oRD",
 };
 
-
 /* --- ICONS --- */
 const Icons = {
   Sparkles: ({ className }: { className?: string }) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 3Z"/></svg>
   ),
   Swap: ({ className }: { className?: string }) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>
@@ -54,20 +53,22 @@ export const LandingPage = () => {
 
   useEffect(() => {
     if (isLoaded && isSignedIn) {
-      // Optional: Don't auto-redirect if they are trying to buy something
-      // router.push("/dashboard"); 
+       // router.push("/dashboard"); 
     }
   }, [isLoaded, isSignedIn, router]);
 
-  // --- DODO PAYMENTS CHECKOUT LOGIC ---
+  // --- SAFE CHECKOUT LOGIC (For Initial Deploy) ---
   const handleCheckout = async (productId: string) => {
     if (!isSignedIn) {
       router.push("/sign-in");
       return;
     }
 
+    // TEMPORARY: Show alert until backend is redeployed
+    alert("Payments are being configured and will be live shortly! Enjoy the free tools for now.");
+    
+    /* // UNCOMMENT THIS WHEN BACKEND ROUTE IS LIVE
     setLoadingProduct(productId);
-
     try {
       const response = await fetch("/api/payment", {
         method: "POST",
@@ -78,7 +79,7 @@ export const LandingPage = () => {
       const data = await response.json();
 
       if (data.url) {
-        window.location.href = data.url; // Redirect to Dodo Checkout
+        window.location.href = data.url; 
       } else {
         alert("Payment error: " + (data.error || "Unknown error"));
       }
@@ -88,6 +89,7 @@ export const LandingPage = () => {
     } finally {
       setLoadingProduct(null);
     }
+    */
   };
 
   // Framer Motion Variants
@@ -159,7 +161,7 @@ export const LandingPage = () => {
       </section>
 
       {/* -------------------------------------------------- */}
-      {/* VALUE GRAPH SECTION (The "Money Saver") */}
+      {/* VALUE GRAPH SECTION */}
       {/* -------------------------------------------------- */}
       <section className="py-20 px-6 bg-white border-y border-zinc-100">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -186,7 +188,7 @@ export const LandingPage = () => {
                 </ul>
             </div>
 
-            {/* Graph Side (Custom CSS Chart) */}
+            {/* Graph Side */}
             <div className="bg-zinc-50 rounded-3xl p-8 border border-zinc-200 shadow-sm relative overflow-hidden">
                 <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-8 text-center">Cost for 1,000 Images</h3>
                 
@@ -214,7 +216,7 @@ export const LandingPage = () => {
       </section>
 
       {/* -------------------------------------------------- */}
-      {/* BENTO GRID (The "Viral Hook") */}
+      {/* BENTO GRID */}
       {/* -------------------------------------------------- */}
       <section id="features" className="py-24 px-6 bg-[#FAFAFA]">
         <div className="max-w-6xl mx-auto">
@@ -225,7 +227,7 @@ export const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-6 grid-rows-2 gap-6 h-auto md:h-[600px]">
             
-            {/* LARGE CARD: FACE SWAP (MrBeast Style) */}
+            {/* LARGE CARD: FACE SWAP */}
             <div className="md:col-span-4 md:row-span-2 bg-zinc-900 rounded-3xl p-8 text-white relative overflow-hidden group border border-zinc-800">
                 <div className="absolute top-0 right-0 p-12 opacity-20">
                     <Icons.Youtube className="w-64 h-64 text-red-500" />
@@ -279,7 +281,7 @@ export const LandingPage = () => {
       </section>
 
       {/* -------------------------------------------------- */}
-      {/* PRICING SECTION (STRATEGIC) */}
+      {/* PRICING SECTION */}
       {/* -------------------------------------------------- */}
       <section id="pricing" className="py-24 px-6 bg-white border-t border-zinc-200">
         <div className="max-w-7xl mx-auto">
@@ -310,7 +312,7 @@ export const LandingPage = () => {
               </button>
             </div>
 
-            {/* TIER 2: CREATOR (Entry Point) */}
+            {/* TIER 2: CREATOR */}
             <div className="p-6 rounded-2xl bg-white border-2 border-amber-100 shadow-lg shadow-amber-100/50 flex flex-col h-full relative overflow-hidden group">
                <div className="absolute top-0 left-0 w-full h-1 bg-amber-400"/>
               <div className="mb-4">
@@ -342,7 +344,7 @@ export const LandingPage = () => {
               </button>
             </div>
 
-            {/* TIER 3: PREMIUM (Profit Driver) */}
+            {/* TIER 3: PREMIUM */}
             <div className="p-6 rounded-2xl bg-zinc-900 text-white shadow-xl relative flex flex-col h-full transform md:-translate-y-4 ring-1 ring-zinc-900/5">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-amber-400 to-amber-500 text-zinc-900 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-lg">
                 Best Value
@@ -372,7 +374,7 @@ export const LandingPage = () => {
               </button>
             </div>
 
-            {/* TIER 4: PRO (High Ticket) */}
+            {/* TIER 4: PRO */}
             <div className="p-6 rounded-2xl bg-white border border-zinc-200 shadow-sm flex flex-col h-full">
               <div className="mb-4">
                 <h3 className="font-bold text-lg text-zinc-900 tracking-wide">Pro</h3>
