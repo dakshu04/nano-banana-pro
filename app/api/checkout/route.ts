@@ -47,9 +47,9 @@ export async function POST(req: NextRequest) {
         email: email,
         plan: plan // e.g., "CREATOR", "PREMIUM", or "PRO"
       },
-      return_url: "https://nano-banana-pro-five.vercel.app/dashboard" 
+      return_url: `${process.env.NEXT_PUBLIC_URL}/dashboard` 
     });
-
+    console.log("--------checkout created----------")
     return NextResponse.json({
       message: "Checkout created",
       url: checkout.checkout_url
