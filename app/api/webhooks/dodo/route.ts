@@ -86,7 +86,6 @@ export async function POST(req: NextRequest) {
               credits: {
                 increment: creditsToAdd // Adds to existing balance
               },
-              // Note: We DO NOT touch 'isPro' because it is removed from schema
             },
           });
           console.log(`🎉 DB Updated Successfully for ${userId}`);
