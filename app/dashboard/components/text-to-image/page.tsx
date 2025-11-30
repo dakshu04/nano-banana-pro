@@ -48,7 +48,7 @@ export default function TextToImage() {
       if (!res.ok) {
         // SCENE 1: Not Enough Credits (403)
         if (res.status === 403) {
-          toast.error("Not enough credits! (Requires 1 credit)", {
+          toast.error("Not enough credits! (Requires 2 credit)", {
             action: {
               label: "Buy Credits",
               onClick: () => router.push("/#pricing") // Redirects them to pricing
