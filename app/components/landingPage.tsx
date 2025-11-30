@@ -339,7 +339,7 @@ export default function LandingPage() {
               </div>
               <div className="mb-6 flex items-baseline gap-1">
                  <span className="text-3xl font-bold tracking-tight text-zinc-900">$4</span>
-                 <span className="text-zinc-400 text-xs font-medium">/ month</span>
+                 <span className="text-zinc-400 text-xs font-medium">/ pack</span>
               </div>
               <div className="space-y-3 mb-8 flex-1">
                 <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Check className="w-4 h-4 text-amber-500 shrink-0"/> Unlimited BG Removal</li>
@@ -373,7 +373,7 @@ export default function LandingPage() {
               </div>
               <div className="mb-6 flex items-baseline gap-1">
                  <span className="text-4xl font-bold tracking-tight text-white">$10</span>
-                 <span className="text-zinc-500 text-xs font-medium">/ month</span>
+                 <span className="text-zinc-500 text-xs font-medium">/ pack</span>
               </div>
               <div className="space-y-3 mb-8 flex-1">
                 <li className="flex gap-3 text-sm font-bold text-white"><Icons.Check className="w-4 h-4 text-amber-500 shrink-0"/> Unlimited BG Removal</li>
@@ -400,7 +400,7 @@ export default function LandingPage() {
               </div>
               <div className="mb-6 flex items-baseline gap-1">
                  <span className="text-3xl font-bold tracking-tight text-zinc-900">$20</span>
-                 <span className="text-zinc-400 text-xs font-medium">/ month</span>
+                 <span className="text-zinc-400 text-xs font-medium">/ pack</span>
               </div>
               <div className="space-y-3 mb-8 flex-1">
                 <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Check className="w-4 h-4 text-zinc-900 shrink-0"/> Unlimited BG Removal</li>
