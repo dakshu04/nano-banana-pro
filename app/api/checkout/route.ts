@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
         email: email,
         plan: plan // e.g., "CREATOR", "PREMIUM", or "PRO"
       },
-      return_url: "http://localhost:3000/dashboard" 
+      return_url: "https://nano-banana-pro-jvsm.vercel.app/dashboard" 
     });
 
     return NextResponse.json({
