@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       }
     })
 
-    if(user.credits < 0) {
+    if(user.credits <= 1) {
       return NextResponse.json({
         error: "Not enough credits. Please upgrade your plan."
       }, {
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
         }
     })
 
-    // Deduct credits (-1)
+    // Deduct credits (-2)
     await prisma.user.update({
       where: {
         id: userId

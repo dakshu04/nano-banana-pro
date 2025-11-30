@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     }
 
     const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user || user.credits < 2) {
+    if (!user || user.credits <= 1) {
       return NextResponse.json(
         { error: "Not enough credits" },
         { status: 403 }
