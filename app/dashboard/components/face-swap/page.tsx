@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation"; // ✅ Added import
+import { toast } from "sonner"; // ✅ Added import
 
 /* Minimal Icons */
 const UploadIcon = () => (
@@ -28,6 +30,7 @@ export default function FaceSwap() {
   const [targetImage, setTargetImage] = useState<string | null>(null);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter(); // ✅ Init Router
 
   // --- Handlers ---
   const handleSourceUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,17 +55,47 @@ export default function FaceSwap() {
   const handleGenerate = async () => {
     if (!sourceImage || !targetImage) return;
     setLoading(true);
+    
     try {
       const res = await axios.post("/api/face-swap", {
         source: sourceImage.split(",")[1],
         target: targetImage.split(",")[1],
       });
+      
       setGeneratedImage(`data:image/png;base64,${res.data.image}`);
+      toast.success("Face swap complete! 2 Credits used.");
+
     } catch (err) {
       console.error(err);
-      alert(err?.response?.data?.error || "Face Swap failed");
+      
+      // ✅ AXIOS ERROR HANDLING
+      if (err.response) {
+        // SCENE 1: Not Enough Credits (403)
+        if (err.response.status === 403) {
+            toast.error("Not enough credits! (Requires 2 credits)", {
+                action: {
+                  label: "Buy Credits",
+                  onClick: () => router.push("/#pricing")
+                },
+                duration: 5000,
+            });
+        }
+        // SCENE 2: Unauthorized (401)
+        else if (err.response.status === 401) {
+            toast.error("Please sign in to continue");
+            router.push("/sign-in");
+        }
+        // SCENE 3: General Error
+        else {
+            toast.error(err.response.data.error || "Face Swap failed. Try again.");
+        }
+      } else {
+        // Network Error
+        toast.error("Network error. Please try again.");
+      }
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleDownload = () => {

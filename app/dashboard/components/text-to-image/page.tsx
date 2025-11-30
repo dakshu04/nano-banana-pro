@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // ✅ Added missing import
+import { toast } from "sonner"; // ✅ Added missing import (ensure sonner is installed)
 
 /* Minimal Icons */
 const SparklesIcon = () => (
@@ -27,6 +29,7 @@ export default function TextToImage() {
   const [prompt, setPrompt] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter(); // ✅ Init Router
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
@@ -40,15 +43,43 @@ export default function TextToImage() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
 
+      // ✅ FIXED ERROR HANDLING LOGIC
+      if (!res.ok) {
+        // SCENE 1: Not Enough Credits (403)
+        if (res.status === 403) {
+          toast.error("Not enough credits! (Requires 1 credit)", {
+            action: {
+              label: "Buy Credits",
+              onClick: () => router.push("/#pricing") // Redirects them to pricing
+            },
+            duration: 5000,
+          });
+        } 
+        // SCENE 2: Not Logged In (401)
+        else if (res.status === 401) {
+            toast.error("Please sign in first");
+            router.push("/sign-in");
+        }
+        // SCENE 3: General Error
+        else {
+            toast.error(data.error || "Generation failed. Try again.");
+        }
+        
+        setLoading(false);
+        return; // 🛑 Stop here so we don't try to set image
+      }
+
+      // ✅ SUCCESS
       setPreview(data.imageUrl);
+      toast.success("Image generated successfully!");
+
     } catch (err) {
       console.error(err);
-      alert("Something went wrong.");
+      toast.error("Network error. Please try again.");
+    } finally {
+        setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const handleDownload = () => {
