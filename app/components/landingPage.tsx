@@ -135,8 +135,11 @@ export default function LandingPage() {
               <a href="#features" className="hover:text-zinc-900 transition-colors">Features</a>
               <a href="#pricing" className="hover:text-zinc-900 transition-colors">Pricing</a>
             </div>
-            <button onClick={() => router.push("/dashboard")} className="text-xs font-semibold bg-zinc-900 text-white px-5 py-2 rounded-full hover:bg-zinc-800 transition-all shadow-sm">
-              Dashboard
+            <button 
+              onClick={() => router.push(isSignedIn ? "/dashboard" : "/sign-in")} 
+              className="..."
+            >
+              {isSignedIn ? "Go to Dashboard" : "Start Free"}
             </button>
           </div>
         </div>
