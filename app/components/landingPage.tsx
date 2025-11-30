@@ -137,9 +137,9 @@ export default function LandingPage() {
             </div>
             <button 
               onClick={() => router.push(isSignedIn ? "/dashboard" : "/sign-in")} 
-              className="..."
+              className="h-8 px-4 rounded-full bg-zinc-900 text-white font-bold text-sm hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-900/20 flex items-center gap-2 group cursor-pointer"
             >
-              {isSignedIn ? "Go to Dashboard" : "Start Free"}
+              {isSignedIn ? `Dashboard` : "Start Free"}
             </button>
           </div>
         </div>
