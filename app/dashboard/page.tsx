@@ -26,14 +26,27 @@ const XIcon = ({ className }: { className?: string }) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
 );
 
+// Helper to get colors based on Plan
+const getPlanStyle = (plan: string) => {
+  switch (plan) {
+    case "PRO": return "bg-amber-100 text-amber-700 border-amber-200";
+    case "PREMIUM": return "bg-purple-100 text-purple-700 border-purple-200";
+    case "CREATOR": return "bg-blue-100 text-blue-700 border-blue-200";
+    default: return "bg-zinc-100 text-zinc-600 border-zinc-200"; // FREE
+  }
+};
+
 export default function Dashboard() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
+  
+  // State for Data
   const [credits, setCredits] = useState<number | null>(null);
+  const [plan, setPlan] = useState<string>("FREE"); // Default to FREE
+  
+  // UI State
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activePage, setActivePage] = useState("text-to-image");
-  
-  // Mobile Menu State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const menuItems = [
@@ -44,23 +57,26 @@ export default function Dashboard() {
     { id: "history", label: "History", icon: "clock" }
   ];
 
-  const loadCredits = async () => {
+  const loadUserData = async () => {
     if (!user) return;
     try {
       setIsRefreshing(true);
       const res = await fetch("/api/user");
       if (!res.ok) return;
+      
       const data = await res.json();
       setCredits(data.credits);
+      setPlan(data.plan || "FREE"); // Capture the plan from API
+      
     } catch (error) {
-      console.error("Failed to load credits:", error);
+      console.error("Failed to load user data:", error);
     } finally {
       setTimeout(() => setIsRefreshing(false), 500);
     }
   };
 
   useEffect(() => {
-    if (isLoaded && user) loadCredits();
+    if (isLoaded && user) loadUserData();
   }, [isLoaded, user]);
 
   // Close mobile menu when page changes
@@ -119,8 +135,9 @@ export default function Dashboard() {
         {/* Bottom Section */}
         <div className="flex flex-col gap-4">
             
-            {/* --- CONDITIONAL BUY CREDITS CARD --- */}
-            {credits !== null && credits <= 6 && (
+            {/* --- SMART UPGRADE / REFUEL CARD --- */}
+            {/* Logic: Show if Plan is FREE OR if Credits are low */}
+            {(plan === "FREE" || (credits !== null && credits <= 10)) && (
                 <div className="mx-4 p-4 rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-800 text-white shadow-lg relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/20 blur-2xl rounded-full -translate-y-10 translate-x-10 group-hover:bg-amber-500/30 transition-all duration-500" />
                     <div className="relative z-10">
@@ -128,14 +145,20 @@ export default function Dashboard() {
                             <div className="p-1.5 bg-white/10 rounded-lg">
                                 <SparklesIcon className="w-4 h-4 text-amber-400" />
                             </div>
-                            <h4 className="font-bold text-sm">Running Low?</h4>
+                            <h4 className="font-bold text-sm">
+                                {plan === "FREE" ? "Unlock Pro" : "Running Low?"}
+                            </h4>
                         </div>
-                        <p className="text-xs text-zinc-400 mb-3 font-medium">You have {credits} credits left.</p>
+                        <p className="text-xs text-zinc-400 mb-3 font-medium">
+                            {plan === "FREE" 
+                                ? "Get higher limits & speed." 
+                                : `You have ${credits} credits left.`}
+                        </p>
                         <button 
                             onClick={() => router.push("/#pricing")} 
                             className="w-full py-2 bg-amber-400 hover:bg-amber-500 text-zinc-900 text-xs font-bold rounded-lg transition-colors shadow-md shadow-amber-900/20"
                         >
-                            Refuel Now
+                            {plan === "FREE" ? "Upgrade Plan" : "Refuel Now"}
                         </button>
                     </div>
                 </div>
@@ -152,7 +175,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                     <button 
-                        onClick={loadCredits}
+                        onClick={loadUserData}
                         disabled={isRefreshing}
                         className="p-1.5 hover:bg-zinc-100 rounded-md text-zinc-400 hover:text-amber-500 transition-colors"
                     >
@@ -164,7 +187,13 @@ export default function Dashboard() {
                 <div className="flex items-center gap-3 pl-1">
                     <div className="scale-90"><UserButton afterSignOutUrl="/"/></div>
                     <div className="flex-1 overflow-hidden">
-                        <p className="text-xs font-bold text-zinc-700 truncate">{user?.fullName}</p>
+                        <div className="flex items-center gap-2 mb-0.5">
+                            <p className="text-xs font-bold text-zinc-700 truncate max-w-[80px]">{user?.firstName}</p>
+                            {/* PLAN BADGE */}
+                            <span className={`text-[9px] px-1.5 py-0.5 rounded border font-bold uppercase ${getPlanStyle(plan)}`}>
+                                {plan}
+                            </span>
+                        </div>
                         <SignOutButton>
                             <button className="text-[10px] font-medium text-zinc-400 hover:text-red-500 transition-colors text-left truncate w-full">Sign out</button>
                         </SignOutButton>
@@ -239,12 +268,13 @@ export default function Dashboard() {
                 {menuItems.find(i => i.id === activePage)?.label}
             </h2>
             
-            {menuItems.find(i => i.id === activePage)?.badge === "FREE" && (
-                <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 text-[10px] font-bold uppercase tracking-wide">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Unlimited
-                </div>
-            )}
+            {/* Show Plan badge in header too? Optional, but looks nice */}
+            <div className="hidden md:flex items-center gap-2">
+                <span className="text-xs text-zinc-400">Current Plan:</span>
+                <span className={`text-[10px] px-2 py-0.5 rounded-full border font-bold uppercase ${getPlanStyle(plan)}`}>
+                    {plan}
+                </span>
+            </div>
           </div>
 
           {/* Tool Content Area */}

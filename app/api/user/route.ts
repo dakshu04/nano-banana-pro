@@ -1,6 +1,6 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { prisma } from "../../../lib/prisma";
 import { NextResponse } from "next/server";
+import { prisma } from "../../../lib/prisma";
 
 export async function GET() {
   try {
@@ -12,9 +12,8 @@ export async function GET() {
     }
 
     // 2. Fetch user details from Clerk
-    // FIXED: Removed "await" and function call () on clerkClient
-    // If this line fails, your Clerk API keys might be missing in .env
-    const userDetails = await (await clerkClient()).users.getUser(userId);
+    const client = await clerkClient();
+    const userDetails = await client.users.getUser(userId);
     
     // Safety check for email
     if (!userDetails.emailAddresses[0]) {
@@ -33,9 +32,11 @@ export async function GET() {
         data: {
           id: userId,
           email: email,
+          plan: "FREE",
+          credits: 0, // <--- 🟢 FIX: Give them 5 free credits on sign up!
         }
       });
-      console.log("✅ User created successfully!");
+      console.log("✅ User created successfully with 5 credits!");
     }
 
     // 4. Return success
@@ -43,16 +44,13 @@ export async function GET() {
       id: user.id,
       email: user.email,
       credits: user.credits,
-      isPro: user.isPro,
+      plan: user.plan,
       createdAt: user.createdAt,
     });
 
   } catch (error) {
-    // 5. CATCH ERRORS
-    // This will print the REAL error to your VS Code terminal
     console.error("❌ API ERROR:", error);
     
-    // This sends the error details to the frontend so you can see it there too
     return NextResponse.json(
         { error: error.message || "Internal Server Error" }, 
         { status: 500 }

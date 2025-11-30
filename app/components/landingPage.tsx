@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-// Dodo Product IDs (Kept for future use)
-const PRODUCT_IDS = {
-  CREATOR: "pdt_752oz5Op5JEBfUQe2fuyT",
-  PREMIUM: "pdt_h6r6QLWZaVzev0EikIoLL",
-  PRO: "pdt_AGQB4J3kSPQQiNOlD7oRD",
+// --- CONFIGURATION ---
+// We read these from .env.local to keep IDs safe and flexible.
+const PLANS_CONFIG: Record<string, string> = {
+  CREATOR: process.env.NEXT_PUBLIC_DODO_PRODUCT_ID_CREATOR!,
+  PREMIUM: process.env.NEXT_PUBLIC_DODO_PRODUCT_ID_PREMIUM!,
+  PRO: process.env.NEXT_PUBLIC_DODO_PRODUCT_ID_PRO!,
 };
 
 /* --- ICONS --- */
@@ -46,50 +47,64 @@ const Icons = {
   ),
 };
 
-export const LandingPage = () => {
+export default function LandingPage() {
   const router = useRouter();
   const { isSignedIn, isLoaded } = useUser();
   const [loadingProduct, setLoadingProduct] = useState<string | null>(null);
 
+  // Optional: Redirect to dashboard if already logged in
   useEffect(() => {
     if (isLoaded && isSignedIn) {
        // router.push("/dashboard"); 
     }
   }, [isLoaded, isSignedIn, router]);
 
-  // --- SAFE CHECKOUT LOGIC (For Initial Deploy) ---
-  const handleCheckout = async (productId: string) => {
+  // --- CHECKOUT LOGIC ---
+  const handleCheckout = async (planKey: string) => {
+    // 1. Force Login
     if (!isSignedIn) {
       router.push("/sign-in");
       return;
     }
 
-    // TEMPORARY: Show alert until backend is redeployed
-    alert("Payments are being configured and will be live shortly! Enjoy the free tools for now.");
+    // 2. Get ID from Config
+    const productId = PLANS_CONFIG[planKey];
+    if (!productId) {
+        alert("Configuration Error: Product ID not found for " + planKey);
+        return;
+    }
     
-    /* // UNCOMMENT THIS WHEN BACKEND ROUTE IS LIVE
-    setLoadingProduct(productId);
+    setLoadingProduct(productId); // UI Spinner
+    
     try {
-      const response = await fetch("/api/payment", {
+      // 3. Call Backend
+      const response = await fetch("/api/checkout", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId }),
+        body: JSON.stringify({ 
+          productId: productId, // e.g. "pdt_123..."
+          plan: planKey         // e.g. "CREATOR"
+         }),
       });
 
       const data = await response.json();
 
+      if (!response.ok) {
+          throw new Error(data.message || "Payment initiation failed");
+      }
+
+      // 4. Redirect to Dodo
       if (data.url) {
         window.location.href = data.url; 
       } else {
-        alert("Payment error: " + (data.error || "Unknown error"));
+        alert("Payment error: No URL returned from server");
       }
     } catch (err) {
       console.error(err);
-      alert("Something went wrong initializing checkout.");
+      alert("Something went wrong: " + err.message);
     } finally {
       setLoadingProduct(null);
     }
-    */
   };
 
   // Framer Motion Variants
@@ -221,8 +236,8 @@ export const LandingPage = () => {
       <section id="features" className="py-24 px-6 bg-[#FAFAFA]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-             <h2 className="text-3xl font-bold tracking-tight mb-2">The Viral Toolkit</h2>
-             <p className="text-zinc-500">Tools designed for high-CTR thumbnails and professional branding.</p>
+              <h2 className="text-3xl font-bold tracking-tight mb-2">The Viral Toolkit</h2>
+              <p className="text-zinc-500">Tools designed for high-CTR thumbnails and professional branding.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-6 grid-rows-2 gap-6 h-auto md:h-[600px]">
@@ -336,11 +351,11 @@ export const LandingPage = () => {
                 </div>
               </div>
               <button 
-                onClick={() => handleCheckout(PRODUCT_IDS.CREATOR)} 
-                disabled={loadingProduct === PRODUCT_IDS.CREATOR}
+                onClick={() => handleCheckout("CREATOR")} 
+                disabled={loadingProduct === PLANS_CONFIG.CREATOR}
                 className="w-full py-2.5 rounded-lg border-2 border-zinc-900 text-zinc-900 font-bold text-sm hover:bg-zinc-900 hover:text-white transition-colors flex justify-center items-center"
               >
-                {loadingProduct === PRODUCT_IDS.CREATOR ? <Icons.Loader className="w-5 h-5" /> : "Subscribe for $4/mo"}
+                {loadingProduct === PLANS_CONFIG.CREATOR ? <Icons.Loader className="w-5 h-5" /> : "Subscribe for $4/mo"}
               </button>
             </div>
 
@@ -366,11 +381,11 @@ export const LandingPage = () => {
                 <p className="text-xs text-amber-400 font-medium mt-2 pl-7">$0.33 per image (Best Rate)</p>
               </div>
               <button 
-                onClick={() => handleCheckout(PRODUCT_IDS.PREMIUM)}
-                disabled={loadingProduct === PRODUCT_IDS.PREMIUM}
+                onClick={() => handleCheckout("PREMIUM")}
+                disabled={loadingProduct === PLANS_CONFIG.PREMIUM}
                 className="w-full py-3 rounded-lg bg-white text-zinc-900 font-bold text-sm hover:bg-zinc-100 transition-colors shadow-lg shadow-white/10 flex justify-center items-center"
               >
-                {loadingProduct === PRODUCT_IDS.PREMIUM ? <Icons.Loader className="w-5 h-5 text-zinc-900" /> : "Subscribe for $10/mo"}
+                {loadingProduct === PLANS_CONFIG.PREMIUM ? <Icons.Loader className="w-5 h-5 text-zinc-900" /> : "Subscribe for $10/mo"}
               </button>
             </div>
 
@@ -391,11 +406,11 @@ export const LandingPage = () => {
                 <li className="flex gap-3 text-sm text-amber-600"><Icons.Check className="w-4 h-4 shrink-0"/> All Upcoming Features</li>
               </div>
               <button 
-                onClick={() => handleCheckout(PRODUCT_IDS.PRO)}
-                disabled={loadingProduct === PRODUCT_IDS.PRO}
+                onClick={() => handleCheckout("PRO")}
+                disabled={loadingProduct === PLANS_CONFIG.PRO}
                 className="w-full py-2.5 rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-900 font-bold text-sm hover:bg-zinc-900 hover:text-white transition-colors flex justify-center items-center"
               >
-                {loadingProduct === PRODUCT_IDS.PRO ? <Icons.Loader className="w-5 h-5" /> : "Subscribe for $20/mo"}
+                {loadingProduct === PLANS_CONFIG.PRO ? <Icons.Loader className="w-5 h-5" /> : "Subscribe for $20/mo"}
               </button>
             </div>
 

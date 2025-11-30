@@ -1,10 +1,15 @@
+-- CreateEnum
+CREATE TYPE "Plan" AS ENUM ('FREE', 'CREATOR', 'PREMIUM', 'PRO');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "credits" INTEGER NOT NULL DEFAULT 3,
-    "isPro" BOOLEAN NOT NULL DEFAULT false,
+    "credits" INTEGER NOT NULL DEFAULT 0,
+    "plan" "Plan" NOT NULL DEFAULT 'FREE',
+    "subscriptionId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

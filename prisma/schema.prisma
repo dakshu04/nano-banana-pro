@@ -4,23 +4,38 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// schema.prisma
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 1. Define your Plans here
+enum Plan {
+  FREE
+  CREATOR
+  PREMIUM
+  PRO
 }
 
 model User {
-  id        String         @id @unique        // Clerk User ID
-  email     String         @unique
-  credits   Int            @default(0)
-  isPro     Boolean        @default(false)
-  createdAt DateTime       @default(now())
+  id             String   @id @unique // This is your Clerk User ID
+  email          String   @unique
+  credits        Int      @default(0)
+  
+  // 2. Use the Enum here instead of Boolean
+  plan           Plan     @default(FREE) 
+  subscriptionId String?  // Stores Dodo Subscription ID (e.g. sub_123...)
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt // Useful to track when they upgraded
 
-  // RELATION: One User has Many ImageHistory records
-  images    ImageHistory[]
+  images         ImageHistory[]
 }
 
 model ImageHistory {
@@ -29,7 +44,6 @@ model ImageHistory {
   imageUrl  String
   createdAt DateTime @default(now())
 
-  // RELATION: MANY records belong to a single User
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
