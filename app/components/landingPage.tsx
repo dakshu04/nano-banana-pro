@@ -115,7 +115,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer group" onClick={() => router.push("/")}>
             <div className="w-9 h-9 bg-zinc-900 text-white rounded-xl flex items-center justify-center text-xl font-bold group-hover:rotate-12 transition-transform">🍌</div>
-            <span className="font-extrabold text-zinc-900 tracking-tight text-lg">NanoBanana</span>
+            <span className="font-extrabold text-zinc-900 tracking-tight text-lg">SnapMod</span>
           </div>
           
           <div className="flex items-center gap-6">
@@ -231,7 +231,7 @@ export default function LandingPage() {
                             <p className="text-xs font-bold text-zinc-800 leading-tight">How I Gained 1M Subs in 30 Days (Secret Strategy)</p>
                             <div className="flex gap-2 mt-2 items-center">
                                 <div className="h-6 w-6 rounded-full bg-amber-100 flex items-center justify-center text-[10px]">🍌</div>
-                                <p className="text-[10px] font-bold text-zinc-400">NanoBanana User</p>
+                                <p className="text-[10px] font-bold text-zinc-400">SnapMod User</p>
                             </div>
                         </div>
                     </div>
@@ -414,7 +414,7 @@ export default function LandingPage() {
          <div className="max-w-4xl mx-auto px-6 text-center">
             <h2 className="text-3xl font-bold text-zinc-900 mb-6">Build with me in Public</h2>
             <p className="text-zinc-600 mb-12 max-w-xl mx-auto leading-relaxed">
-              I am building NanoBanana to help creators grow. Follow my journey, suggest features, or just say hi!
+              I am building SnapMod to help creators grow. Follow my journey, suggest features, or just say hi!
             </p>
             
             <div className="flex flex-wrap justify-center gap-4 md:gap-6">
@@ -443,7 +443,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 bg-zinc-100 rounded-lg flex items-center justify-center grayscale text-sm">🍌</div>
-            <span className="font-bold text-zinc-900 tracking-tight">NanoBanana</span>
+            <span className="font-bold text-zinc-900 tracking-tight">SnapMod</span>
           </div>
           <div className="flex gap-8 font-medium">
              <a href="#" className="hover:text-amber-500 transition-colors">Privacy</a>
@@ -451,7 +451,7 @@ export default function LandingPage() {
              <a href="#" className="hover:text-amber-500 transition-colors">Contact</a>
           </div>
           <div className="text-xs">
-            © 2025 NanoBanana Inc.
+            © 2025 SnapMod Inc.
           </div>
         </div>
       </footer>
