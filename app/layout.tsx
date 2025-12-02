@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     siteName: "SnapMod",
     images: [
       {
-        url: "/og-image.jpg", // Make sure you put a file named 'og-image.jpg' in your 'public' folder
+        url: "/snapmodimage.jpg", // Make sure you put a file named 'og-image.jpg' in your 'public' folder
         width: 1200,
         height: 630,
         alt: "SnapMod Dashboard Preview",
