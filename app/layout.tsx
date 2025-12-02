@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SnapMod | For Creators & Agencies",
     description: "The ultimate platform for freelancers and creative agencies.",
-    images: ["/og-image.jpg"], // Uses the same image from public folder
+    images: ["/snapmodimage.jpg"], // Uses the same image from public folder
   },
 
   robots: {
