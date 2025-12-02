@@ -122,9 +122,9 @@ export default function LandingPage() {
           
           <div className="flex items-center gap-6">
             <div className="hidden md:flex items-center gap-6 text-sm font-bold text-zinc-500">
-              <a href="#features" className="hover:text-amber-500 transition-colors">Features</a>
-              <a href="#pricing" className="hover:text-amber-500 transition-colors">Pricing</a>
-              <a href="#connect" className="hover:text-amber-500 transition-colors">Connect</a>
+              <Link href="#features" className="hover:text-amber-500 transition-colors">Features</Link>
+              <Link href="#pricing" className="hover:text-amber-500 transition-colors">Pricing</Link>
+              <Link href="#connect" className="hover:text-amber-500 transition-colors">Connect</Link>
             </div>
             <button 
               onClick={() => router.push(isSignedIn ? "/dashboard" : "/sign-in")} 
