@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google"; 
 import { GoogleAnalytics } from '@next/third-parties/google';
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs/dist/types/components.server";
+import { ClerkProvider } from '@clerk/nextjs';
 
 // 1. Optimize Fonts (Inter is great for professional/agency vibes)
 const inter = Inter({ subsets: ["latin"] });
