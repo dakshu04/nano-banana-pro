@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
+import { Toaster } from "sonner";
 
 // 1. Optimize Fonts (Inter is great for professional/agency vibes)
 const inter = Inter({ subsets: ["latin"] });
@@ -85,6 +86,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           {children}
+          <Toaster richColors position="top-center" /> 
         </body>
         {/* 4. Google Analytics - Paste your 'G-...' ID below */}
         <GoogleAnalytics gaId="G-KEPXV1W91E" /> 
