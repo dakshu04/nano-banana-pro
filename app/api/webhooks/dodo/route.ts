@@ -16,7 +16,7 @@ const CREDITS_PER_PLAN: Record<Plan, number> = {
 };
 
 export async function POST(req: NextRequest) {
-  console.log("🔔 WEBHOOK HIT: Request received.");
+ 
 
   try {
     // 1. VALIDATE HEADERS
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     const payload = JSON.parse(body);
     const { type, data } = payload;
 
-    console.log(`✅ Event Type: ${type}`);
+   
 
     switch (type) {
       case "payment.succeeded":
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
         // 6. GET CREDITS AMOUNT
         const creditsToAdd = CREDITS_PER_PLAN[planEnum] || 0;
 
-        console.log(`👤 Processing for User: ${userId} | Plan: ${planEnum} | Credits: +${creditsToAdd}`);
+        
 
         // 7. UPDATE DATABASE
         // We use 'plan' (Enum) and 'credits' (Int) as per your schema
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
               },
             },
           });
-          console.log(`🎉 DB Updated Successfully for ${userId}`);
+          
         } catch (dbError) {
           console.error("❌ DB Update Failed:", dbError.message);
           // If user not found, they might need to sign in first

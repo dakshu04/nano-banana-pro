@@ -4,7 +4,9 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-
+import Link from "next/link";
+import Image from "next/image";
+import mrbeast from "@/public/mrbeast.jpg";
 // --- CONFIGURATION ---
 // Ensure these are set in your .env.local file
 const PLANS_CONFIG: Record<string, string> = {
@@ -161,7 +163,7 @@ export default function LandingPage() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <button onClick={() => router.push("/sign-in")} className="h-14 px-8 rounded-full bg-amber-500 text-white font-bold text-lg hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 group">
-                Swap Your Face Free <Icons.ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform"/>
+                Swap Your Face Now <Icons.ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform"/>
               </button>
               <div className="flex items-center gap-2 text-sm font-semibold text-zinc-400 px-4">
                 <Icons.Check className="w-4 h-4 text-emerald-500"/> No credit card needed
@@ -186,7 +188,14 @@ export default function LandingPage() {
                         </div>
                         <div className="relative aspect-video bg-zinc-100 rounded-xl overflow-hidden shadow-inner group">
                              {/* Placeholder for Famous Youtuber */}
-                             <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=600&fit=crop&q=80" className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all" alt="Original Thumbnail" />
+                             <div className="relative  w-full h-full">
+                              <Image
+                                src="/mrbeast.jpg"
+                                alt="Original Thumbnail"
+                                fill
+                                className="object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
+                              />
+                            </div>
                              
                              {/* Fake YouTube Badge */}
                              <div className="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">12:34</div>
@@ -200,14 +209,6 @@ export default function LandingPage() {
                         </div>
                     </div>
                 </div>
-
-                {/* THE ACTION: SWAP ICON */}
-                <div className="absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-xl border-4 border-[#FAFAFA] animate-[pulse_3s_infinite]">
-                        <Icons.Swap className="w-8 h-8 text-amber-500" />
-                    </div>
-                </div>
-
                 {/* CARD 2: THE RESULT (Right/Front) */}
                 <div className="absolute right-0 bottom-8 w-[65%] md:w-[60%] z-20 transform rotate-3 hover:rotate-0 transition-transform duration-500 origin-bottom-left">
                     <div className="bg-white p-3 pb-4 rounded-2xl shadow-[0_20px_50px_-12px_rgba(245,158,11,0.3)] border-2 border-amber-500">
@@ -220,7 +221,14 @@ export default function LandingPage() {
                         </div>
                         <div className="relative aspect-video bg-zinc-900 rounded-xl overflow-hidden shadow-sm">
                              {/* Placeholder for SWAPPED Result */}
-                             <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&fit=crop&q=80" className="w-full h-full object-cover" alt="Swapped Thumbnail" />
+                                  <div className="relative w-full h-full">
+                                  <Image
+                                    src="/mrbeast-daksh.png"
+                                    alt="Swapped Thumbnail"
+                                    fill
+                                    className="object-cover"
+                                  />
+                                </div>
                              
                              {/* Success Badge */}
                              <div className="absolute top-2 right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
@@ -228,7 +236,10 @@ export default function LandingPage() {
                              </div>
                         </div>
                         <div className="mt-3 px-1">
-                            <p className="text-xs font-bold text-zinc-800 leading-tight">How I Gained 1M Subs in 30 Days (Secret Strategy)</p>
+                            <div className="mt-3 px-1">
+                            
+                            
+                        </div>
                             <div className="flex gap-2 mt-2 items-center">
                                 <div className="h-6 w-6 rounded-full bg-amber-100 flex items-center justify-center text-[10px]">🍌</div>
                                 <p className="text-[10px] font-bold text-zinc-400">SnapMod User</p>
@@ -334,7 +345,7 @@ export default function LandingPage() {
             </div>
             <div className="mb-6 flex items-baseline gap-1">
                 <span className="text-3xl font-bold tracking-tight text-zinc-900">$4</span>
-                <span className="text-zinc-400 text-xs font-medium">/mo</span>
+                <span className="text-zinc-400 text-xs font-medium">/pack</span>
             </div>
             <div className="space-y-3 mb-8 flex-1">
               <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Check className="w-4 h-4 text-amber-500 shrink-0"/> Unlimited BG Removal</li>
@@ -361,7 +372,7 @@ export default function LandingPage() {
             </div>
             <div className="mb-6 flex items-baseline gap-1">
                 <span className="text-4xl font-bold tracking-tight text-white">$10</span>
-                <span className="text-zinc-500 text-xs font-medium">/mo</span>
+                <span className="text-zinc-500 text-xs font-medium">/pack</span>
             </div>
             <div className="space-y-3 mb-8 flex-1">
               <li className="flex gap-3 text-sm font-bold text-white"><Icons.Check className="w-4 h-4 text-amber-500 shrink-0"/> Unlimited BG Removal</li>
@@ -387,7 +398,7 @@ export default function LandingPage() {
             </div>
             <div className="mb-6 flex items-baseline gap-1">
                 <span className="text-3xl font-bold tracking-tight text-zinc-900">$20</span>
-                <span className="text-zinc-400 text-xs font-medium">/mo</span>
+                <span className="text-zinc-400 text-xs font-medium">/pack</span>
             </div>
             <div className="space-y-3 mb-8 flex-1">
               <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Check className="w-4 h-4 text-zinc-900 shrink-0"/> Unlimited BG Removal</li>
@@ -418,20 +429,26 @@ export default function LandingPage() {
             </p>
             
             <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-               <a href="#" className="flex items-center gap-3 px-8 py-4 bg-white rounded-2xl shadow-sm border border-zinc-200 hover:border-blue-500 hover:text-blue-600 hover:-translate-y-1 transition-all group">
+               <Link href="https://www.linkedin.com/in/purohitdaksh" target="_blank" className="flex items-center gap-3 px-8 py-4 bg-white rounded-2xl shadow-sm border border-zinc-200 hover:border-blue-500 hover:text-blue-600 hover:-translate-y-1 transition-all group">
                   <Icons.Linkedin className="w-5 h-5 text-zinc-400 group-hover:text-blue-600" />
                   <span className="font-bold text-zinc-700 group-hover:text-blue-600">LinkedIn</span>
-               </a>
+               </Link>
                
-               <a href="#" className="flex items-center gap-3 px-8 py-4 bg-white rounded-2xl shadow-sm border border-zinc-200 hover:border-black hover:text-black hover:-translate-y-1 transition-all group">
-                  <Icons.Twitter className="w-5 h-5 text-zinc-400 group-hover:text-black" />
+               <Link href="https://x.com/dkshuxcodes" target="_blank" className="flex items-center gap-3 px-8 py-4 bg-white rounded-2xl shadow-sm border border-zinc-200 hover:border-black hover:text-black hover:-translate-y-1 transition-all group">
+                  <Image
+                    src="https://img.icons8.com/?size=100&id=A4DsujzAX4rw&format=png&color=000000"
+                    alt="icon"
+                    width={20}
+                    height={20}
+                    className="w-5 h-5 group-hover:opacity-80 transition"
+                  />
                   <span className="font-bold text-zinc-700 group-hover:text-black">Twitter / X</span>
-               </a>
+               </Link>
 
-               <a href="#" className="flex items-center gap-3 px-8 py-4 bg-white rounded-2xl shadow-sm border border-zinc-200 hover:border-pink-500 hover:text-pink-600 hover:-translate-y-1 transition-all group">
+               <Link href="https://www.instagram.com/dakshxpurohit/" target="_blank" className="flex items-center gap-3 px-8 py-4 bg-white rounded-2xl shadow-sm border border-zinc-200 hover:border-pink-500 hover:text-pink-600 hover:-translate-y-1 transition-all group">
                   <Icons.Instagram className="w-5 h-5 text-zinc-400 group-hover:text-pink-600" />
                   <span className="font-bold text-zinc-700 group-hover:text-pink-600">Instagram</span>
-               </a>
+               </Link>
             </div>
          </div>
       </section>

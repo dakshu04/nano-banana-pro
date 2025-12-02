@@ -36,7 +36,7 @@ export async function GET() {
           credits: 0, // <--- 🟢 FIX: Give them 5 free credits on sign up!
         }
       });
-      console.log("✅ User created successfully with 5 credits!");
+  
     }
 
     // 4. Return success
@@ -49,7 +49,7 @@ export async function GET() {
     });
 
   } catch (error) {
-    console.error("❌ API ERROR:", error);
+    
     
     return NextResponse.json(
         { error: error.message || "Internal Server Error" }, 

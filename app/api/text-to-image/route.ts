@@ -62,7 +62,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ imageUrl });
 
   } catch (err) {
-    console.error("❌ Generation Error:", err);
+    
 
     // Check if it is a Rate Limit error (429)
     if (err.message?.includes("429") || err.status === 429) {

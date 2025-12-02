@@ -9,7 +9,7 @@ const dodopayments = new DodoPayments({
 
 export async function POST(req: NextRequest) {
   try {
-    console.log("MY API KEY IS:", process.env.DODO_API_KEY ? "Loaded ✅" : "Missing ❌");
+    
     // 1. Auth Check
     const { userId } = await auth();
     const user = await currentUser();
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       },
       return_url: `${process.env.NEXT_PUBLIC_URL}/dashboard` 
     });
-    console.log("--------checkout created----------")
+    
     return NextResponse.json({
       message: "Checkout created",
       url: checkout.checkout_url
