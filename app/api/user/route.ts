@@ -33,7 +33,7 @@ export async function GET() {
           id: userId,
           email: email,
           plan: "FREE",
-          credits: 0, // <--- 🟢 FIX: Give them 5 free credits on sign up!
+          credits: 2, // <--- 🟢 FIX: Give them 5 free credits on sign up!
         }
       });
   
