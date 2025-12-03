@@ -27,10 +27,10 @@ const TrashIcon = ({ className }: { className?: string }) => (
 );
 
 const PRESET_PROMPTS = [
-  "Cyberpunk street food vendor in rain",
-  "Minimalist logo of a fox, vector style",
-  "Isometric 3D room with plants",
-  "Portrait of a cat wearing a space suit"
+  "Cyberpunk street food vendor",
+  "Minimalist logo of a fox",
+  "Isometric 3D room",
+  "Cat in a space suit"
 ];
 
 export default function TextToImage() {
@@ -88,48 +88,51 @@ export default function TextToImage() {
   };
 
   return (
-    <div className="flex flex-col h-full w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    // FIX 1: Main Container is fixed height (100dvh for mobile support) and no overflow
+    <div className="flex flex-col h-[calc(100dvh-2rem)] w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 overflow-hidden">
       
-      {/* --- Header Section --- */}
-      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* --- Header Section (No Shrink) --- */}
+      <div className="shrink-0 mb-4 flex flex-col md:flex-row md:items-center justify-between gap-2">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-zinc-900">Imagine & Create</h1>
-          <p className="text-zinc-500 mt-1">Transform your words into stunning visuals with SnapMod AI.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Imagine & Create</h1>
+          <p className="text-sm text-zinc-500">Transform your words into visuals.</p>
         </div>
       </div>
 
-      {/* --- Main Workspace --- */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[600px]">
+      {/* --- Main Workspace (Flex fill) --- */}
+      {/* FIX 2: min-h-0 is crucial for scrolling internal elements instead of body */}
+      <div className="flex-1 min-h-0 flex flex-col lg:flex-row gap-4">
         
-        {/* --- LEFT: Controls (Span 5 on large) --- */}
-        <div className="lg:col-span-5 flex flex-col gap-4">
+        {/* --- LEFT: Controls --- */}
+        {/* Mobile: Takes flexible height but max 45% to leave room for image. Desktop: Takes width */}
+        <div className="flex-initial lg:flex-1 lg:max-w-md h-full flex flex-col gap-4 overflow-hidden">
           
-          {/* Input Card */}
-          <div className="flex-1 bg-white rounded-3xl border border-zinc-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col overflow-hidden">
-            <div className="p-6 flex flex-col h-full">
-              <div className="flex justify-between items-center mb-3">
+          <div className="flex-1 bg-white rounded-3xl border border-zinc-200 shadow-sm flex flex-col overflow-hidden">
+            <div className="p-4 flex flex-col h-full">
+              <div className="flex justify-between items-center mb-2 shrink-0">
                 <label className="text-xs font-bold text-zinc-900 uppercase tracking-wider">Prompt</label>
                 <span className={`text-[10px] font-medium ${prompt.length > 450 ? "text-amber-500" : "text-zinc-400"}`}>
                   {prompt.length}/500
                 </span>
               </div>
               
+              {/* Textarea grows to fill available space */}
               <textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                placeholder="A futuristic city with flying cars, neon lights, 4k render..."
-                className="flex-1 w-full bg-transparent border-0 p-0 resize-none outline-none text-lg text-zinc-800 placeholder:text-zinc-300 leading-relaxed font-medium min-h-[140px] focus:ring-0"
+                placeholder="A futuristic city with flying cars..."
+                className="flex-1 w-full bg-transparent border-0 p-0 resize-none outline-none text-base md:text-lg text-zinc-800 placeholder:text-zinc-300 leading-relaxed font-medium focus:ring-0 min-h-[80px]"
               />
 
-              {/* Inspiration Chips */}
-              <div className="mt-6 pt-6 border-t border-zinc-100">
-                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-3">Try these</p>
-                <div className="flex flex-wrap gap-2">
+              {/* Inspiration Chips - Hidden on very small screens if needed, or scrollable */}
+              <div className="mt-2 pt-2 border-t border-zinc-100 shrink-0">
+                 {/* Horizontal scroll for chips on mobile to save vertical space */}
+                <div className="flex flex-nowrap lg:flex-wrap gap-2 overflow-x-auto pb-1 no-scrollbar">
                   {PRESET_PROMPTS.map((p) => (
                     <button
                       key={p}
                       onClick={() => setPrompt(p)}
-                      className="px-3 py-1.5 bg-zinc-50 border border-zinc-200 rounded-lg text-xs font-medium text-zinc-600 hover:bg-white hover:border-amber-400 hover:text-amber-600 transition-all text-left active:scale-95"
+                      className="whitespace-nowrap px-2.5 py-1 bg-zinc-50 border border-zinc-200 rounded-lg text-[10px] md:text-xs font-medium text-zinc-600 hover:bg-white hover:border-amber-400 hover:text-amber-600 transition-all active:scale-95"
                     >
                       {p}
                     </button>
@@ -139,20 +142,20 @@ export default function TextToImage() {
             </div>
 
             {/* Bottom Actions */}
-            <div className="bg-zinc-50 p-4 border-t border-zinc-100 flex items-center gap-3">
+            <div className="bg-zinc-50 p-3 border-t border-zinc-100 flex items-center gap-2 shrink-0">
                {prompt && (
                   <button 
                     onClick={() => setPrompt("")}
-                    className="h-12 w-12 flex items-center justify-center rounded-xl bg-white border border-zinc-200 text-zinc-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all active:scale-95"
+                    className="h-10 w-10 flex items-center justify-center rounded-xl bg-white border border-zinc-200 text-zinc-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all active:scale-95"
                   >
-                    <TrashIcon className="w-5 h-5" />
+                    <TrashIcon className="w-4 h-4" />
                   </button>
                 )}
                 <button
                   onClick={handleGenerate}
                   disabled={loading || !prompt.trim()}
                   className={`
-                    flex-1 h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98]
+                    flex-1 h-10 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98]
                     ${loading || !prompt.trim()
                       ? "bg-zinc-200 text-zinc-400 cursor-not-allowed shadow-none"
                       : "bg-zinc-900 text-white hover:bg-zinc-800 hover:shadow-xl hover:shadow-zinc-200"
@@ -165,75 +168,68 @@ export default function TextToImage() {
                        <span className="text-zinc-400">Thinking...</span>
                     </>
                   ) : (
-                     <>
-                      <SparklesIcon className="w-5 h-5 text-amber-400" /> 
-                      <span className="bg-gradient-to-r from-amber-200 to-white bg-clip-text text-transparent">Generate Art</span>
-                     </>
+                      <>
+                       <SparklesIcon className="w-4 h-4 text-amber-400" /> 
+                       <span className="bg-gradient-to-r from-amber-200 to-white bg-clip-text text-transparent">Generate</span>
+                      </>
                   )}
                 </button>
             </div>
           </div>
         </div>
 
-        {/* --- RIGHT: Preview (Span 7 on large) --- */}
-        <div className="lg:col-span-7 h-full min-h-[400px]">
+        {/* --- RIGHT: Preview --- */}
+        {/* Takes remaining space. On mobile, it's the bottom half. */}
+        <div className="flex-1 h-full min-h-0">
           <div className="h-full bg-zinc-100 rounded-3xl border border-zinc-200 overflow-hidden relative flex flex-col shadow-inner">
             
-            {/* Background Pattern (Checkered) */}
             <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
 
-            {/* Badge */}
-            <div className="absolute top-6 left-6 z-20 px-4 py-1.5 bg-white/80 backdrop-blur-md border border-white/50 rounded-full text-xs font-bold text-zinc-600 shadow-sm flex items-center gap-2">
+            <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/80 backdrop-blur-md border border-white/50 rounded-full text-[10px] font-bold text-zinc-600 shadow-sm flex items-center gap-2">
                Canvas
-               {preview && <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />}
+               {preview && <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />}
             </div>
 
-            {/* Image Container */}
-            <div className="flex-1 relative w-full p-6 md:p-12 flex items-center justify-center z-10">
+            {/* FIX 3: Image container uses flex centering and min-h-0 to prevent overflow */}
+            <div className="flex-1 relative w-full p-4 md:p-8 flex items-center justify-center z-10 min-h-0 overflow-hidden">
               {preview ? (
-                 <div className="relative group max-h-full max-w-full">
+                 <div className="relative group w-full h-full flex items-center justify-center">
+                    {/* FIX 4: Object contain ensures image fits without scrolling */}
                     <img 
                       src={preview} 
                       alt="Generated Art" 
-                      className="max-h-[600px] w-auto h-auto object-contain rounded-xl shadow-2xl shadow-zinc-400/20 bg-white" 
+                      className="max-h-full max-w-full object-contain rounded-lg shadow-2xl shadow-zinc-400/20 bg-white" 
                     />
-                    <div className="absolute inset-0 rounded-xl ring-1 ring-black/5 pointer-events-none" />
                  </div>
               ) : loading ? (
-                <div className="flex flex-col items-center gap-6">
+                <div className="flex flex-col items-center gap-4">
                    <div className="relative">
-                      {/* Custom Ripple Animation */}
-                      <div className="absolute inset-0 bg-amber-400/20 rounded-full animate-ping"></div>
-                      <div className="relative bg-white p-4 rounded-full shadow-lg border border-zinc-100">
-                        <SparklesIcon className="w-8 h-8 text-amber-500 animate-pulse" />
-                      </div>
+                     <div className="absolute inset-0 bg-amber-400/20 rounded-full animate-ping"></div>
+                     <div className="relative bg-white p-3 rounded-full shadow-lg border border-zinc-100">
+                       <SparklesIcon className="w-6 h-6 text-amber-500 animate-pulse" />
+                     </div>
                    </div>
                    <div className="text-center space-y-1">
-                     <p className="text-zinc-800 font-bold animate-pulse">Dreaming up your image...</p>
-                     <p className="text-zinc-400 text-xs">This usually takes about 5-10 seconds</p>
+                     <p className="text-zinc-800 font-bold animate-pulse text-sm">Dreaming...</p>
                    </div>
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center text-zinc-400 gap-4 text-center max-w-sm">
-                   <div className="w-20 h-20 rounded-3xl bg-white border border-zinc-200 flex items-center justify-center shadow-sm rotate-3">
-                      <ImageIcon className="w-10 h-10 text-zinc-300" />
+                <div className="flex flex-col items-center justify-center text-zinc-400 gap-3 text-center max-w-xs">
+                   <div className="w-16 h-16 rounded-2xl bg-white border border-zinc-200 flex items-center justify-center shadow-sm rotate-3">
+                      <ImageIcon className="w-8 h-8 text-zinc-300" />
                    </div>
-                   <div>
-                     <p className="text-zinc-900 font-medium mb-1">Your canvas is empty</p>
-                     <p className="text-sm">Type a prompt on the left to start creating magic with SnapMod.</p>
-                   </div>
+                   <p className="text-sm">Type a prompt to create.</p>
                 </div>
               )}
             </div>
 
-            {/* Footer Action (Only shows if image exists) */}
             {preview && (
-              <div className="bg-white border-t border-zinc-200 p-4 md:p-6 flex justify-end z-20">
+              <div className="bg-white border-t border-zinc-200 p-3 flex justify-end z-20 shrink-0">
                 <button
                   onClick={handleDownload}
-                  className="w-full md:w-auto px-8 h-12 rounded-xl bg-zinc-900 text-white font-bold text-sm hover:bg-zinc-800 hover:scale-[1.02] transition-all shadow-lg flex items-center justify-center gap-2"
+                  className="px-4 h-10 rounded-xl bg-zinc-900 text-white font-bold text-xs hover:bg-zinc-800 hover:scale-[1.02] transition-all shadow-lg flex items-center justify-center gap-2"
                 >
-                  <DownloadIcon className="w-5 h-5" /> Download HD
+                  <DownloadIcon className="w-4 h-4" /> Save
                 </button>
               </div>
             )}
