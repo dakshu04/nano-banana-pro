@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import mrbeast from "@/public/mrbeast.jpg";
+
 // --- CONFIGURATION ---
 // Ensure these are set in your .env.local file
 const PLANS_CONFIG: Record<string, string> = {
@@ -21,7 +21,7 @@ const Icons = {
     <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
   ),
   Sparkles: ({ className }: { className?: string }) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 3Z"/></svg>
   ),
   Swap: ({ className }: { className?: string }) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>
@@ -38,15 +38,15 @@ const Icons = {
   ArrowRight: ({ className }: { className?: string }) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
   ),
-  Twitter: ({ className }: { className?: string }) => (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-12.7 12.5S.2 5.3 7.3 1.2c5.2-3 8.3 1.1 8.3 1.1"/></svg>
-  ),
   Linkedin: ({ className }: { className?: string }) => (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
   ),
   Instagram: ({ className }: { className?: string }) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
   ),
+  Flame: ({ className }: { className?: string }) => (
+     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+  )
 };
 
 export default function LandingPage() {
@@ -97,11 +97,6 @@ export default function LandingPage() {
   };
 
   // Animations
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-  };
-  
   const cardSlideIn = {
     hidden: { opacity: 0, x: 20 },
     visible: { opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.2 } }
@@ -120,18 +115,27 @@ export default function LandingPage() {
             <span className="font-extrabold text-zinc-900 tracking-tight text-lg">SnapMod</span>
           </div>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 md:gap-6">
             <div className="hidden md:flex items-center gap-6 text-sm font-bold text-zinc-500">
               <Link href="#features" className="hover:text-amber-500 transition-colors">Features</Link>
               <Link href="#pricing" className="hover:text-amber-500 transition-colors">Pricing</Link>
               <Link href="#connect" className="hover:text-amber-500 transition-colors">Connect</Link>
             </div>
-            <button 
-              onClick={() => router.push(isSignedIn ? "/dashboard" : "/sign-in")} 
-              className="px-5 py-2 rounded-full bg-zinc-900 text-white font-bold text-sm hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-900/10"
-            >
-              {isSignedIn ? "Go to Studio" : "Login"}
-            </button>
+
+            {/* Free Trial Indicator in Navbar */}
+            <div className="flex items-center gap-3">
+              {!isSignedIn && (
+                 <span className="hidden md:block text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-100">
+                   Try for Free
+                 </span>
+              )}
+              <button 
+                onClick={() => router.push(isSignedIn ? "/dashboard" : "/sign-in")} 
+                className="px-5 py-2 rounded-full bg-zinc-900 text-white font-bold text-sm hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-900/10"
+              >
+                {isSignedIn ? "Go to Studio" : "Login"}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -149,7 +153,7 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
               </span>
-              Now Live: Viral Templates
+              Now Live: Viral Face Swaps
             </div>
             
             <h1 className="text-5xl md:text-7xl font-black text-zinc-900 mb-6 leading-[1.05] tracking-tight">
@@ -158,35 +162,52 @@ export default function LandingPage() {
             </h1>
             
             <p className="text-xl text-zinc-500 mb-10 font-medium leading-relaxed max-w-xl mx-auto lg:mx-0">
-              Do not start from scratch. Take high-performing thumbnails from top creators and swap your face onto them instantly.
+              Stop using boring photos. Swap your face onto high-CTR thumbnails or generate professional studio shots instantly. 
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <button onClick={() => router.push("/sign-in")} className="h-14 px-8 rounded-full bg-amber-500 text-white font-bold text-lg hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 group">
-                Swap Your Face Now <Icons.ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform"/>
-              </button>
-              <div className="flex items-center gap-2 text-sm font-semibold text-zinc-400 px-4">
-                <Icons.Check className="w-4 h-4 text-emerald-500"/> No credit card needed
+            {/* CTA SECTION WITH FREE BADGES */}
+            <div className="flex flex-col gap-6 justify-center lg:justify-start items-center lg:items-start">
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button onClick={() => router.push("/sign-in")} className="h-14 px-8 rounded-full bg-amber-500 text-white font-bold text-lg hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 group">
+                  Use My Free Credits <Icons.ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform"/>
+                </button>
               </div>
+
+              {/* Highlighting the Free tier specifically */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                <div className="px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold flex items-center gap-2">
+                    <Icons.Sparkles className="w-3.5 h-3.5" />
+                    2 Free Credits Included
+                </div>
+                <div className="px-3 py-1.5 rounded-lg bg-zinc-50 border border-zinc-200 text-zinc-600 text-xs font-bold flex items-center gap-2">
+                    <Icons.Eraser className="w-3.5 h-3.5" />
+                    Unlimited BG Removal
+                </div>
+                <div className="text-xs text-zinc-400 font-medium hidden sm:block">
+                    • No Payment Required
+                </div>
+              </div>
+
             </div>
           </motion.div>
 
           {/* RIGHT: THE VISUAL (The Proof) */}
           <motion.div initial="hidden" animate="visible" variants={cardSlideIn} className="relative mt-8 lg:mt-0">
-             
+              
              {/* Decorative Background Blob */}
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-gradient-to-tr from-amber-100/50 to-transparent rounded-full blur-3xl -z-10" />
 
              <div className="relative w-full aspect-[4/3] flex items-center justify-center">
-                
-                {/* CARD 1: THE SOURCE (Left/Back) */}
-                <div className="absolute left-0 top-8 w-[65%] md:w-[60%] z-10 transform -rotate-3 hover:rotate-0 transition-transform duration-500 origin-bottom-right">
-                    <div className="bg-white p-3 pb-4 rounded-2xl shadow-2xl border border-zinc-200">
-                        <div className="flex items-center gap-2 mb-2 px-1">
-                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Original Template</span>
-                        </div>
-                        <div className="relative aspect-video bg-zinc-100 rounded-xl overflow-hidden shadow-inner group">
+               
+               {/* CARD 1: THE SOURCE (Left/Back) */}
+               <div className="absolute left-0 top-8 w-[65%] md:w-[60%] z-10 transform -rotate-3 hover:rotate-0 transition-transform duration-500 origin-bottom-right">
+                   <div className="bg-white p-3 pb-4 rounded-2xl shadow-2xl border border-zinc-200">
+                       <div className="flex items-center gap-2 mb-2 px-1">
+                           <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                           <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Original Template</span>
+                       </div>
+                       <div className="relative aspect-video bg-zinc-100 rounded-xl overflow-hidden shadow-inner group">
                              {/* Placeholder for Famous Youtuber */}
                              <div className="relative  w-full h-full">
                               <Image
@@ -199,27 +220,27 @@ export default function LandingPage() {
                              
                              {/* Fake YouTube Badge */}
                              <div className="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">12:34</div>
-                        </div>
-                        <div className="mt-3 px-1">
-                            <div className="h-4 w-3/4 bg-zinc-100 rounded mb-2"></div>
-                            <div className="flex gap-2">
-                                <div className="h-8 w-8 rounded-full bg-zinc-100"></div>
-                                <div className="h-3 w-20 bg-zinc-100 rounded mt-2"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* CARD 2: THE RESULT (Right/Front) */}
-                <div className="absolute right-0 bottom-8 w-[65%] md:w-[60%] z-20 transform rotate-3 hover:rotate-0 transition-transform duration-500 origin-bottom-left">
-                    <div className="bg-white p-3 pb-4 rounded-2xl shadow-[0_20px_50px_-12px_rgba(245,158,11,0.3)] border-2 border-amber-500">
-                        <div className="flex items-center justify-between mb-2 px-1">
-                            <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                                <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wide">Your Version</span>
-                            </div>
-                            <Icons.Sparkles className="w-3 h-3 text-amber-500" />
-                        </div>
-                        <div className="relative aspect-video bg-zinc-900 rounded-xl overflow-hidden shadow-sm">
+                       </div>
+                       <div className="mt-3 px-1">
+                           <div className="h-4 w-3/4 bg-zinc-100 rounded mb-2"></div>
+                           <div className="flex gap-2">
+                               <div className="h-8 w-8 rounded-full bg-zinc-100"></div>
+                               <div className="h-3 w-20 bg-zinc-100 rounded mt-2"></div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               {/* CARD 2: THE RESULT (Right/Front) */}
+               <div className="absolute right-0 bottom-8 w-[65%] md:w-[60%] z-20 transform rotate-3 hover:rotate-0 transition-transform duration-500 origin-bottom-left">
+                   <div className="bg-white p-3 pb-4 rounded-2xl shadow-[0_20px_50px_-12px_rgba(245,158,11,0.3)] border-2 border-amber-500">
+                       <div className="flex items-center justify-between mb-2 px-1">
+                           <div className="flex items-center gap-2">
+                               <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                               <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wide">Your Version</span>
+                           </div>
+                           <Icons.Sparkles className="w-3 h-3 text-amber-500" />
+                       </div>
+                       <div className="relative aspect-video bg-zinc-900 rounded-xl overflow-hidden shadow-sm">
                              {/* Placeholder for SWAPPED Result */}
                                   <div className="relative w-full h-full">
                                   <Image
@@ -234,19 +255,19 @@ export default function LandingPage() {
                              <div className="absolute top-2 right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
                                 <Icons.Check className="w-3 h-3"/> Ready
                              </div>
+                       </div>
+                       <div className="mt-3 px-1">
+                           <div className="mt-3 px-1">
+                           
+                           
                         </div>
-                        <div className="mt-3 px-1">
-                            <div className="mt-3 px-1">
-                            
-                            
-                        </div>
-                            <div className="flex gap-2 mt-2 items-center">
-                                <div className="h-6 w-6 rounded-full bg-amber-100 flex items-center justify-center text-[10px]">🍌</div>
-                                <p className="text-[10px] font-bold text-zinc-400">SnapMod User</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                           <div className="flex gap-2 mt-2 items-center">
+                               <div className="h-6 w-6 rounded-full bg-amber-100 flex items-center justify-center text-[10px]">🍌</div>
+                               <p className="text-[10px] font-bold text-zinc-400">SnapMod User</p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
 
              </div>
           </motion.div>
@@ -275,25 +296,16 @@ export default function LandingPage() {
               <p className="text-sm text-zinc-500 leading-relaxed">Replace faces in thumbnails with one click. High retention starts with the click.</p>
             </div>
 
-            {/* Feature 2: Text to Image */}
+            {/* Feature 2: Viral Templates */}
             <div className="p-6 rounded-3xl bg-zinc-50 border border-zinc-200 hover:border-amber-400 transition-colors group cursor-default">
-              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-purple-500 mb-4 group-hover:scale-110 transition-transform">
-                <Icons.Sparkles className="w-6 h-6" />
+              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-red-500 mb-4 group-hover:scale-110 transition-transform">
+                <Icons.Flame className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-zinc-900 mb-2">Text to Image</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">Generate assets, backgrounds, and elements simply by typing what you need.</p>
+              <h3 className="font-bold text-zinc-900 mb-2">Viral Templates</h3>
+              <p className="text-sm text-zinc-500 leading-relaxed">Access high-CTR layouts used by top creators. Just swap and download.</p>
             </div>
 
-            {/* Feature 3: Headshot Gen */}
-            <div className="p-6 rounded-3xl bg-zinc-50 border border-zinc-200 hover:border-amber-400 transition-colors group cursor-default">
-              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-blue-500 mb-4 group-hover:scale-110 transition-transform">
-                <Icons.Camera className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-zinc-900 mb-2">Headshot Gen</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">Turn selfies into professional LinkedIn headshots without a studio.</p>
-            </div>
-
-            {/* Feature 4: BG Remover */}
+            {/* Feature 3: BG Remover */}
             <div className="p-6 rounded-3xl bg-zinc-50 border border-zinc-200 hover:border-amber-400 transition-colors group cursor-default">
               <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-emerald-500 mb-4 group-hover:scale-110 transition-transform">
                 <Icons.Eraser className="w-6 h-6" />
@@ -301,6 +313,18 @@ export default function LandingPage() {
               <h3 className="font-bold text-zinc-900 mb-2">Remove BG</h3>
               <div className="inline-block px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase mb-2">Free Forever</div>
               <p className="text-sm text-zinc-500 leading-relaxed">Clean cutouts for products and people. No credits required.</p>
+            </div>
+
+            {/* Feature 4: PRO HEADSHOTS (Coming Soon) */}
+            <div className="p-6 rounded-3xl bg-zinc-50 border border-zinc-200 transition-colors group cursor-default opacity-80 hover:opacity-100">
+              <div className="w-12 h-12 bg-zinc-100 rounded-2xl flex items-center justify-center shadow-sm text-zinc-500 mb-4">
+                <Icons.Camera className="w-6 h-6" />
+              </div>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-bold text-zinc-900">Pro Headshots</h3>
+                <span className="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-500 text-[10px] font-bold border border-zinc-200">SOON</span>
+              </div>
+              <p className="text-sm text-zinc-500 leading-relaxed">Corporate suit generation is being upgraded. Use your credits for Viral Swaps today!</p>
             </div>
 
           </div>
@@ -318,19 +342,24 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
           
-          {/* TIER 1: FREE */}
+          {/* TIER 1: FREE (UPDATED) */}
           <div className="p-6 rounded-3xl bg-white border border-zinc-200 flex flex-col h-full hover:shadow-xl transition-shadow">
             <div className="mb-4">
-              <h3 className="font-bold text-lg text-zinc-900 tracking-wide">Free</h3>
-              <p className="text-zinc-500 text-xs mt-1 font-medium">Utility Tools</p>
+               <div className="flex items-center justify-between">
+                <h3 className="font-bold text-lg text-zinc-900 tracking-wide">Free</h3>
+                <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase">
+                  No Payment
+                </span>
+              </div>
+              <p className="text-zinc-500 text-xs mt-1 font-medium">Forever free tools + Trial</p>
             </div>
             <div className="mb-6 flex items-baseline">
                 <span className="text-3xl font-bold tracking-tight text-zinc-900">$0</span>
             </div>
             <div className="space-y-3 mb-8 flex-1">
-              <li className="flex gap-3 text-sm text-zinc-600"><Icons.Check className="w-4 h-4 text-emerald-500 shrink-0"/> Unlimited BG Removal</li>
-              <li className="flex gap-3 text-sm text-zinc-600"><Icons.Check className="w-4 h-4 text-emerald-500 shrink-0"/> Standard Quality</li>
-              <li className="flex gap-3 text-sm text-zinc-400 opacity-75"><Icons.Bolt className="w-4 h-4 shrink-0"/> No credits included</li>
+              <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Check className="w-4 h-4 text-emerald-500 shrink-0"/> Unlimited BG Removal</li>
+              <li className="flex gap-3 text-sm font-bold text-zinc-900"><Icons.Sparkles className="w-4 h-4 text-emerald-500 shrink-0"/> 2 Free AI Credits</li>
+              <li className="flex gap-3 text-sm text-zinc-500"><Icons.Check className="w-4 h-4 text-zinc-400 shrink-0"/> Standard Quality</li>
             </div>
             <button onClick={() => router.push("/sign-in")} className="w-full py-2.5 rounded-xl border border-zinc-200 bg-zinc-50 font-bold text-sm hover:bg-zinc-100 transition-colors">
               Start Free
