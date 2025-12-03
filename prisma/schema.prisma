@@ -26,7 +26,7 @@ enum Plan {
 model User {
   id             String   @id @unique // This is your Clerk User ID
   email          String   @unique
-  credits        Int      @default(0)
+  credits        Int      @default(2)
   
   // 2. Use the Enum here instead of Boolean
   plan           Plan     @default(FREE) 
