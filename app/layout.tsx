@@ -4,7 +4,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from "sonner";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 // 1. Optimize Fonts (Inter is great for professional/agency vibes)
 const inter = Inter({ subsets: ["latin"] });
 
@@ -83,6 +83,8 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
+      <SpeedInsights />
+
       <html lang="en">
         <body className={inter.className}>
           {children}
