@@ -145,9 +145,17 @@ export default function LandingPage() {
       {/* -------------------------------------------------- */}
       <section className="relative pt-32 pb-24 px-6 max-w-7xl mx-auto overflow-visible">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          
+            
           {/* LEFT: THE COPY (The Promise) */}
-          <motion.div initial="hidden" animate="visible"  className="text-center lg:text-left z-10">
+          <motion.div initial="hidden" animate="visible"  className="text-center lg:text-left z-10 flex flex-col items-center lg:items-start">
+             
+             {/* LAUNCHIT BADGE (Moved inside to fix layout) */}
+             <div className="mb-8">
+               <a href="https://launchit.site/launches/snapmod" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                 <img src="https://launchit.site/badges/minimal-light-v2.svg" alt="Featured on LaunchIt" width="180" height="54" />
+               </a>
+             </div>
+
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-100 text-amber-600 text-xs font-bold uppercase tracking-wider mb-6">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
@@ -166,7 +174,7 @@ export default function LandingPage() {
             </p>
             
             {/* CTA SECTION WITH FREE BADGES */}
-            <div className="flex flex-col gap-6 justify-center lg:justify-start items-center lg:items-start">
+            <div className="flex flex-col gap-6 justify-center lg:justify-start items-center lg:items-start w-full">
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <button onClick={() => router.push("/sign-in")} className="h-14 px-8 rounded-full bg-amber-500 text-white font-bold text-lg hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 group">
