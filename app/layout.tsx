@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "SnapMod",
     images: [
       {
-        url: "/snapmodimage.jpg", // Make sure you put a file named 'og-image.jpg' in your 'public' folder
+        url: "/mrbeast-daksh.png", // Make sure you put a file named 'og-image.jpg' in your 'public' folder
         width: 1200,
         height: 630,
         alt: "SnapMod Dashboard Preview",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SnapMod | For Creators & Agencies",
     description: "The ultimate platform for freelancers and creative agencies.",
-    images: ["/snapmodimage.jpg"], // Uses the same image from public folder
+    images: ["/mrbeast-daksh.png"], // Uses the same image from public folder
   },
 
   robots: {
