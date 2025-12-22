@@ -52,9 +52,9 @@ export default function Dashboard() {
 
   const menuItems = [
     { id: "text-to-image", label: "Text to Image", icon: "✨" },
-    { id: "script", label: "Script Maker", icon: "📝" },
     { id: "image-to-image", label: "Face Swap", icon: "🌀" },
     { id: "headshot", label: "Headshot Gen", icon: "📸" },
+    { id: "script", label: "Script Maker", icon: "📝" , badge: "FREE" },
     { id: "background", label: "Remove BG", icon: "🎨", badge: "FREE" },
     { id: "history", label: "History", icon: "clock" }
   ];
