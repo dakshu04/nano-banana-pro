@@ -5,6 +5,7 @@ import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
 import { Toaster } from "sonner";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 // 1. Optimize Fonts (Inter is great for professional/agency vibes)
 const inter = Inter({ subsets: ["latin"] });
 
@@ -91,6 +92,7 @@ export default function RootLayout({
           <Toaster richColors position="top-center" /> 
         </body>
         {/* 4. Google Analytics - Paste your 'G-...' ID below */}
+          <Analytics />
         <GoogleAnalytics gaId="G-KEPXV1W91E" /> 
       </html>
     </ClerkProvider>
