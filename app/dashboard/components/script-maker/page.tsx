@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { 
   Sparkles, 
   Copy, 
@@ -30,6 +30,9 @@ export default function ScriptMakerPage() {
   const [loading, setLoading] = useState(false);
   const [script, setScript] = useState(""); 
   
+  // Ref to scroll to results on mobile after generating
+  const resultRef = useRef<HTMLDivElement>(null);
+
   const [formData, setFormData] = useState({
     topic: "",
     platform: "youtube",
@@ -65,12 +68,17 @@ export default function ScriptMakerPage() {
 
       const result = await response.json();
       
-      // Note: Your API returns { data: "script text" } based on your snippet
       if (result.data) {
         setScript(result.data);
       } else if (result.script) {
-        // Fallback in case API variable name changes
         setScript(result.script);
+      }
+      
+      // On mobile, scroll down to the result after generation
+      if (window.innerWidth < 1024 && resultRef.current) {
+        setTimeout(() => {
+            resultRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
       }
 
     } catch (error) {
@@ -82,23 +90,29 @@ export default function ScriptMakerPage() {
   };
 
   return (
-    // MAIN CONTAINER: Full screen, Light Mode (bg-white), No Window Scroll
-    <div className="flex h-screen w-full bg-white text-slate-900 overflow-hidden font-sans selection:bg-indigo-100">
+    // MAIN CONTAINER: 
+    // Mobile: Auto height, scrollable body. 
+    // Desktop (lg): Fixed screen height, hidden body scroll.
+    <div className="flex flex-col lg:flex-row w-full bg-white text-slate-900 font-sans selection:bg-indigo-100 min-h-screen lg:h-screen lg:overflow-hidden">
       
       {/* ---------------------------------------------------------------------------
-          LEFT PANEL: INPUTS (Fixed Sidebar)
+          LEFT PANEL: INPUTS
+          Mobile: Full width, stacks on top.
+          Desktop: Fixed 450px width, sits on left.
       --------------------------------------------------------------------------- */}
-      <div className="w-[450px] flex flex-col border-r border-slate-200 bg-white h-full shadow-sm z-10">
+      <div className="w-full lg:w-[450px] flex flex-col border-b lg:border-b-0 lg:border-r border-slate-200 bg-white shadow-sm z-10 h-auto lg:h-full">
         
         {/* Header Section */}
         <div className="p-6 pb-4 border-b border-slate-100">
+           <h1 className="text-xl font-bold text-slate-900">ScriptGen AI</h1>
            <p className="text-slate-500 text-sm mt-1">
              Fill in the details to generate viral content.
            </p>
         </div>
 
         {/* Scrollable Form Area */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-5 custom-scrollbar">
+        {/* Mobile: Natural height. Desktop: Overflow auto */}
+        <div className="flex-1 p-6 space-y-5 lg:overflow-y-auto custom-scrollbar">
           
           {/* TOPIC */}
           <div className="space-y-2">
@@ -112,7 +126,7 @@ export default function ScriptMakerPage() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* PLATFORM */}
             <div className="space-y-2">
               <Label className="text-slate-700">Platform</Label>
@@ -153,7 +167,7 @@ export default function ScriptMakerPage() {
           </div>
 
           {/* AUDIENCE & TONE */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label className="text-slate-700">Target Audience</Label>
               <Input 
@@ -206,7 +220,7 @@ export default function ScriptMakerPage() {
         </div>
 
         {/* Footer with Action Button */}
-        <div className="p-6 pt-4 border-t border-slate-100 bg-white">
+        <div className="p-6 pt-4 border-t border-slate-100 bg-white sticky bottom-0 lg:static z-20">
           <Button 
             onClick={handleGenerate}
             disabled={loading}
@@ -226,15 +240,35 @@ export default function ScriptMakerPage() {
       </div>
 
       {/* ---------------------------------------------------------------------------
-          RIGHT PANEL: OUTPUT (Scrollable Canvas)
-      */} 
-      <div className="flex-1 p-8 overflow-y-auto custom-scrollbar">
-        <h2 className="text-2xl font-bold mb-6">Generated Script</h2>
-        <Card className="p-8 bg-white border border-slate-200 shadow-sm">
-          <pre className="whitespace-pre-wrap text-slate-900 ">
-            {script || "Your generated script will appear here..."}
-          </pre>
-        </Card>
+          RIGHT PANEL: OUTPUT
+      --------------------------------------------------------------------------- */} 
+      <div 
+        ref={resultRef}
+        className="flex-1 p-4 lg:p-8 bg-slate-50 lg:bg-white lg:overflow-y-auto custom-scrollbar min-h-[50vh]"
+      >
+        <div className="max-w-3xl mx-auto">
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold">Generated Script</h2>
+                {script && (
+                    <Button variant="outline" size="sm" onClick={() => navigator.clipboard.writeText(script)}>
+                        <Copy className="w-4 h-4 mr-2"/> Copy
+                    </Button>
+                )}
+            </div>
+            
+            <Card className="p-6 lg:p-8 bg-white border border-slate-200 shadow-sm min-h-[300px]">
+            {script ? (
+                <pre className="whitespace-pre-wrap text-slate-900 font-sans text-sm lg:text-base leading-relaxed">
+                    {script}
+                </pre>
+            ) : (
+                <div className="h-full flex flex-col items-center justify-center text-slate-400 mt-20">
+                    <Sparkles className="w-12 h-12 mb-4 opacity-20" />
+                    <p>Your generated script will appear here...</p>
+                </div>
+            )}
+            </Card>
+        </div>
       </div>
     </div>
   );
