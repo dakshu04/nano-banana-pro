@@ -8,6 +8,7 @@ import FaceSwap from "./components/face-swap/page";
 import HeadShotGenerator from "./components/head-shot-generator/page";
 import BackgroundRemover from "./components/background-remover/page";
 import History from "./components/history/page";
+import ScriptMakerPage from "./components/script-maker/page";
 
 // --- ICONS ---
 const RefreshIcon = ({ className }: { className?: string }) => (
@@ -51,6 +52,7 @@ export default function Dashboard() {
 
   const menuItems = [
     { id: "text-to-image", label: "Text to Image", icon: "✨" },
+    { id: "script", label: "Script Maker", icon: "📝" },
     { id: "image-to-image", label: "Face Swap", icon: "🌀" },
     { id: "headshot", label: "Headshot Gen", icon: "📸" },
     { id: "background", label: "Remove BG", icon: "🎨", badge: "FREE" },
@@ -257,7 +259,7 @@ export default function Dashboard() {
       {/* ---------------------------------------------------------- */}
       {/* MAIN CONTENT AREA */}
       {/* ---------------------------------------------------------- */}
-      <main className="flex-1 p-4 md:p-6 h-full flex flex-col min-w-0 pt-20 md:pt-6">
+      <main className="flex-1 p-4 md:p-6 h-full flex flex-col min-w-0 pt-0 md:pt-6">
         
         {/* The Workspace Card */}
         <div className="flex-1 bg-white rounded-2xl border border-zinc-200 shadow-sm flex flex-col overflow-hidden relative">
@@ -280,6 +282,7 @@ export default function Dashboard() {
           {/* Tool Content Area */}
           <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-zinc-50/30 scrollbar-hide">
             {activePage === "text-to-image" && <TextToImage />}
+            {activePage === "script" && <ScriptMakerPage />}
             {activePage === "image-to-image" && <FaceSwap />}
             {activePage === "headshot" && <HeadShotGenerator />}
             {activePage === "background" && <BackgroundRemover />}
