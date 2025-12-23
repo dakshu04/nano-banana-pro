@@ -225,7 +225,7 @@ export default function LandingPage() {
                        </div>
                        <div className="relative aspect-video bg-zinc-900 rounded-xl overflow-hidden shadow-sm">
                                 <div className="relative w-full h-full">
-                                  <Image src="/mrbeast-daksh.png" alt="Swapped Thumbnail" fill className="object-cover" />
+                                  <Image src="/snapmod.png" alt="Swapped Thumbnail" fill className="object-cover" />
                                 </div>
                             <div className="absolute top-2 right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
                                <Icons.Check className="w-3 h-3"/> Ready
