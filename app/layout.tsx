@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "SnapMod",
     images: [
       {
-        url: "/mrbeast-daksh.png", // Ensure this file is in your 'public' folder
+        url: "/snapmod.png", // Ensure this file is in your 'public' folder
         width: 1200,
         height: 630,
         alt: "SnapMod Dashboard Preview",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SnapMod | For Creators & Agencies",
     description: "The ultimate platform for freelancers and creative agencies.",
-    images: ["/mrbeast-daksh.png"], 
+    images: ["/snapmod.png"], 
     creator: "@dkshuxcodes", // Add your handle here for better attribution
   },
 
