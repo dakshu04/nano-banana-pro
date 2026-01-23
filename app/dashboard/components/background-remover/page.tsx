@@ -70,7 +70,7 @@ export default function BackgroundRemover() {
     if (!outputImage) return;
     const link = document.createElement("a");
     link.href = outputImage;
-    link.download = "nano-banana-transparent.png";
+    link.download = "snapmod-swap.png";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -98,7 +98,7 @@ export default function History() {
               <div className="flex gap-2">
                  <a 
                    href={img.imageUrl} 
-                   download={`nano-banana-${img.id}.png`}
+                   download={`snapmod-${img.id}.png`}
                    target="_blank"
                    rel="noopener noreferrer"
                    className="flex-1 bg-white/20 backdrop-blur-md hover:bg-yellow-400 hover:text-zinc-900 text-white text-xs font-bold py-2.5 rounded-xl text-center transition-colors border border-white/30 shadow-lg active:scale-95"

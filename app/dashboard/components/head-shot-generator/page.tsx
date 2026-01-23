@@ -79,7 +79,7 @@ export default function HeadShotGenerator() {
         
         {/* Footer Note */}
         <p className="text-center text-[10px] md:text-xs text-zinc-400 mt-6 font-medium">
-            NanoBanana AI • Version 2.0-alpha
+            SnapMod AI • Version 2.0-alpha
         </p>
       </div>
 

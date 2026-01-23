@@ -222,7 +222,7 @@ export default function Dashboard() {
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b border-zinc-200 z-40 flex items-center justify-between px-4">
           <div className="flex items-center gap-2">
              <div className="w-8 h-8 bg-zinc-900 text-white rounded-lg flex items-center justify-center text-lg font-bold">🍌</div>
-             <span className="font-bold text-zinc-900">NanoBanana</span>
+             <span className="font-bold text-zinc-900">SnapMod</span>
           </div>
           <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-zinc-600 hover:bg-zinc-100 rounded-lg">
              <MenuIcon className="w-6 h-6" />
