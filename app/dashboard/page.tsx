@@ -95,7 +95,9 @@ export default function Dashboard() {
           <div className="flex items-center gap-2 mb-8 cursor-pointer group" onClick={() => router.push("/")}>
             <div className="w-8 h-8 bg-zinc-900 text-white rounded-lg flex items-center justify-center text-lg font-bold group-hover:scale-105 transition">🍌</div>
             <div>
-                <h1 className="text-sm font-bold tracking-tight">SnapMod</h1>
+                <h1 className="text-sm font-bold tracking-tight">
+                  SnapMod
+                </h1>
                 <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-wider">Pro Studio</p>
             </div>
           </div>
