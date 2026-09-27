@@ -140,7 +140,7 @@ export default function LandingPage() {
              {/* LaunchIt Badge */}
              <div className="mb-8 hover:scale-105 transition-transform duration-300">
                <a href="https://launchit.site/launches/snapmod" target="_blank" rel="noopener noreferrer">
-                 <img src="https://launchit.site/badges/minimal-light-v2.svg" alt="Featured on LaunchIt" width="180" height="54" />
+                 {/* <img src="https://launchit.site/badges/minimal-light-v2.svg" alt="Featured on LaunchIt" width="180" height="54" /> */}
                </a>
              </div>
 
