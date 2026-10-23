@@ -107,6 +107,7 @@ export default function LandingPage() {
             <div className="hidden md:flex items-center gap-6 text-sm font-bold text-zinc-500">
               <Link href="#features" className="hover:text-amber-500 transition-colors">Features</Link>
               <Link href="#how-it-works" className="hover:text-amber-500 transition-colors">How it works</Link>
+              <Link href="/guides" className="hover:text-amber-500 transition-colors">Guides</Link>
               <Link href="#pricing" className="hover:text-amber-500 transition-colors">Pricing</Link>
             </div>
 
@@ -241,6 +242,32 @@ export default function LandingPage() {
                </div>
              </div>
           </motion.div>
+        </div>
+      </section>
+
+      <section className="border-b border-zinc-200 bg-[#fafafa] px-6 py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+            <div className="max-w-2xl">
+              <p className="text-sm font-black uppercase tracking-[0.2em] text-amber-600">Creator guides</p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">Make better decisions before you press generate.</h2>
+              <p className="mt-4 leading-7 text-zinc-600">Practical workflows for thumbnails, hooks, image cutouts, and responsible AI editing—written for the review work that happens after an AI draft.</p>
+            </div>
+            <Link href="/guides" className="shrink-0 font-bold text-amber-700 hover:underline">Browse all creator guides →</Link>
+          </div>
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["/guides/youtube-thumbnail-workflow", "Thumbnail design", "A repeatable YouTube thumbnail workflow"],
+              ["/guides/write-better-video-hooks", "Script writing", "Write stronger hooks without misleading viewers"],
+              ["/guides/remove-background-clean-edges", "Image editing", "Keep clean edges after background removal"],
+              ["/guides/ai-face-swap-safety-checklist", "Responsible AI", "A face-swap safety checklist for creators"],
+            ].map(([href, category, title]) => (
+              <Link key={href} href={href} className="rounded-3xl border border-zinc-200 bg-white p-6 transition hover:-translate-y-1 hover:border-amber-400 hover:shadow-lg">
+                <span className="text-xs font-bold uppercase tracking-wider text-amber-700">{category}</span>
+                <h3 className="mt-3 font-bold leading-6">{title}</h3>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -508,6 +535,7 @@ export default function LandingPage() {
             <span className="font-bold text-zinc-900 tracking-tight">SnapMod</span>
           </div>
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 font-medium">
+             <Link href="/guides" className="hover:text-amber-500 transition-colors">Guides</Link>
              <Link href="/about" className="hover:text-amber-500 transition-colors">About</Link>
              <Link href="/privacy" className="hover:text-amber-500 transition-colors">Privacy</Link>
              <Link href="/terms" className="hover:text-amber-500 transition-colors">Terms</Link>

@@ -41,6 +41,11 @@ Open each URL in a private browser window and confirm it returns HTTP 200:
 - `https://snapmod.xyz/tools/ai-face-swap`
 - `https://snapmod.xyz/tools/background-remover`
 - `https://snapmod.xyz/tools/ai-script-writer`
+- `https://snapmod.xyz/guides`
+- `https://snapmod.xyz/guides/youtube-thumbnail-workflow`
+- `https://snapmod.xyz/guides/write-better-video-hooks`
+- `https://snapmod.xyz/guides/remove-background-clean-edges`
+- `https://snapmod.xyz/guides/ai-face-swap-safety-checklist`
 - `https://snapmod.xyz/robots.txt`
 - `https://snapmod.xyz/sitemap.xml`
 - `https://snapmod.xyz/ads.txt`
@@ -55,12 +60,13 @@ The last URL must display exactly:
 2. Go to **Sitemaps**.
 3. Remove any submitted sitemap that uses `snapmod.xyz.com` or lists nonexistent pages.
 4. Under **Add a new sitemap**, enter `sitemap.xml`, then click **Submit**.
-5. Use **URL inspection** for the homepage and each of the three `/tools/` URLs.
+5. Use **URL inspection** first for the homepage, `/guides`, the three `/tools/` URLs, and the four new guide URLs.
 6. For each URL, click **Test live URL**. If the test succeeds, click **Request indexing**. Do not repeatedly request indexing.
 7. Inspect `/sign-in` once. After Google recrawls it, an exclusion such as “Excluded by noindex” is correct.
-8. Open **Indexing → Pages** after 7–14 days. Confirm the nine sitemap URLs are discovered and investigate only genuine errors; excluded account/API routes are intentional.
+8. Open **Indexing → Pages** after 7–14 days. Confirm the fourteen sitemap URLs are discovered and investigate only genuine errors; excluded account/API routes are intentional.
 9. Open **Experience → Core Web Vitals** and fix any production URLs marked Poor. Pay particular attention to mobile because it supplies most current traffic.
-10. In **Performance → Search results**, compare the latest 28 days with the previous 28 days. Track clicks and impressions for “AI face swap,” “background remover,” “AI script writer,” and related long-tail queries—not only the SnapMod brand.
+10. In **Performance → Search results**, compare the latest 28 days with the previous 28 days. Track clicks and impressions for “AI face swap,” “background remover,” “AI script writer,” “YouTube thumbnail workflow,” “video hooks,” and related long-tail queries—not only the SnapMod brand.
+11. In **Enhancements**, review any detected Article or breadcrumb reports. A valid structured-data result helps Google understand a page but does not guarantee a rich result.
 
 ## Google AdSense steps
 

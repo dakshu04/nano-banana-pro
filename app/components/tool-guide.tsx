@@ -42,7 +42,7 @@ export function ToolGuide({
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight"><span className="grid h-9 w-9 place-items-center rounded-xl bg-zinc-900 text-white">S</span>SnapMod</Link>
           <nav aria-label="Primary navigation" className="flex items-center gap-5 text-sm font-semibold text-zinc-600">
-            <Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/sign-in" className="rounded-full bg-zinc-900 px-4 py-2 text-white">Try SnapMod</Link>
+            <Link href="/guides">Guides</Link><Link href="/about" className="hidden sm:inline">About</Link><Link href="/contact" className="hidden md:inline">Contact</Link><Link href="/sign-in" className="rounded-full bg-zinc-900 px-4 py-2 text-white">Try SnapMod</Link>
           </nav>
         </div>
       </header>

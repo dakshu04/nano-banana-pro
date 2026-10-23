@@ -30,8 +30,9 @@ export function PublicPage({
             SnapMod
           </Link>
           <nav aria-label="Primary navigation" className="flex items-center gap-5 text-sm font-semibold text-zinc-600">
-            <Link href="/about" className="hover:text-amber-600">About</Link>
-            <Link href="/contact" className="hover:text-amber-600">Contact</Link>
+            <Link href="/guides" className="hover:text-amber-600">Guides</Link>
+            <Link href="/about" className="hidden hover:text-amber-600 sm:inline">About</Link>
+            <Link href="/contact" className="hidden hover:text-amber-600 md:inline">Contact</Link>
             <Link href="/sign-in" className="rounded-full bg-zinc-900 px-4 py-2 text-white hover:bg-zinc-700">Open Studio</Link>
           </nav>
         </div>
@@ -63,6 +64,7 @@ export function PublicPage({
         <div className="mx-auto flex max-w-6xl flex-col justify-between gap-6 sm:flex-row">
           <p>© 2026 SnapMod. Built for responsible creative work.</p>
           <nav aria-label="Legal navigation" className="flex flex-wrap gap-x-6 gap-y-3">
+            <Link href="/guides">Guides</Link>
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
             <Link href="/acceptable-use">Acceptable use</Link>
