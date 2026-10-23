@@ -2,13 +2,17 @@ import { currentUser, auth } from "@clerk/nextjs/server";
 import DodoPayments from "dodopayments";
 import { NextRequest, NextResponse } from "next/server";
 
-const dodopayments = new DodoPayments({
-  environment: 'live_mode', 
-  bearerToken: process.env.DODO_API_KEY!
-});
-
 export async function POST(req: NextRequest) {
   try {
+    const bearerToken = process.env.DODO_API_KEY;
+    if (!bearerToken) {
+      return NextResponse.json({ message: "Payments are not configured" }, { status: 503 });
+    }
+
+    const dodopayments = new DodoPayments({
+      environment: 'live_mode',
+      bearerToken,
+    });
     
     // 1. Auth Check
     const { userId } = await auth();

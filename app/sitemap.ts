@@ -1,21 +1,25 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://snapmod.xyz.com' // Change this to your actual domain
+  const baseUrl = 'https://snapmod.xyz'
+  const lastModified = new Date('2026-10-23')
 
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    // Add dynamic routes here if needed
+  const pages: Array<{ path: string; priority: number; changeFrequency: 'weekly' | 'monthly' | 'yearly' }> = [
+    { path: '', priority: 1, changeFrequency: 'weekly' },
+    { path: '/tools/ai-face-swap', priority: 0.9, changeFrequency: 'monthly' },
+    { path: '/tools/background-remover', priority: 0.9, changeFrequency: 'monthly' },
+    { path: '/tools/ai-script-writer', priority: 0.9, changeFrequency: 'monthly' },
+    { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
+    { path: '/contact', priority: 0.6, changeFrequency: 'yearly' },
+    { path: '/privacy', priority: 0.4, changeFrequency: 'yearly' },
+    { path: '/terms', priority: 0.4, changeFrequency: 'yearly' },
+    { path: '/acceptable-use', priority: 0.4, changeFrequency: 'yearly' },
   ]
+
+  return pages.map(({ path, priority, changeFrequency }) => ({
+    url: `${baseUrl}${path || '/'}`,
+    lastModified,
+    changeFrequency,
+    priority,
+  }))
 }

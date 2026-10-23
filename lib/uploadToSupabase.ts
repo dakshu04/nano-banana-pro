@@ -1,12 +1,15 @@
 // lib/uploadToSupabase.ts
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 export async function uploadToSupabase(base64: string) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error("Supabase storage is not configured");
+  }
+
+  const supabase = createClient(supabaseUrl, serviceRoleKey);
   const buffer = Buffer.from(base64, "base64");
   const filename = `generated/${Date.now()}.png`;
 

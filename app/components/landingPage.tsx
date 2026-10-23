@@ -79,7 +79,7 @@ export default function LandingPage() {
       if (!response.ok) throw new Error(data.message);
       if (data.url) window.location.href = data.url; 
     } catch (err) {
-      alert("Something went wrong: " + err.message);
+      alert("Something went wrong: " + (err instanceof Error ? err.message : "Please try again."));
     } finally {
       setLoadingProduct(null);
     }
@@ -106,8 +106,8 @@ export default function LandingPage() {
           <div className="flex items-center gap-4 md:gap-6">
             <div className="hidden md:flex items-center gap-6 text-sm font-bold text-zinc-500">
               <Link href="#features" className="hover:text-amber-500 transition-colors">Features</Link>
+              <Link href="#how-it-works" className="hover:text-amber-500 transition-colors">How it works</Link>
               <Link href="#pricing" className="hover:text-amber-500 transition-colors">Pricing</Link>
-              <Link href="#connect" className="hover:text-amber-500 transition-colors">Connect</Link>
             </div>
 
             <div className="flex items-center gap-3">
@@ -271,6 +271,7 @@ export default function LandingPage() {
               <p className="text-sm text-zinc-600 leading-relaxed">
                 Generate high-engagement scripts for <span className="font-bold">LinkedIn, X, YouTube & Insta</span> instantly. Zero cost.
               </p>
+              <Link href="/tools/ai-script-writer" className="mt-4 inline-block text-sm font-bold text-amber-700 hover:underline">Read the script-writing guide →</Link>
             </div>
 
             {/* Feature 2: Face Swap */}
@@ -279,7 +280,8 @@ export default function LandingPage() {
                 <Icons.Swap className="w-6 h-6" />
               </div>
               <h3 className="font-bold text-zinc-900 mb-2">AI Face Swap</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">Replace faces in high-performing thumbnails with one click. Retention starts with the click.</p>
+              <p className="text-sm text-zinc-500 leading-relaxed">Adapt thumbnail concepts using your own likeness or images you have permission to edit.</p>
+              <Link href="/tools/ai-face-swap" className="mt-4 inline-block text-sm font-bold text-amber-700 hover:underline">Use it responsibly →</Link>
             </div>
 
             {/* Feature 3: Viral Templates */}
@@ -287,8 +289,8 @@ export default function LandingPage() {
               <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-red-500 mb-4">
                 <Icons.Flame className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-zinc-900 mb-2">Viral Templates</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">Access proven layouts used by top creators like MrBeast. Just swap and download.</p>
+              <h3 className="font-bold text-zinc-900 mb-2">Thumbnail Concepts</h3>
+              <p className="text-sm text-zinc-500 leading-relaxed">Study strong visual hierarchy, then adapt the idea into an original layout for your channel.</p>
             </div>
 
             {/* Feature 4: BG Remover */}
@@ -299,8 +301,47 @@ export default function LandingPage() {
               <h3 className="font-bold text-zinc-900 mb-2">Remove BG</h3>
               <div className="inline-block px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase mb-2">Free Forever</div>
               <p className="text-sm text-zinc-500 leading-relaxed">Clean cutouts for products and people. No credits required. Unlimited use.</p>
+              <Link href="/tools/background-remover" className="mt-4 inline-block text-sm font-bold text-amber-700 hover:underline">Get cleaner cutouts →</Link>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" className="bg-zinc-900 px-6 py-24 text-white">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-amber-400">A clearer workflow</p>
+            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">From rough idea to reviewed creative asset</h2>
+            <p className="mt-4 leading-7 text-zinc-300">SnapMod helps with the repetitive first pass. You stay in control of the brief, the source material, and the final decision to publish.</p>
+          </div>
+          <ol className="mt-12 grid gap-6 md:grid-cols-3">
+            {[
+              ["1", "Choose one focused task", "Start with a script brief, an image prompt, a permitted face reference, or a photo that needs a clean background."],
+              ["2", "Generate a working draft", "The selected tool processes your input and returns a draft you can compare with your original goal."],
+              ["3", "Review before publishing", "Check facts, image edges, consent, rights, and platform rules. Regenerate or edit anything that is not ready."],
+            ].map(([number, title, copy]) => (
+              <li key={number} className="rounded-3xl border border-zinc-700 bg-zinc-800/60 p-7">
+                <span className="text-sm font-black text-amber-400">STEP {number}</span>
+                <h3 className="mt-3 text-xl font-bold">{title}</h3>
+                <p className="mt-3 leading-7 text-zinc-300">{copy}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="border-b border-zinc-200 bg-white px-6 py-24">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-amber-600">Responsible by default</p>
+            <h2 className="mt-4 text-3xl font-black tracking-tight">Create useful work without crossing the line.</h2>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div className="rounded-3xl border border-zinc-200 p-6"><h3 className="font-bold">Use material you control</h3><p className="mt-3 leading-7 text-zinc-600">Upload images you own or are allowed to edit. Get permission before altering an identifiable person.</p></div>
+            <div className="rounded-3xl border border-zinc-200 p-6"><h3 className="font-bold">Review AI output</h3><p className="mt-3 leading-7 text-zinc-600">Generated images and scripts can contain artifacts or errors. Check every result before you publish it.</p></div>
+            <div className="rounded-3xl border border-zinc-200 p-6"><h3 className="font-bold">Be honest with viewers</h3><p className="mt-3 leading-7 text-zinc-600">Disclose materially altered media when people could reasonably mistake it for an authentic event or endorsement.</p></div>
+            <div className="rounded-3xl border border-zinc-200 p-6"><h3 className="font-bold">Know how data is handled</h3><p className="mt-3 leading-7 text-zinc-600">Read our <Link href="/privacy" className="font-bold text-amber-700 underline">Privacy Policy</Link> and <Link href="/acceptable-use" className="font-bold text-amber-700 underline">Acceptable Use Policy</Link>.</p></div>
           </div>
         </div>
       </section>
@@ -466,10 +507,12 @@ export default function LandingPage() {
             <div className="w-7 h-7 bg-zinc-100 rounded-lg flex items-center justify-center grayscale text-sm">🍌</div>
             <span className="font-bold text-zinc-900 tracking-tight">SnapMod</span>
           </div>
-          <div className="flex gap-8 font-medium">
-             <a href="#" className="hover:text-amber-500 transition-colors">Privacy</a>
-             <a href="#" className="hover:text-amber-500 transition-colors">Terms</a>
-             <a href="#" className="hover:text-amber-500 transition-colors">Contact</a>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 font-medium">
+             <Link href="/about" className="hover:text-amber-500 transition-colors">About</Link>
+             <Link href="/privacy" className="hover:text-amber-500 transition-colors">Privacy</Link>
+             <Link href="/terms" className="hover:text-amber-500 transition-colors">Terms</Link>
+             <Link href="/acceptable-use" className="hover:text-amber-500 transition-colors">Acceptable Use</Link>
+             <Link href="/contact" className="hover:text-amber-500 transition-colors">Contact</Link>
           </div>
           <div className="text-xs">
             © 2025 SnapMod Inc.
