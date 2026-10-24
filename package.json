@@ -12,7 +12,7 @@
   "dependencies": {
     "@clerk/clerk-sdk-node": "^4.13.23",
     "@clerk/nextjs": "^6.35.4",
-    "@google/genai": "^1.30.0",
+    "@google/genai": "^2.31.0",
     "@imgly/background-removal": "^1.7.0",
     "@next/third-parties": "^16.0.6",
     "@prisma/client": "5.22.0",

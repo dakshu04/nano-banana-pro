@@ -63,14 +63,15 @@ export default function ScriptMakerPage() {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error("Failed to generate script");
-
-      const result = await response.json();
+      const result = await response.json() as { data?: string; script?: string; error?: string };
+      if (!response.ok) throw new Error(result.error || "Failed to generate script.");
       
       if (result.data) {
         setScript(result.data);
       } else if (result.script) {
         setScript(result.script);
+      } else {
+        throw new Error("The generator returned an empty script. Please try again.");
       }
       
       if (window.innerWidth < 1024 && resultRef.current) {
@@ -79,12 +80,13 @@ export default function ScriptMakerPage() {
         }, 100);
       }
 
+      toast.success("Script generated successfully!");
+
     } catch (error) {
       console.error("Error generating script", error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error(error instanceof Error ? error.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
-      toast.success("Script generated successfully!");
     }
   };
 
