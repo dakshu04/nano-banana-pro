@@ -4,6 +4,10 @@ import type { Guide } from "../guides/guides";
 
 export function GuideArticle({ guide, relatedGuides }: { guide: Guide; relatedGuides: Guide[] }) {
   const url = `https://snapmod.xyz/guides/${guide.slug}`;
+  const updatedDate = new Intl.DateTimeFormat("en-US", {
+    dateStyle: "long",
+    timeZone: "UTC",
+  }).format(new Date(`${guide.updated}T00:00:00Z`));
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -52,7 +56,7 @@ export function GuideArticle({ guide, relatedGuides }: { guide: Guide; relatedGu
               <p className="mt-6 text-lg leading-8 text-zinc-600">{guide.description}</p>
               <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-zinc-500">
                 <span>By <Link href="/about" rel="author" className="font-semibold text-zinc-800 hover:text-amber-700">Daksh Purohit</Link></span>
-                <span>Updated October 23, 2026</span>
+                <span>Updated {updatedDate}</span>
                 <span>{guide.readTime}</span>
               </div>
             </div>
@@ -77,6 +81,17 @@ export function GuideArticle({ guide, relatedGuides }: { guide: Guide; relatedGu
                     {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                     {section.bullets ? <ul className="space-y-3 rounded-2xl border border-zinc-200 bg-white p-6">{section.bullets.map((bullet) => <li key={bullet} className="flex gap-3"><span aria-hidden="true" className="font-black text-amber-600">✓</span><span>{bullet}</span></li>)}</ul> : null}
                     {section.takeaway ? <div className="rounded-2xl border-l-4 border-amber-500 bg-amber-50 p-5 text-zinc-800"><strong>Practical takeaway:</strong> {section.takeaway}</div> : null}
+                    {section.sources ? (
+                      <ul className="space-y-3 rounded-2xl border border-zinc-200 bg-white p-6">
+                        {section.sources.map((source) => (
+                          <li key={source.href}>
+                            <a href={source.href} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-700 underline decoration-amber-300 underline-offset-4 hover:text-amber-800">
+                              {source.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
                   </div>
                 </section>
               ))}

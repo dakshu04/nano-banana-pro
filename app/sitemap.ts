@@ -3,7 +3,7 @@ import { guides } from './guides/guides'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://snapmod.xyz'
-  const lastModified = new Date('2026-10-23')
+  const lastModified = new Date('2026-10-24')
 
   const pages: Array<{ path: string; priority: number; changeFrequency: 'weekly' | 'monthly' | 'yearly' }> = [
     { path: '', priority: 1, changeFrequency: 'weekly' },
