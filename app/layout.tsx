@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Instrument_Serif } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
@@ -7,7 +7,8 @@ import { Toaster } from "sonner";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 
-const inter = Inter({ subsets: ["latin"] });
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans", display: "swap" });
+const instrumentSerif = Instrument_Serif({ subsets: ["latin"], weight: "400", variable: "--font-instrument-serif", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://snapmod.xyz'),
@@ -85,7 +86,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={inter.className}>
+        <body className={`${geist.variable} ${instrumentSerif.variable} ${geist.className}`}>
           {children}
           
           {/* UI Components like Toaster go at the end of body */}

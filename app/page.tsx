@@ -1,4 +1,4 @@
-import LandingPage from "./components/landingPage";
+import PremiumLandingPage from "./components/premium-landing-page";
 import { AdsenseScript } from "./components/adsense-script";
 
 
@@ -27,7 +27,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
       <AdsenseScript />
-      <LandingPage />
+      <PremiumLandingPage />
     </>
   )
 }
