@@ -22,6 +22,286 @@ export type Guide = {
 
 export const guides: Guide[] = [
   {
+    slug: "youtube-shorts-series-strategy",
+    title: "How to build a YouTube Shorts series in 2026: a practical creator playbook",
+    description: "Plan an original episodic Shorts series with a repeatable story engine, efficient production system, stronger hooks, community feedback, and realistic monetization expectations.",
+    category: "YouTube Shorts",
+    readTime: "10 min read",
+    published: "2026-10-25",
+    updated: "2026-10-25",
+    toolHref: "/tools/ai-script-writer",
+    toolLabel: "Draft your first Shorts episode",
+    sections: [
+      {
+        heading: "Use the Shorts series trend without copying the trend",
+        paragraphs: [
+          "YouTube introduced Shorts Series in 2026 so creators can organize Shorts into seasons and episodes with sequential playback and custom thumbnails. YouTube also reported that microdramas passed 6.5 billion views in the first half of 2026, with watch time growing more than 50% year over year. That is evidence of audience interest, not a guarantee that any new series will succeed.",
+          "The useful lesson is structural: give viewers a reason to recognize an episode, finish it, and return for the next one. Your series can be educational, comedic, documentary, fictional, or challenge-based. It does not need exaggerated drama, copied characters, or an expensive set.",
+        ],
+        takeaway: "Borrow the episodic structure, not another creator's premise. A distinct viewer promise is more durable than a copied format.",
+      },
+      {
+        heading: "Write a one-sentence series engine",
+        paragraphs: [
+          "A series engine is the repeatable question that produces new episodes without making them interchangeable. It names the audience, the recurring situation, and the change viewers will see by the end.",
+          "For example: 'In every episode, I test one low-cost creator setup and show the result in under 60 seconds.' The equipment changes, the evidence changes, and the conclusion changes, while the viewer always understands the format.",
+        ],
+        bullets: [
+          "Skill series: improve one small part of a larger skill in every episode.",
+          "Experiment series: test one clear question and show the evidence.",
+          "Transformation series: document progress toward a defined outcome.",
+          "Character series: place an original recurring character in a new conflict.",
+          "Local series: explain useful, permitted-to-film places or experiences in your U.S. city.",
+        ],
+        takeaway: "If you cannot list ten meaningfully different episode ideas, narrow or redesign the engine before filming.",
+      },
+      {
+        heading: "Plan a six-episode pilot season",
+        paragraphs: [
+          "Do not begin with an endless content calendar. Build a six-episode pilot that tests the premise quickly. Episode one establishes the rules. Episodes two through four vary the situation. Episode five answers a recurring viewer question. Episode six delivers a satisfying milestone and points to a possible second season.",
+          "Write the six promises before scripting the dialogue. Each episode should work alone for a first-time viewer while rewarding someone who watched the previous part. Avoid withholding the entire answer just to force a follow; give a complete payoff and then open a new question.",
+        ],
+        bullets: [
+          "Give every episode one visible goal, obstacle, and result.",
+          "Repeat a recognizable opening device without repeating the same script.",
+          "Use a short on-screen series label and episode number.",
+          "Keep names and visual cues consistent enough to recognize on a phone or TV.",
+        ],
+      },
+      {
+        heading: "Script for clarity, tension, and payoff",
+        paragraphs: [
+          "Start with the specific situation, not a generic request to keep watching. Then establish what could change, show the attempt, and make the result visible. A useful 45-second draft might reserve five seconds for context, ten for the problem, twenty for the attempt, and ten for the result and next question.",
+          "SnapMod's free AI Script Writer can help turn your original premise into a first outline or generate alternative hooks. Treat that output as raw material: add your experience, verify every claim, remove generic phrasing, and read it aloud before recording.",
+        ],
+        bullets: [
+          "Hook: state the unusual problem or decision immediately.",
+          "Progress: change the visual information every time the story advances.",
+          "Payoff: show the result instead of only describing it.",
+          "Continuation: ask one honest question that the next episode can answer.",
+        ],
+        takeaway: "The hook earns the next few seconds; the payoff earns trust for the next episode.",
+      },
+      {
+        heading: "Build a two-hour batch production system",
+        paragraphs: [
+          "Efficiency comes from batching similar decisions. In the first 25 minutes, verify facts and finish three outlines. Use the next 20 minutes for a shot list and props, 45 minutes for recording, and 30 minutes for rough edits and captions. Schedule a separate quality review before publishing.",
+          "Create reusable folders, caption styles, safe-zone guides, and export settings. Templates should reduce setup work, but the substance, examples, visuals, and conclusions must vary meaningfully between episodes.",
+        ],
+        bullets: [
+          "Record clean voice audio before adding decorative effects.",
+          "Capture a wide, medium, and detail shot when the subject allows it.",
+          "Use licensed music and preserve receipts or license records.",
+          "Export a clean master without platform watermarks.",
+          "Watch the final export once with sound and once without it.",
+        ],
+      },
+      {
+        heading: "Design vertical visuals that also survive the living room",
+        paragraphs: [
+          "Shorts increasingly move between phones and televisions. Keep faces, demonstrations, captions, and important objects large enough to understand from a distance. Avoid placing essential text against interface controls or at the extreme edges.",
+          "Use SnapMod's Background Remover when a subject needs a cleaner cutout for an original title card, and use the image tools to explore permitted visual concepts. Review edges at full size, keep skin and product colors natural, and never imply a person endorsed the series without permission.",
+        ],
+        bullets: [
+          "Use one dominant subject per frame.",
+          "Keep captions concise and high contrast.",
+          "Test the first frame at small size before publishing.",
+          "Use consistent color and type, not an identical composition every time.",
+        ],
+      },
+      {
+        heading: "Turn comments into a community loop",
+        paragraphs: [
+          "YouTube's Shorts tools include polls, quizzes, Q&A prompts, Add Yours stickers, and video replies. Use them to let viewers influence a real decision rather than adding engagement bait. A useful question can validate the next episode and reveal language your audience naturally uses.",
+          "Reply to high-quality questions with a new Short, credit the question where appropriate, and keep a backlog of repeated problems. Moderate comments and avoid prompts that encourage harassment, dangerous challenges, or the disclosure of personal information.",
+        ],
+        takeaway: "A good community prompt changes what you learn or make next; it does more than ask for a comment.",
+      },
+      {
+        heading: "Measure the series, not one viral spike",
+        paragraphs: [
+          "YouTube now distinguishes views from engaged views: a view can begin at the first frame, while an engaged view reflects a viewer choosing to watch or continuing past the initial seconds. Compare episodes using engaged views, average percentage viewed, retention shape, subscribers gained, returning viewers, and comments that request another episode.",
+          "Review the pilot after all six episodes have had time to circulate. Keep the premise if several episodes attract the right viewers. Change the opening if people leave immediately. Change the episode engine if every story feels the same even when completion is high.",
+        ],
+        bullets: [
+          "Track the premise, opening line, length, payoff, and publishing time.",
+          "Review at 48 hours, seven days, and 28 days.",
+          "Change one major variable at a time.",
+          "Do not buy views, subscribers, comments, or watch time.",
+        ],
+      },
+      {
+        heading: "Protect originality and monetization eligibility",
+        paragraphs: [
+          "YouTube requires monetized content to be original and authentic. Mass-produced, repetitive, minimally changed, or scraped Shorts can make an entire channel ineligible even when individual uploads avoid copyright claims. AI-assisted work can qualify, but the finished series still needs the creator's meaningful decisions and value.",
+          "Use footage, music, images, voices, and characters you created or have the right to use. Disclose realistic altered or synthetic media when YouTube requires it. Treat monetization as a later outcome of an original audience relationship, never as guaranteed income.",
+        ],
+        takeaway: "Let tools reduce repetitive production work; keep the judgment, point of view, evidence, and story recognizably yours.",
+      },
+      {
+        heading: "Official sources and further reading",
+        paragraphs: [
+          "Platform features, analytics definitions, and monetization rules can change. Check the current YouTube documentation before making publishing or revenue decisions.",
+        ],
+        sources: [
+          { label: "YouTube: Shorts Series, TV viewing, and microdrama growth", href: "https://blog.youtube/news-and-events/made-on-youtube-creators-shorts-series-tv-features/" },
+          { label: "YouTube: Five ways to build community with Shorts", href: "https://blog.youtube/creator-and-artist-stories/grow-youtube-channel-interactive-shorts/" },
+          { label: "YouTube: How views and engaged views are counted", href: "https://blog.youtube/inside-youtube/engaged-views-youtube-explained/" },
+          { label: "YouTube Help: Shorts monetization policies", href: "https://support.google.com/youtube/answer/12504220" },
+          { label: "YouTube Help: Channel monetization policies", href: "https://support.google.com/youtube/answer/1311392" },
+        ],
+      },
+    ],
+    related: ["start-video-podcast-youtube", "write-better-video-hooks", "youtube-thumbnail-workflow"],
+  },
+  {
+    slug: "start-video-podcast-youtube",
+    title: "How to start a video podcast on YouTube in 2026: a lean U.S. creator plan",
+    description: "Launch an original YouTube video podcast with a focused premise, affordable production setup, repeatable episode workflow, effective clips, and realistic growth expectations.",
+    category: "Video podcasting",
+    readTime: "11 min read",
+    published: "2026-10-25",
+    updated: "2026-10-25",
+    toolHref: "/tools/ai-script-writer",
+    toolLabel: "Outline your first podcast episode",
+    sections: [
+      {
+        heading: "Understand why video podcasting matters now",
+        paragraphs: [
+          "YouTube reported more than one billion monthly active podcast viewers in 2026. It also reported more than 700 million hours of podcast viewing on living-room devices in October 2025, up from 400 million hours a year earlier. In its 2026 outlook, YouTube said it had led U.S. streaming watch time for nearly three years, citing Nielsen.",
+          "Those numbers describe the platform, not the likely result for a new show. The practical opportunity is that one well-made conversation can serve viewers who watch, people who listen in the background, and future viewers who discover a focused clip. The show still needs a reason to exist beyond 'we talk about everything.'",
+        ],
+        takeaway: "Start because you can deliver a repeatable, useful conversation—not because podcasting appears to be easy revenue.",
+      },
+      {
+        heading: "Choose a promise for a specific U.S. audience",
+        paragraphs: [
+          "Define who the show helps and what changes after an episode. A useful premise might serve first-generation small-business owners in Texas, independent filmmakers in Los Angeles, college sports fans who want tactical analysis, or remote workers comparing life in mid-sized U.S. cities.",
+          "Local and professional specificity can create a stronger starting position than a broad celebrity-interview format. Confirm that you can reach credible guests or produce valuable solo episodes when a guest cancels.",
+        ],
+        bullets: [
+          "Audience: name a real group with a recurring question.",
+          "Outcome: define what viewers should understand or do next.",
+          "Format: choose interview, co-hosted, solo analysis, field report, or a deliberate mix.",
+          "Cadence: select a schedule you can sustain for at least eight episodes.",
+          "Boundary: list topics the show will not cover.",
+        ],
+        takeaway: "Complete this sentence before recording: Every episode helps [audience] make a better decision about [subject].",
+      },
+      {
+        heading: "Design an eight-episode first season",
+        paragraphs: [
+          "An eight-episode season is long enough to learn and short enough to finish. Begin with the clearest version of the show's promise, not the most famous guest you can find. Arrange episodes so a new viewer understands the subject while returning viewers see progress.",
+          "Create three episode lanes: foundational questions, specific case studies, and timely responses. The lanes make planning easier without turning the show into a rigid template.",
+        ],
+        bullets: [
+          "Episodes 1–2: define the core problem and vocabulary.",
+          "Episodes 3–5: examine real examples, decisions, and tradeoffs.",
+          "Episodes 6–7: answer recurring audience questions.",
+          "Episode 8: synthesize the season and identify what deserves another season.",
+        ],
+      },
+      {
+        heading: "Build a lean setup around clear audio",
+        paragraphs: [
+          "A modern phone or entry-level camera can produce usable video when the room, framing, and light are controlled. Spend attention on microphones, distance from the speaker, echo reduction, and a backup recording before buying multiple cameras.",
+          "For a two-person show, begin with one stable wide shot or two simple matching angles. Keep cables safe, silence notifications, record a short test, and monitor the actual recording. A visually modest episode with clear speech is more useful than a cinematic episode with distracting audio.",
+        ],
+        bullets: [
+          "Choose the quietest room available and reduce hard reflective surfaces.",
+          "Place the microphone consistently and monitor peaks before the conversation.",
+          "Use soft light at roughly face height and lock white balance when possible.",
+          "Record a synchronized backup audio track.",
+          "Get written guest permission covering recording, editing, clips, and promotion.",
+        ],
+      },
+      {
+        heading: "Prepare a conversation map, not a word-for-word script",
+        paragraphs: [
+          "A useful map contains the episode promise, necessary context, three major questions, evidence or examples to examine, sensitive areas to avoid, and a clear closing takeaway. Send guests the topic and expectations without scripting every answer.",
+          "Use SnapMod's free AI Script Writer to create a first outline, alternate opening, or clip-hook options from your original notes. Then fact-check it, remove generic questions, add follow-ups based on the guest's work, and keep the host's judgment in control.",
+        ],
+        bullets: [
+          "Open with the decision or tension the episode will resolve.",
+          "Ask for concrete examples after broad claims.",
+          "Prepare a respectful follow-up when an answer is unclear.",
+          "Mark claims that need verification before publication.",
+          "End with a concise answer to the opening question.",
+        ],
+      },
+      {
+        heading: "Edit for listeners, viewers, and television screens",
+        paragraphs: [
+          "Remove dead time, technical interruptions, and repetition without making the conversation feel unnatural. Use chapters for long episodes, readable on-screen names, restrained graphics, and enough visual change to support attention. Do not cut a guest's words into a meaning they did not intend.",
+          "Because podcasts are increasingly watched on living-room screens, keep faces and essential text readable from a distance. Check the complete episode on a television or across the room before publishing, and also test whether the audio alone remains understandable.",
+        ],
+        takeaway: "The video should reward watching, but the core conversation should remain coherent when someone only listens.",
+      },
+      {
+        heading: "Set up the show correctly in YouTube Studio",
+        paragraphs: [
+          "YouTube treats a podcast as a playlist whose episodes are videos. Its current guidance says the podcast playlist should contain full-length episodes in the intended order. Supporting Shorts and clip playlists should remain separate from the official podcast playlist.",
+          "Create or designate the podcast in YouTube Studio, write a descriptive show title and summary, upload a square podcast thumbnail, and order episodes newest-first for an episodic show or oldest-first for a serial story. YouTube currently recommends a 1280 by 1280 pixel square podcast thumbnail.",
+        ],
+        bullets: [
+          "Use a stable show name instead of a generic title such as 'Full Episodes.'",
+          "Write episode titles around the actual subject and outcome.",
+          "Add accurate descriptions, sources, guest links, chapters, and disclosures.",
+          "Keep clips, trailers, and behind-the-scenes videos out of the full-episode podcast playlist.",
+        ],
+      },
+      {
+        heading: "Package the full episode and its clips as one system",
+        paragraphs: [
+          "Create the episode title and thumbnail after the edit reveals the strongest honest promise. Use one main subject, readable contrast, and a specific tension. SnapMod's Background Remover can help isolate a permitted guest portrait for a thumbnail, while the image tools can help explore original visual directions. Review the result manually and never imply an endorsement or emotion that did not occur.",
+          "Choose two to four self-contained clip moments, each with context and a real conclusion. A clip should earn interest in the full episode without hiding the answer or misrepresenting the guest. Write a fresh opening for vertical clips instead of dropping viewers into the middle of an unexplained sentence.",
+        ],
+        bullets: [
+          "Full episode: optimize for depth, chapters, and living-room readability.",
+          "Horizontal clip: answer one searchable question completely.",
+          "Short: present one useful moment with enough context to stand alone.",
+          "Community post: ask a specific follow-up that informs the next episode.",
+        ],
+      },
+      {
+        heading: "Run a four-week production cycle",
+        paragraphs: [
+          "Week one is research and booking. Week two is the conversation map, guest confirmation, and technical test. Week three is recording and the first edit. Week four is quality review, publication, clips, and analytics. When publishing weekly, stagger multiple episodes across the same pipeline instead of completing every task at the last moment.",
+          "Keep a release checklist for consent, factual corrections, licensed media, captions, thumbnail rights, links, disclosures, and backups. If a sponsor appears, separate the paid message clearly and comply with YouTube disclosure rules and applicable U.S. advertising requirements.",
+        ],
+      },
+      {
+        heading: "Measure audience fit before projecting income",
+        paragraphs: [
+          "Review click-through rate, first-minute retention, average view duration, television watch time where available, returning viewers, traffic sources, podcast analytics, and which clips lead viewers to full episodes. Compare several episodes before changing the premise.",
+          "Potential revenue can eventually include YouTube ads, memberships, listener support, relevant affiliates, and sponsorships. None is guaranteed. YouTube reviews channels for originality and policy compliance, and creators must have the rights to commercially use their audio and visual material.",
+        ],
+        bullets: [
+          "Improve weak clicks with clearer packaging, not exaggerated claims.",
+          "Improve early exits by shortening setup and fulfilling the title sooner.",
+          "Repeat topics that produce returning viewers and meaningful questions.",
+          "Decline sponsors that conflict with the audience promise or cannot be represented honestly.",
+        ],
+        takeaway: "The first season should prove audience usefulness and production sustainability before it becomes a revenue forecast.",
+      },
+      {
+        heading: "Official sources and further reading",
+        paragraphs: [
+          "YouTube features, podcast eligibility, and monetization rules can change. Verify the current platform documentation before publishing or making revenue decisions.",
+        ],
+        sources: [
+          { label: "YouTube Help: Create and manage a podcast in YouTube Studio", href: "https://support.google.com/youtube/answer/12751636" },
+          { label: "YouTube: Podcast viewing on living-room devices", href: "https://blog.youtube/news-and-events/podcasts-living-room-in-2025/" },
+          { label: "YouTube: 2026 podcast audience and Premium viewing", href: "https://blog.youtube/news-and-events/new-youtube-premium-features-podcast-fans/" },
+          { label: "YouTube: The future of YouTube in 2026", href: "https://blog.youtube/inside-youtube/the-future-of-youtube-2026/" },
+          { label: "YouTube Help: What content can be monetized", href: "https://support.google.com/youtube/answer/2490020" },
+          { label: "YouTube Help: Channel monetization policies", href: "https://support.google.com/youtube/answer/1311392" },
+        ],
+      },
+    ],
+    related: ["youtube-shorts-series-strategy", "write-better-video-hooks", "youtube-thumbnail-workflow"],
+  },
+  {
     slug: "start-gta-6-youtube-channel",
     title: "How to start a GTA 6 YouTube channel before launch: a practical growth plan",
     description: "Build an original GTA 6 YouTube channel with a clear niche, efficient publishing system, launch-week plan, stronger thumbnails, and realistic monetization expectations.",

@@ -5,9 +5,9 @@ import { guides } from "./guides";
 
 export const metadata: Metadata = {
   title: "Creator Guides",
-  description: "Practical creator guides for YouTube channel strategy, thumbnails, video hooks, clean image cutouts, and responsible AI workflows.",
+  description: "Practical creator guides for YouTube Shorts, video podcasting, channel strategy, thumbnails, hooks, and responsible AI workflows.",
   alternates: { canonical: "/guides" },
-  openGraph: { title: "Creator Guides | SnapMod", description: "Practical YouTube strategy and responsible workflows for stronger creator assets.", url: "/guides", type: "website" },
+  openGraph: { title: "Creator Guides | SnapMod", description: "Practical YouTube Shorts, podcasting, and responsible creator workflows.", url: "/guides", type: "website" },
 };
 
 export default function GuidesPage() {

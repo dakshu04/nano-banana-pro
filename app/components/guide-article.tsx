@@ -36,12 +36,12 @@ export function GuideArticle({ guide, relatedGuides }: { guide: Guide; relatedGu
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }} />
 
       <header className="border-b border-zinc-200 bg-white">
-        <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-5 px-6 py-3">
+        <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-3 px-6 py-3 sm:gap-5">
           <Link href="/" className="flex items-center gap-2 font-extrabold tracking-tight"><span className="grid h-9 w-9 place-items-center rounded-xl bg-zinc-900 text-white">S</span>SnapMod</Link>
-          <nav aria-label="Primary navigation" className="flex items-center gap-5 text-sm font-semibold text-zinc-600">
+          <nav aria-label="Primary navigation" className="flex items-center gap-3 text-sm font-semibold text-zinc-600 sm:gap-5">
             <Link href="/guides" className="text-amber-700">Guides</Link>
-            <Link href="/about">About</Link>
-            <Link href="/sign-in" className="rounded-full bg-zinc-900 px-4 py-2 text-white">Open Studio</Link>
+            <Link href="/about" className="hidden sm:inline">About</Link>
+            <Link href="/sign-in" className="whitespace-nowrap rounded-full bg-zinc-900 px-3 py-2 text-white sm:px-4">Open Studio</Link>
           </nav>
         </div>
       </header>
